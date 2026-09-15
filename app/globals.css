@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-party-cream: #fff8e8;
+  --color-party-paper: #fffdf7;
+  --color-party-ink: #27234a;
+  --color-party-indigo: #5146a6;
+  --color-party-coral: #f16f61;
+  --color-party-blue: #63b8d9;
+  --color-party-yellow: #f6c94c;
+  --font-sans: var(--font-nunito);
+  --font-display: var(--font-fredoka);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #fff8e8;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgb(246 201 76 / 18%),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 88% 82%,
+      rgb(99 184 217 / 18%),
+      transparent 25rem
+    ),
+    #fff8e8;
+  color: #27234a;
+  font-family: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+}
+
+::selection {
+  background: rgb(241 111 97 / 32%);
+}
+
+.font-display {
+  font-family: var(--font-fredoka), ui-rounded, system-ui, sans-serif;
+}
+
+.confetti {
+  position: absolute;
+  width: 1rem;
+  height: 3rem;
+  border-radius: 999px;
+  opacity: 0.72;
+}
+
+.confetti-coral {
+  background: #f16f61;
+}
+
+.confetti-blue {
+  background: #63b8d9;
+}
+
+.confetti-yellow {
+  background: #f6c94c;
+}
+
+.confetti-indigo {
+  background: #5146a6;
+}
