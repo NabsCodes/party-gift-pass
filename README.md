@@ -41,5 +41,12 @@ pnpm db:studio      # Open Drizzle Studio
 `pnpm db:generate` does not need a live database. `pnpm db:migrate` does, and
 must only be run against an explicitly approved database.
 
-See [docs/architecture.md](./docs/architecture.md) for the planned application
-routes, ticket security model, and redemption flow.
+## Project Documentation
+
+Start with [docs/README.md](./docs/README.md). It links the current roadmap,
+architecture, working wireframe, design and layout rules, workflow, and
+implementation history.
+
+The current initialization page is only a setup placeholder, not the approved
+product UI. Product routes remain unimplemented until the working wireframe is
+reviewed and converted into focused route specs.

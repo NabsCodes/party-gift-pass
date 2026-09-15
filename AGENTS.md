@@ -12,9 +12,18 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Current Boundary
 
-This repository currently contains setup and architecture only. Do not add
-authentication, ticket generation, scanning, printing, redemption handlers, or
-deployment configuration unless a task explicitly opens that phase.
+This repository currently contains setup, architecture, and a working product
+wireframe only. Do not add authentication, ticket generation, scanning,
+printing, redemption handlers, or deployment configuration unless an approved
+spec explicitly opens that phase.
+
+## Reading Order
+
+1. Read `docs/README.md`.
+2. Read `docs/roadmap.md` and identify the current goal.
+3. Read the matching canonical document or approved route spec.
+4. Read the latest entries in `docs/implementation-log.md`.
+5. Inspect the current worktree and nearby code.
 
 ## Ownership
 
@@ -41,6 +50,10 @@ to interactive leaves that genuinely need browser state or effects.
 
 - Preserve unrelated work and inspect the current diff before editing.
 - Keep documentation aligned with architectural or security decisions.
+- Keep one canonical document per concern. Add route specs only after the
+  wireframe behavior for that slice is approved.
+- Append meaningful completed work and actual verification to
+  `docs/implementation-log.md`; do not rewrite prior entries.
 - Do not commit, push, deploy, provision providers, or migrate a database
   without explicit authorization.
 - Before handoff, run `pnpm format`, `pnpm format:check`, `pnpm lint`,

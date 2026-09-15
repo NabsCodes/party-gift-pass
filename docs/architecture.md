@@ -4,7 +4,8 @@
 
 Party Gift Pass is a single-package Next.js App Router application. This first
 phase provides only the UI shell, ticket table, database connection boundary,
-migration tooling, and tests. There are no public product workflows yet.
+migration tooling, tests, documentation system, and working wireframe. There
+are no public product workflows yet.
 
 The application stays server-first and intentionally shallow:
 
