@@ -43,9 +43,9 @@ const guests: Guest[] = [
 ];
 
 describe("guest list helpers", () => {
-  it("labels unused, sent, and collected passes", () => {
+  it("labels unused, shared, and collected passes", () => {
     expect(guestStatusLabel(guests[0])).toBe("Not shared");
-    expect(guestStatusLabel(guests[1])).toBe("Pass sent");
+    expect(guestStatusLabel(guests[1])).toBe("Pass shared");
     expect(guestStatusLabel(guests[2])).toBe("Collected");
     expect(guestStatusClass(guests[0])).toBe("unused");
     expect(guestStatusClass(guests[1])).toBe("shared");

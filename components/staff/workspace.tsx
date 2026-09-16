@@ -76,6 +76,7 @@ export function Workspace({ demo }: { demo: boolean }) {
           setPageSize={workspace.setPageSize}
           selectedId={workspace.selectedId}
           setSelectedId={workspace.setSelectedId}
+          ready={workspace.ready}
         />
         <GuestDetail
           guests={workspace.guests}

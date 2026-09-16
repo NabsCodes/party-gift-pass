@@ -20,8 +20,8 @@ export type ListFilter = "all" | "unshared" | "shared" | "collected";
 
 export const LIST_FILTERS = [
   ["all", "All"],
-  ["unshared", "Unsent"],
-  ["shared", "Sent"],
+  ["unshared", "Not shared"],
+  ["shared", "Shared"],
   ["collected", "Collected"],
 ] as const satisfies ReadonlyArray<readonly [ListFilter, string]>;
 
@@ -31,7 +31,7 @@ export const MAX_BATCH_SIZE = 250;
 
 export function guestStatusLabel(guest: Guest) {
   if (guest.status === "redeemed") return "Collected";
-  return guest.sharedAt ? "Pass sent" : "Not shared";
+  return guest.sharedAt ? "Pass shared" : "Not shared";
 }
 
 export function guestStatusClass(guest: Guest) {

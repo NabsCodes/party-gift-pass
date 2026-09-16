@@ -1,9 +1,10 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import type { ButtonHTMLAttributes } from "react";
+import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-[0.35rem] text-[0.76rem] font-extrabold tracking-[0.045em] uppercase outline-none transition-colors focus-visible:ring-2 focus-visible:ring-red/30 disabled:cursor-not-allowed disabled:opacity-55 aria-busy:cursor-wait [&_svg]:size-[1.05rem] [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 rounded-[0.35rem] text-[0.76rem] font-extrabold tracking-[0.045em] uppercase outline-none transition-colors focus-visible:ring-2 focus-visible:ring-red/30 disabled:cursor-not-allowed disabled:opacity-55 aria-busy:[&_svg:not([data-slot=spinner])]:hidden [&_svg]:size-[1.05rem] [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -32,15 +33,20 @@ function Button({
   className,
   variant,
   size,
+  children,
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants>) {
+  const busy = props["aria-busy"] === true || props["aria-busy"] === "true";
   return (
     <button
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {busy ? <Spinner /> : null}
+      {children}
+    </button>
   );
 }
 

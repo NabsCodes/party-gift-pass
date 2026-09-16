@@ -36,11 +36,14 @@ must remain sentence case and comfortable. State is always text plus color.
   confetti wallpaper, gradients, glowing icons, fake 3D, and club crests/logos.
 - Share copy must say “invitation + pass”; collection copy must use the exact
   phrase **Confirm gift collected**.
+- Loading uses layout-matching skeleton blocks for route and list fetches, with
+  a short screen-reader caption. Use the existing Spinner for button actions;
+  do not use generic full-screen overlay loaders or a browser wait cursor.
 
 ## State language
 
 - `Not shared`: neutral stone.
-- `Pass sent`: amber; bookkeeping only, never guaranteed WhatsApp delivery.
+- `Pass shared`: amber; bookkeeping only, never guaranteed WhatsApp delivery.
 - `Ready to collect`: neutral.
 - `Collection confirmed`: pitch green, with child, pass, and time.
 - `Already collected`: charcoal and a hard “do not hand out another gift.”

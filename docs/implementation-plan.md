@@ -43,7 +43,8 @@ quiet guest list, and generous spacing. It does not copy club logos.
 - The same attempt can recover its receipt. A different attempt sees already
   collected. A success receipt is not a reusable authorisation on a guest phone.
 - No public guest directory. Unauthenticated QR visits reveal no child details.
-- “Shared” is staff-entered bookkeeping, never a WhatsApp delivery claim.
+- “Shared” records a completed phone share or a staff confirmation. It is
+  bookkeeping, never a WhatsApp delivery claim.
 - Duplicate names are flagged for review but permitted; names are not identity
   proof. A forwarded QR can be used first by another person; staff verify the
   child/family at the table.

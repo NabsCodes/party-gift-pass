@@ -179,3 +179,45 @@ short, factual, and explicit about verification.
   Playwright flows (public pass has no child name, **Share pass** on the
   detail pane), production build, and browser QA of the red gift-pass header
   plus Share pass / Copy pass link.
+
+## 2026-09-16 — Matchday spinner instead of the browser loader
+
+- Changed: added a shadcn Spinner. Busy buttons show that spinner and keep
+  `not-allowed` when disabled; the wait cursor is gone. `/pass`, `/redeem`, and
+  `/staff` use `loading.tsx` so navigation streams a branded fallback instead of
+  a blank tab. The guest list shows the same spinner until the first fetch
+  returns, so “No passes yet” no longer flashes.
+- Verified: `pnpm format`, format-check, lint, typecheck, 15 unit tests, 3
+  Playwright flows, production build, and browser QA of the branded spinner on
+  route loading and busy actions.
+
+## 2026-09-16 — Per-action spinner and delete dialog
+
+- Changed: Share, copy, download, delete, and create each own their busy
+  state, so copying a link no longer spins Share pass. Delete uses a confirm
+  dialog (Keep guest / Delete guest), not an in-panel swap or `window.confirm`.
+- Verified: `pnpm format`, format-check, lint, typecheck, unit tests,
+  Playwright (copy-only spinner and delete confirm dialog), production build,
+  and browser QA of isolated copy busy state plus Keep/Delete guest overlay.
+
+## 2026-09-16 — Layout-matching loading skeletons
+
+- Changed: added a shared `Skeleton` primitive with reduced-motion-safe pulse;
+  route-specific loading surfaces now preserve the Admin, login, public pass,
+  and redemption layouts while data streams in. The Admin list uses a table-
+  shaped skeleton instead of a centered spinner; button actions keep the
+  existing per-action Spinner and `aria-busy` states.
+- Verified: format, format-check, lint, typecheck, 15 unit tests, 3 Playwright
+  flows, and an isolated production build. The browser flow still passes the
+  staff login, atomic collection, mobile Admin list, and numbered batch cases.
+
+## 2026-09-16 — Safer batch creation and honest share status
+
+- Changed: numbered batches now start at 10 and require a second confirmation
+  at 100 or more. A completed native phone share records the pass as shared;
+  copied links and desktop WhatsApp remain manual because delivery is unknown.
+- Changed: staff-facing labels now say shared instead of sent, and the pass
+  detail explains that possession of the private link is the guest credential.
+- Verified: format and format-check, ESLint, strict TypeScript, 15 unit tests,
+  4 Playwright flows including large-batch confirmation and completed native
+  share bookkeeping, and a successful production build.

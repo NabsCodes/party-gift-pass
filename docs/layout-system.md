@@ -51,12 +51,16 @@ nonessential decoration.
 A public, no-index QR surface that follows the saved gift-pass layout: red bar,
 editorial headline, QR beside the table instruction, event date, and a privacy
 line. It never shows a child name or pass number. Invalid tokens stay generic.
+`loading.tsx` keeps that red bar and a QR-shaped layout skeleton; it never names
+the child.
 
 ### `/redeem/[token]`
 
 A focused single-column decision surface. Before confirmation, show identity,
 status, and the explicit action. After confirmation, replace the decision with
 one dominant final state rather than stacking another result panel.
+`loading.tsx` shows the gift-table chrome and a decision-shaped skeleton, with
+no child name.
 
 ## Responsive and Print Rules
 

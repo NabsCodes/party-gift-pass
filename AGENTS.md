@@ -27,11 +27,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   owns workflows and shared helpers. Do not add empty placeholder folders.
 - Style with Tailwind utilities on components. `app/globals.css` owns design
   tokens only. Reuse `components/ui` primitives (button, input, table,
-  pagination, toast) before adding new CSS classes.
+  pagination, spinner, toast) before adding new CSS classes.
 - Staff forms use React Hook Form with Zod resolvers. Keep Zod at every HTTP
   edge. Do not rely on native browser `required`/`min`/`max` checks.
 - Paginate the in-memory guest list as a table with compact icon pager and
   10/25/50 rows. Disabled pager controls use `not-allowed`, not a wait cursor.
+  Busy actions use the Spinner primitive on the control that is running, not
+  a wait cursor and not every neighbouring button.
   Do not add React Query, TanStack Table, or infinite scroll at this scale.
   Cap a create batch at 250.
 - Share the public pass link first (phone share sheet, WhatsApp on desktop, or

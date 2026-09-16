@@ -28,19 +28,26 @@ app/
 
 components/
   layout/brand.tsx
+  layout/route-loading.tsx
   login/login-view.tsx        # server presentation
   login/login-form.tsx        # client leaf
   staff/workspace.tsx         # client shell
   staff/guest-list.tsx
   staff/guest-detail.tsx
+  staff/guest-delete-dialog.tsx
   staff/guest-composer.tsx
   staff/score-strip.tsx
+  staff/staff-skeleton.tsx
   redeem/redemption.tsx
+  redeem/redemption-skeleton.tsx
   pass/guest-pass.tsx
+  pass/pass-skeleton.tsx
   ui/button.tsx
   ui/input.tsx
   ui/table.tsx
   ui/pagination.tsx
+  ui/spinner.tsx
+  ui/skeleton.tsx
   ui/sonner.tsx
 
 hooks/
@@ -70,10 +77,12 @@ placeholder folders at this scale.
 
 UI is Tailwind utilities on those components. `app/globals.css` owns matchday
 tokens plus `font-display` and `px-gutter`. `components/ui` holds small
-primitives (Button, Input, Label, Textarea, Table, Pagination, Sonner). Staff
-feedback is an overlay toast, not an in-layout banner. Login and create-pass
-forms use React Hook Form with Zod resolvers; HTTP edges still validate with
-Zod.
+primitives (Button, Input, Label, Textarea, Table, Pagination, Spinner,
+Skeleton, Sonner). Staff feedback is an overlay toast, not an in-layout
+banner. Login and create-pass forms use React Hook Form with Zod resolvers;
+HTTP edges still validate with Zod. Pass, redeem, staff, and staff-login routes
+use `loading.tsx` with layout-matching matchday skeletons while server work
+streams in. Button-level work continues to use the Spinner through `aria-busy`.
 
 ## Routes and HTTP contract
 

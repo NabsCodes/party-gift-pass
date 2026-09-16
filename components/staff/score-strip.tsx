@@ -31,7 +31,7 @@ export function ScoreStrip({
           {sent}
         </strong>
         <span className="text-muted mt-1.5 flex items-center gap-1.5 text-[0.61rem] font-bold uppercase lg:mt-2 lg:text-xs">
-          <MessageCircle className="size-3.5" /> Passes sent
+          <MessageCircle className="size-3.5" /> Passes shared
         </span>
       </div>
       <div className="border-line flex min-h-[3.85rem] flex-col justify-center border-r py-2.5 pr-3.5 pl-(--gutter) lg:min-h-[7.7rem] lg:py-4 lg:pl-3.5">

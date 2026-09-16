@@ -22,6 +22,8 @@ import {
 import { createPassArtwork, downloadArtwork } from "@/lib/pass-art";
 
 export type CreationMode = "numbered" | "named";
+export type StaffBusy =
+  "create" | "share" | "copy" | "download" | "delete" | null;
 
 export function useStaffWorkspace() {
   const router = useRouter();
@@ -32,7 +34,8 @@ export function useStaffWorkspace() {
   const [filter, setFilter] = useState<ListFilter>("all");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(GUEST_PAGE_SIZE);
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<StaffBusy>(null);
+  const [ready, setReady] = useState(false);
 
   const selected = guests.find((guest) => guest.id === selectedId) || null;
   const filtered = useMemo(
@@ -77,6 +80,9 @@ export function useStaffWorkspace() {
           toast.error(
             error instanceof Error ? error.message : "Could not load guests.",
           );
+      })
+      .finally(() => {
+        if (active) setReady(true);
       });
     return () => {
       active = false;
@@ -98,32 +104,44 @@ export function useStaffWorkspace() {
     setPage(1);
   }
 
+  async function withBusy<T>(
+    action: Exclude<StaffBusy, null>,
+    work: () => Promise<T>,
+  ) {
+    setBusy(action);
+    try {
+      return await work();
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function createBatch(input: {
     mode: CreationMode;
     quantity?: number;
     names?: string[];
   }) {
-    setBusy(true);
-    await run(async () => {
-      const result = await api<{ guests: Guest[] }>(
-        "/api/staff/tickets",
-        "POST",
-        {
-          batchId: crypto.randomUUID(),
-          ...(input.mode === "numbered"
-            ? { quantity: input.quantity }
-            : { names: input.names }),
-        },
-      );
-      setComposer(false);
-      setPage(1);
-      await refresh();
-      setSelectedId(result.guests[0]?.id || null);
-      toast.success(
-        `${result.guests.length} pass${result.guests.length === 1 ? "" : "es"} created.`,
-      );
-    });
-    setBusy(false);
+    await withBusy("create", () =>
+      run(async () => {
+        const result = await api<{ guests: Guest[] }>(
+          "/api/staff/tickets",
+          "POST",
+          {
+            batchId: crypto.randomUUID(),
+            ...(input.mode === "numbered"
+              ? { quantity: input.quantity }
+              : { names: input.names }),
+          },
+        );
+        setComposer(false);
+        setPage(1);
+        await refresh();
+        setSelectedId(null);
+        toast.success(
+          `${result.guests.length} pass${result.guests.length === 1 ? "" : "es"} created.`,
+        );
+      }),
+    );
   }
 
   async function getPass(guest: Guest) {
@@ -131,7 +149,7 @@ export function useStaffWorkspace() {
   }
 
   async function markShared(guest: Guest) {
-    await run(async () => {
+    return run(async () => {
       await api(`/api/staff/tickets/${guest.id}`, "PATCH", { shared: true });
       setGuests((current) =>
         current.map((item) =>
@@ -140,13 +158,14 @@ export function useStaffWorkspace() {
             : item,
         ),
       );
+      return true;
     });
   }
 
   async function sharePass(guest: Guest) {
-    setBusy(true);
-    const pass = await getPass(guest);
-    if (pass) {
+    await withBusy("share", async () => {
+      const pass = await getPass(guest);
+      if (!pass) return;
       const text = passShareText(guest.name, pass.passUrl);
       const payload = {
         title: invitationShareTitle(guest.name),
@@ -158,46 +177,54 @@ export function useStaffWorkspace() {
           await navigator.share(
             navigator.canShare?.(payload) ? payload : { text },
           );
+          if (await markShared(guest))
+            toast.success("Share completed. Pass marked as shared.");
         } else {
           window.open(whatsappShareHref(text), "_blank", "noopener,noreferrer");
+          toast.info(
+            "WhatsApp opened. Mark as shared after you send the pass.",
+          );
         }
       } catch (error) {
         if (!(error instanceof Error && error.name === "AbortError")) {
           window.open(whatsappShareHref(text), "_blank", "noopener,noreferrer");
+          toast.info(
+            "WhatsApp opened. Mark as shared after you send the pass.",
+          );
         }
       }
-    }
-    setBusy(false);
+    });
   }
 
   async function copyLink(guest: Guest) {
-    setBusy(true);
-    const pass = await getPass(guest);
-    if (pass) {
+    await withBusy("copy", async () => {
+      const pass = await getPass(guest);
+      if (!pass) return;
       try {
         await navigator.clipboard.writeText(pass.passUrl);
-        toast.success("Pass link copied. Send it, then mark the pass sent.");
+        toast.success("Pass link copied. Send it, then mark it as shared.");
       } catch {
         toast.error("Could not copy the link. Download the images instead.");
       }
-    }
-    setBusy(false);
+    });
   }
 
   async function download(guest: Guest) {
-    setBusy(true);
-    const pass = await getPass(guest);
-    if (pass) (await createPassArtwork(pass)).forEach(downloadArtwork);
-    setBusy(false);
+    await withBusy("download", async () => {
+      const pass = await getPass(guest);
+      if (pass) (await createPassArtwork(pass)).forEach(downloadArtwork);
+    });
   }
 
   async function remove(guest: Guest) {
-    await run(async () => {
-      await api(`/api/staff/tickets/${guest.id}`, "DELETE");
-      setGuests((current) => current.filter((item) => item.id !== guest.id));
-      setSelectedId(null);
-      toast.success(`${guest.name} deleted.`);
-    });
+    await withBusy("delete", () =>
+      run(async () => {
+        await api(`/api/staff/tickets/${guest.id}`, "DELETE");
+        setGuests((current) => current.filter((item) => item.id !== guest.id));
+        setSelectedId(null);
+        toast.success(`${guest.name} deleted.`);
+      }),
+    );
   }
 
   async function signOut() {
@@ -227,6 +254,7 @@ export function useStaffWorkspace() {
     setPage,
     setPageSize: changePageSize,
     busy,
+    ready,
     ...overview,
     createBatch,
     sharePass,

@@ -2,6 +2,7 @@
 
 import { ChevronRight, Search } from "lucide-react";
 import type { KeyboardEvent } from "react";
+import { StaffListSkeleton } from "@/components/staff/staff-skeleton";
 import { Pagination } from "@/components/ui/pagination";
 import {
   Table,
@@ -38,6 +39,7 @@ export function GuestList({
   setPageSize,
   selectedId,
   setSelectedId,
+  ready,
 }: Pick<
   StaffWorkspaceState,
   | "query"
@@ -55,6 +57,7 @@ export function GuestList({
   | "setPageSize"
   | "selectedId"
   | "setSelectedId"
+  | "ready"
 >) {
   function selectGuest(id: string) {
     setSelectedId(id);
@@ -108,7 +111,9 @@ export function GuestList({
         ))}
       </fieldset>
       <div className="mt-3">
-        {!visible.length ? (
+        {!ready ? (
+          <StaffListSkeleton />
+        ) : !visible.length ? (
           <p className="text-muted px-4 py-16 text-center">
             {query || filter !== "all"
               ? "No guests match that search."

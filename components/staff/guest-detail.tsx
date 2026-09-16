@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { Check, Copy, Download, Share2, Trash2, X } from "lucide-react";
+import { GuestDeleteDialog } from "./guest-delete-dialog";
 import { guestStatusClass, guestStatusLabel } from "@/lib/guest";
 import type { StaffWorkspaceState } from "@/hooks/use-staff-workspace";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 const statusTone = {
   unused: "bg-[#e5ddd0] text-[#5b554d]",
@@ -36,7 +38,8 @@ export function GuestDetail({
   | "remove"
 >) {
   const [confirmId, setConfirmId] = useState<string | null>(null);
-  const confirmDelete = selected?.id === confirmId;
+  const locked = Boolean(busy);
+  const confirmDelete = Boolean(selected && confirmId === selected.id);
 
   return (
     <aside
@@ -81,79 +84,69 @@ export function GuestDetail({
           </span>
           <div className="mt-8 grid gap-3">
             <Button
-              disabled={busy}
-              aria-busy={busy}
+              disabled={locked}
+              aria-busy={busy === "share"}
               onClick={() => sharePass(selected)}
             >
               <Share2 /> Share pass
             </Button>
             <Button
               variant="secondary"
-              disabled={busy}
-              aria-busy={busy}
+              disabled={locked}
+              aria-busy={busy === "copy"}
               onClick={() => copyLink(selected)}
             >
               <Copy /> Copy pass link
             </Button>
             <button
               type="button"
-              className="border-line flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold"
-              disabled={busy}
+              className="border-line flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold disabled:cursor-not-allowed disabled:opacity-55"
+              disabled={locked}
+              aria-busy={busy === "download"}
               onClick={() => download(selected)}
             >
-              <Download className="size-4" /> Download invitation + pass images
+              {busy === "download" ? (
+                <Spinner className="size-4" />
+              ) : (
+                <Download className="size-4" />
+              )}{" "}
+              Download invitation + pass images
             </button>
             {!selected.sharedAt && (
               <button
                 type="button"
-                className="border-line flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold"
+                className="border-line flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold disabled:cursor-not-allowed disabled:opacity-55"
+                disabled={locked}
                 onClick={() => markShared(selected)}
               >
-                <Check className="size-4" /> Mark as sent
+                <Check className="size-4" /> Mark as shared
               </button>
             )}
-            {(selected.status === "unused" || selected.isDemo) &&
-              (confirmDelete ? (
-                <div className="border-line grid gap-2 border-b py-3">
-                  <p className="text-muted text-xs leading-5">
-                    Delete{" "}
-                    {selected.isDemo ? "this sample" : "this unused guest"}{" "}
-                    {selected.name}? This cannot be undone.
-                  </p>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="danger"
-                      disabled={busy}
-                      aria-busy={busy}
-                      onClick={() => remove(selected)}
-                    >
-                      <Trash2 /> Delete
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      onClick={() => setConfirmId(null)}
-                    >
-                      Keep
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  className="border-line text-red flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold"
-                  onClick={() => setConfirmId(selected.id)}
-                >
-                  <Trash2 className="size-4" /> Delete{" "}
-                  {selected.isDemo ? "sample" : "guest"}
-                </button>
-              ))}
+            {(selected.status === "unused" || selected.isDemo) && (
+              <button
+                type="button"
+                className="border-line text-red flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold disabled:cursor-not-allowed disabled:opacity-55"
+                disabled={locked}
+                onClick={() => setConfirmId(selected.id)}
+              >
+                <Trash2 className="size-4" /> Delete{" "}
+                {selected.isDemo ? "sample" : "guest"}
+              </button>
+            )}
           </div>
           <p className="border-yellow text-muted mt-7 border-l-2 pl-3 text-[0.68rem] leading-6">
-            Share uses the phone share sheet, or WhatsApp on a computer. Images
-            are optional. The QR is private and unlocks this child’s one-time
-            gift claim.
+            Anyone with this private link can use the pass first. Send it only
+            to the intended family. A completed phone share is marked shared;
+            copied links and desktop WhatsApp stay manual.
           </p>
+          {confirmDelete && (
+            <GuestDeleteDialog
+              guest={selected}
+              busy={busy === "delete"}
+              onCancel={() => setConfirmId(null)}
+              onConfirm={() => remove(selected)}
+            />
+          )}
         </>
       ) : (
         <div className="flex min-h-112 flex-col justify-center">

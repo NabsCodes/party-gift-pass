@@ -23,8 +23,9 @@
 4. Open a child, choose **Share pass** or **Copy pass link**, and send that
    URL. On a phone, Share pass opens the system share sheet; on a computer it
    opens WhatsApp. Download the invitation and pass images only if needed.
-5. A copied or cancelled share is not marked sent. Use **Mark as sent** only
-   after the family actually received the link.
+5. A completed phone share is marked shared automatically. A copied link,
+   desktop WhatsApp handoff, or cancelled share is not. Use **Mark as shared**
+   only after the family actually received the link.
 
 ## Gift table
 

@@ -41,11 +41,12 @@ Showing 1–10 of 200 · Rows 10 · Page 1 of 20   [<] [>]
                                     [ Share pass ]
                                     [ Copy pass link ]
                                     Download invitation + pass images
+                                    Delete guest → confirm dialog
 ```
 
 Create Passes defaults to a quantity from 1–250 and labels records Guest 001,
 Guest 002, and so on. Names are optional through a second mode. Search matches
-label/name or ticket number. All, Unsent, Sent, and Collected filters plus
+label/name or ticket number. All, Not shared, Shared, and Collected filters plus
 compact table pagination (10/25/50 rows) keep the list manageable on phones
 and desktop. Narrow screens hide the pass column and turn the detail pane into
 a full-screen sheet.
@@ -53,7 +54,7 @@ a full-screen sheet.
 The primary share action is the public pass link. On a phone, **Share pass**
 opens the system share sheet (WhatsApp, Messages, Mail, copy). On a computer it
 opens WhatsApp. Copy remains available. Invitation and QR images are optional.
-Cancelling or copying does not mark sent. “Pass sent” is manual bookkeeping,
+Cancelling or copying does not mark shared. “Pass shared” is bookkeeping,
 not delivery proof.
 
 ## 3. Public gift pass

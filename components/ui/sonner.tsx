@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  CircleCheck,
-  Info,
-  Loader2,
-  OctagonX,
-  TriangleAlert,
-} from "lucide-react";
+import { CircleCheck, Info, OctagonX, TriangleAlert } from "lucide-react";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
 export function Toaster(props: ToasterProps) {
   return (
@@ -20,7 +15,7 @@ export function Toaster(props: ToasterProps) {
         info: <Info className="size-4" />,
         warning: <TriangleAlert className="size-4" />,
         error: <OctagonX className="size-4" />,
-        loading: <Loader2 className="size-4 animate-spin" />,
+        loading: <Spinner />,
       }}
       toastOptions={{
         classNames: {

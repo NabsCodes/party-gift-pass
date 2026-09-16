@@ -43,9 +43,10 @@ function ComposerDialog({
   createBatch,
 }: Pick<StaffWorkspaceState, "busy" | "closeComposer" | "createBatch">) {
   const [creationMode, setCreationMode] = useState<CreationMode>("numbered");
+  const [largeBatch, setLargeBatch] = useState<number | null>(null);
   const numbered = useForm({
     resolver: zodResolver(numberedBatchFormSchema),
-    defaultValues: { quantity: 200 },
+    defaultValues: { quantity: 10 },
   });
   const named = useForm({
     resolver: zodResolver(namedBatchFormSchema),
@@ -106,13 +107,55 @@ function ComposerDialog({
             Use names
           </ModeButton>
         </fieldset>
-        {creationMode === "numbered" ? (
+        {largeBatch !== null ? (
+          <div className="border-yellow mt-6 grid gap-5 border-l-4 pl-4">
+            <div>
+              <h3 className="font-display text-2xl uppercase">
+                Create {largeBatch} passes?
+              </h3>
+              <p className="text-muted mt-2 text-sm leading-relaxed">
+                This creates {largeBatch} unique QR passes. They can be deleted
+                one at a time, but not undone as one batch.
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-end gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={Boolean(busy)}
+                onClick={() => setLargeBatch(null)}
+              >
+                Go back
+              </Button>
+              <Button
+                type="button"
+                disabled={Boolean(busy)}
+                aria-busy={busy === "create"}
+                onClick={() =>
+                  createBatch({ mode: "numbered", quantity: largeBatch })
+                }
+              >
+                {busy === "create"
+                  ? "Creating…"
+                  : `Create ${largeBatch} passes`}
+                <Plus />
+              </Button>
+            </div>
+          </div>
+        ) : creationMode === "numbered" ? (
           <form
             className="mt-6 grid gap-4"
             noValidate
-            onSubmit={numbered.handleSubmit((values) =>
-              createBatch({ mode: "numbered", quantity: values.quantity }),
-            )}
+            onSubmit={numbered.handleSubmit((values) => {
+              if (values.quantity >= 100) {
+                setLargeBatch(values.quantity);
+                return;
+              }
+              void createBatch({
+                mode: "numbered",
+                quantity: values.quantity,
+              });
+            })}
           >
             <label className="grid gap-2">
               <span className="text-[0.68rem] font-extrabold tracking-widest uppercase">
@@ -136,8 +179,8 @@ function ComposerDialog({
               )}
             </label>
             <div className="flex justify-end">
-              <Button disabled={busy} aria-busy={busy}>
-                {busy ? "Creating…" : "Create passes"}
+              <Button disabled={Boolean(busy)} aria-busy={busy === "create"}>
+                {busy === "create" ? "Creating…" : "Create passes"}
                 <Plus />
               </Button>
             </div>
@@ -164,7 +207,7 @@ function ComposerDialog({
                 id="composer-names"
                 rows={8}
                 aria-invalid={Boolean(named.formState.errors.names)}
-                placeholder={"Adil Lawal\nZara Bello\nTobi Okafor"}
+                placeholder={"Kabir Lawal\nZara Bello\nTobi Okafor"}
                 {...named.register("names")}
               />
               {named.formState.errors.names ? (
@@ -178,8 +221,8 @@ function ComposerDialog({
               )}
             </div>
             <div className="flex justify-end">
-              <Button disabled={busy} aria-busy={busy}>
-                {busy ? "Creating…" : "Create passes"}
+              <Button disabled={Boolean(busy)} aria-busy={busy === "create"}>
+                {busy === "create" ? "Creating…" : "Create passes"}
                 <Plus />
               </Button>
             </div>
