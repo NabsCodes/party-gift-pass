@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowUpRight, LockKeyhole } from "lucide-react";
+import { useState } from "react";
+import { ArrowUpRight, Eye, EyeOff, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +9,7 @@ import { useLoginForm } from "@/hooks/use-login-form";
 
 export function LoginForm({ next, demo }: { next: string; demo: boolean }) {
   const { error, busy, form, submit } = useLoginForm(next, demo);
+  const [showPassphrase, setShowPassphrase] = useState(false);
   const passphraseError = form.formState.errors.passphrase?.message;
 
   return (
@@ -16,13 +18,25 @@ export function LoginForm({ next, demo }: { next: string; demo: boolean }) {
         <Label htmlFor="passphrase">
           <LockKeyhole size={13} /> Staff passphrase
         </Label>
-        <Input
-          id="passphrase"
-          type="password"
-          autoComplete="current-password"
-          aria-invalid={Boolean(passphraseError)}
-          {...form.register("passphrase")}
-        />
+        <div className="relative">
+          <Input
+            id="passphrase"
+            type={showPassphrase ? "text" : "password"}
+            autoComplete="current-password"
+            aria-invalid={Boolean(passphraseError)}
+            className="pr-12"
+            {...form.register("passphrase")}
+          />
+          <button
+            type="button"
+            className="text-muted hover:text-ink focus-visible:ring-red/30 absolute inset-y-0 right-0 grid w-12 place-items-center focus-visible:ring-2 focus-visible:outline-none"
+            onClick={() => setShowPassphrase((visible) => !visible)}
+            aria-label={showPassphrase ? "Hide passphrase" : "Show passphrase"}
+            aria-pressed={showPassphrase}
+          >
+            {showPassphrase ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
         {passphraseError && (
           <p role="alert" className="text-xs text-[#741117]">
             {passphraseError}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Oswald, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-cream text-ink min-w-80 antialiased">
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
