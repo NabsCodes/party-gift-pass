@@ -1,3 +1,5 @@
+import { partyCopy } from "./copy";
+
 export const siteSeo = {
   name: "Aadil’s Matchday · The Gift Club",
   shortName: "Aadil’s Matchday",
@@ -28,15 +30,14 @@ export const seoRoutes = {
     title: siteSeo.name,
     description: siteSeo.description,
   },
-  staff: {
+  desk: {
     path: "/staff",
-    title: `Gift desk | ${siteSeo.shortName}`,
-    description:
-      "Private staff workspace for sharing passes and checking collection status.",
+    title: `${partyCopy.seo.deskTitle} | ${siteSeo.shortName}`,
+    description: partyCopy.seo.deskDescription,
   },
   login: {
     path: "/staff/login",
-    title: `Staff access | ${siteSeo.shortName}`,
-    description: "Private staff access for the party gift desk.",
+    title: `${partyCopy.seo.signInTitle} | ${siteSeo.shortName}`,
+    description: partyCopy.seo.signInDescription,
   },
 } satisfies Record<string, SeoRoute>;

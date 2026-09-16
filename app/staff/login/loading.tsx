@@ -20,7 +20,7 @@ export default function Loading() {
           <Skeleton className="h-12 w-full" />
         </div>
       </section>
-      <span className="sr-only">Preparing staff login</span>
+      <span className="sr-only">Preparing gift desk sign-in</span>
     </main>
   );
 }

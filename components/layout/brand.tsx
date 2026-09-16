@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { partyCopy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 export function Brand({ inverted = false }: { inverted?: boolean }) {
@@ -6,7 +7,7 @@ export function Brand({ inverted = false }: { inverted?: boolean }) {
     <Link
       className="inline-flex items-center gap-3"
       href="/staff"
-      aria-label="Aadil’s Matchday staff home"
+      aria-label={partyCopy.desk.brandHome}
     >
       <span
         className={cn(

@@ -5,7 +5,9 @@ import { loginWindows } from "@/db/schema";
 import { getConfig } from "@/lib/config";
 import { equalSecret, signSession } from "@/lib/security";
 import { SESSION_COOKIE } from "@/lib/auth";
+import { partyCopy } from "@/lib/copy";
 import { loginSchema } from "@/schemas/login";
+
 export async function POST(request: Request) {
   try {
     const config = getConfig();
@@ -62,7 +64,7 @@ export async function POST(request: Request) {
     );
   } catch {
     return Response.json(
-      { error: "Staff access is temporarily unavailable. Please try again." },
+      { error: partyCopy.desk.accessUnavailable },
       { status: 503 },
     );
   }

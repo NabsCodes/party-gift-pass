@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLoginForm } from "@/hooks/use-login-form";
+import { partyCopy } from "@/lib/copy";
 
 export function LoginForm({ next, demo }: { next: string; demo: boolean }) {
   const { error, busy, form, submit } = useLoginForm(next, demo);
@@ -16,7 +17,7 @@ export function LoginForm({ next, demo }: { next: string; demo: boolean }) {
     <form className="flex flex-col gap-6" noValidate onSubmit={submit}>
       <div className="grid gap-2">
         <Label htmlFor="passphrase">
-          <LockKeyhole size={13} /> Staff passphrase
+          <LockKeyhole size={13} /> {partyCopy.desk.passphraseLabel}
         </Label>
         <div className="relative">
           <Input

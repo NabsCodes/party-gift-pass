@@ -240,6 +240,30 @@ short, factual, and explicit about verification.
   4 Playwright flows including large-batch confirmation and completed native
   share bookkeeping, and a successful production build.
 
+## 2026-09-17 — Calmer public pass entrance
+
+- Changed: simplified pass celebration (no pennants, scan line, or corner pops).
+  Slower ball roll and opacity-only QR/copy reveals. Fixed Biome SVG title lint
+  on the decorative football icon.
+- Verified: biome check on pass celebration, format, lint, typecheck, unit tests.
+
+## 2026-09-17 — Gift desk wording (copy layer)
+
+- Changed: added `lib/copy.ts` for user-facing party language (gift desk, party
+  host, gift table). Updated login, guest pass, redemption, workspace, SEO
+  metadata, API errors, and README. Internal routes (`/staff`, `/api/staff/*`),
+  env (`STAFF_PASSPHRASE`), and code identifiers stay unchanged.
+- Verified: format, lint, typecheck, unit tests.
+
+## 2026-09-17 — Public pass QR entrance polish
+
+- Changed: replaced the emoji ball and falling streamer pills with a pitch-band
+  kickoff (grass lines, center spot, brand pennants, SVG match ball using
+  container-query roll). The QR now enters with a staggered frame, corner
+  brackets, one scan line, and delayed copy fade — still one-shot and
+  reduced-motion safe.
+- Verified: format, lint, typecheck, unit tests, production build.
+
 ## 2026-09-16 — Fix social card image recognition
 
 - Changed: replaced ~4MB `opengraph-image.png` / `twitter-image.png` with

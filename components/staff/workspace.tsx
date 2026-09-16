@@ -8,6 +8,7 @@ import { GuestList } from "./guest-list";
 import { ScoreStrip } from "./score-strip";
 import { Button } from "@/components/ui/button";
 import { useStaffWorkspace } from "@/hooks/use-staff-workspace";
+import { partyCopy } from "@/lib/copy";
 
 export function Workspace({ demo }: { demo: boolean }) {
   const workspace = useStaffWorkspace();
@@ -36,7 +37,7 @@ export function Workspace({ demo }: { demo: boolean }) {
       <section className="px-gutter flex flex-col items-start gap-4 bg-[linear-gradient(105deg,transparent_65%,rgb(223_31_38/8%)_65%),linear-gradient(75deg,transparent_83%,rgb(18_96_68/10%)_83%)] py-4 md:py-8 xl:flex-row xl:items-end xl:justify-between xl:gap-10">
         <div className="max-w-4xl min-w-0">
           <p className="text-red text-[0.7rem] font-extrabold tracking-[0.16em] uppercase">
-            Aadil’s Matchday · Admin dashboard
+            {partyCopy.desk.dashboardEyebrow}
           </p>
           <h1 className="font-display mt-1 text-[clamp(1.9rem,5vw,5.2rem)] leading-[0.88] font-bold tracking-[-0.045em] uppercase md:mt-3">
             Every guest.

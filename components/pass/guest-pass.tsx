@@ -1,6 +1,22 @@
 import Image from "next/image";
 import { PassCelebration } from "@/components/pass/pass-celebration";
+import { partyCopy } from "@/lib/copy";
 import { party } from "@/lib/event";
+
+function QrFrame({ qr }: { qr: string }) {
+  return (
+    <div className="pass-qr-frame border-line relative mx-auto aspect-square w-full max-w-80 border p-1.5">
+      <Image
+        src={qr}
+        alt="Gift pass QR code"
+        width={320}
+        height={320}
+        unoptimized
+        className="bg-paper aspect-square w-full"
+      />
+    </div>
+  );
+}
 
 export function GuestPass({
   valid,
@@ -32,21 +48,13 @@ export function GuestPass({
             </h1>
             <PassCelebration />
             <div className="mt-8 grid items-center gap-8 sm:grid-cols-[minmax(12rem,15rem)_minmax(0,1fr)]">
-              <Image
-                src={qr}
-                alt="Gift pass QR code"
-                width={320}
-                height={320}
-                unoptimized
-                className="bg-paper mx-auto aspect-square w-full max-w-80"
-              />
-              <div>
+              <QrFrame qr={qr} />
+              <div className="pass-copy-enter">
                 <p className="font-display text-[1.35rem] leading-[1.05] font-bold uppercase">
                   Your gift is waiting at the gift table.
                 </p>
                 <p className="text-muted mt-3 text-sm leading-relaxed">
-                  Show this code to a staff member. One pass. One gift. All
-                  yours.
+                  {partyCopy.guestPass.showAtTable}
                 </p>
               </div>
             </div>
@@ -63,8 +71,7 @@ export function GuestPass({
               Pass not recognised.
             </h1>
             <p className="text-muted mt-6 text-sm leading-relaxed">
-              Ask the organiser to send the pass again. Nothing was recorded by
-              this visit.
+              {partyCopy.host.askToResend} Nothing was recorded by this visit.
             </p>
           </>
         )}

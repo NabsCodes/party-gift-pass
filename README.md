@@ -1,9 +1,10 @@
 # Party Gift Pass
 
-A small Admin-operated system for party invitations and one-time gift passes.
-Admins can generate numbered guests without knowing children's names, or use
-names when available. Each invitation and QR pass is shared as two images; gift
-desk staff explicitly confirm collection after scanning.
+A small gift-desk system for party invitations and one-time gift passes.
+Family and friends helping at the party can generate numbered guests without
+knowing children's names, or use names when available. Each invitation and QR
+pass is shared as a link; helpers at the gift table explicitly confirm
+collection after scanning.
 
 ## Local demo
 

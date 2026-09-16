@@ -46,7 +46,7 @@ export function GuestDetail({
   return (
     <aside
       className={cn(
-        "border-ink bg-paper px-gutter relative min-w-0 overflow-hidden py-[clamp(2rem,4vw,4rem)] lg:sticky lg:top-4 lg:h-[calc(100dvh-1rem)] lg:max-h-[calc(100dvh-1rem)] lg:self-start lg:overflow-y-auto lg:border-l",
+        "border-ink bg-paper px-gutter relative min-w-0 overflow-hidden py-[clamp(2rem,4vw,4rem)] lg:sticky lg:top-2 lg:h-[calc(100dvh-1rem)] lg:max-h-[calc(100dvh-1rem)] lg:self-start lg:overflow-y-auto lg:border-l",
         selected
           ? "max-lg:fixed max-lg:inset-0 max-lg:z-10 max-lg:overflow-y-auto"
           : "max-lg:hidden",

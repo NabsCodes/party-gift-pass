@@ -7,6 +7,7 @@ import { Brand } from "@/components/layout/brand";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useRedemption } from "@/hooks/use-redemption";
 import type { Guest } from "@/lib/guest";
+import { partyCopy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 export function Redemption({
@@ -172,8 +173,7 @@ function Used({ current, time }: { current: Guest | null; time: string }) {
         </span>
       </div>
       <p className="text-muted text-sm leading-relaxed">
-        Do not hand out another gift. Ask the organiser to resolve any
-        disagreement.
+        Do not hand out another gift. {partyCopy.host.askToResolve}.
       </p>
     </>
   );
@@ -191,8 +191,7 @@ function Invalid() {
         recognised.
       </h1>
       <p className="text-muted mt-6 text-sm leading-relaxed">
-        Check the QR or ask the organiser to find the guest. No collection was
-        recorded by this request.
+        {partyCopy.host.invalidScanHelp}
       </p>
     </>
   );

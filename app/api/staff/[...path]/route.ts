@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getDb } from "@/db/client";
 import { tickets } from "@/db/schema";
 import { hasSession } from "@/lib/auth";
+import { partyCopy } from "@/lib/copy";
 import { getConfig } from "@/lib/config";
 import { ticketToken, hashToken } from "@/lib/security";
 import {
@@ -17,6 +18,7 @@ import {
   redeemSchema,
   ticketUpdateSchema,
 } from "@/schemas/tickets";
+
 async function handle(
   request: Request,
   context: { params: Promise<{ path: string[] }> },
@@ -90,8 +92,7 @@ async function handle(
         if (hashToken(token) !== row.tokenHash)
           return reply(
             {
-              error:
-                "This pass cannot be regenerated. Ask the organiser to check the QR key.",
+              error: `This pass cannot be regenerated. ${partyCopy.host.askToCheckQrKey}`,
             },
             409,
           );

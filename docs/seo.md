@@ -1,9 +1,9 @@
 # SEO and social metadata
 
-Party Gift Pass is a private staff/event tool, so the root metadata is
-deliberately `noindex, nofollow`. This prevents a QR route, staff workspace, or
-event details from becoming a search result. It is not a substitute for access
-control; routes enforce signed staff sessions separately. `/pass/[token]` is a
+Party Gift Pass is a private party gift-desk tool, so the root metadata is
+deliberately `noindex, nofollow`. This prevents a QR route, gift desk, or event
+details from becoming a search result. It is not a substitute for access
+control; routes enforce signed helper sessions separately. `/pass/[token]` is a
 public QR page and still `noindex`; it must not expose a child name.
 
 `lib/seo.ts` owns the event identity, social copy, and asset paths. `lib/metadata.ts`

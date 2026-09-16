@@ -1,35 +1,48 @@
-const streamers = [
-  [8, "#df1f26", 0, -7],
-  [15, "#f4c431", 90, -2],
-  [23, "#126044", 25, -9],
-  [32, "#df1f26", 120, -4],
-  [42, "#f4c431", 55, -8],
-  [53, "#126044", 145, -3],
-  [63, "#df1f26", 80, -10],
-  [73, "#f4c431", 170, -5],
-  [82, "#126044", 35, -8],
-  [91, "#df1f26", 110, -3],
-] as const;
+function MatchBall() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="block"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <title>Decorative football</title>
+      <circle
+        cx="14"
+        cy="14"
+        r="13"
+        fill="#fffdf8"
+        stroke="#171716"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M14 4.5 18.2 9.8 16.8 16.5 11.2 16.5 9.8 9.8 14 4.5Z"
+        fill="#df1f26"
+      />
+      <path
+        d="M14 23.5 10.5 18.5 12.2 13.5 15.8 13.5 17.5 18.5 14 23.5Z"
+        fill="#126044"
+        opacity="0.85"
+      />
+    </svg>
+  );
+}
 
 export function PassCelebration() {
   return (
     <div
-      className="pass-kickoff border-red relative mt-6 h-16 overflow-hidden border-b-2"
+      className="pass-kickoff border-red relative mt-6 h-14 overflow-hidden border-b"
       aria-hidden="true"
     >
-      {streamers.map(([left, color, delay, rotate]) => (
-        <span
-          key={`${left}-${color}`}
-          className="pass-streamer absolute top-0 h-3 w-1.5 rounded-full"
-          style={{
-            left: `${left}%`,
-            backgroundColor: color,
-            animationDelay: `${delay}ms`,
-            rotate: `${rotate}deg`,
-          }}
-        />
-      ))}
-      <span className="pass-ball absolute bottom-1 left-0 text-2xl">⚽</span>
+      <div className="pass-pitch-lines pointer-events-none absolute inset-0" />
+      <div className="pass-center-spot border-green/25 pointer-events-none absolute top-1/2 left-1/2 size-7 -translate-x-1/2 -translate-y-1/2 rounded-full border" />
+      <span className="pass-ball absolute bottom-2 left-0">
+        <MatchBall />
+      </span>
     </div>
   );
 }

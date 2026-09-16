@@ -34,9 +34,11 @@ must remain sentence case and comfortable. State is always text plus color.
   persistent detail plane and narrow screens use a full-screen detail sheet.
 - Large decorative “10” numerals and simple pitch geometry are allowed. Avoid
   confetti wallpaper, gradients, glowing icons, fake 3D, and club crests/logos.
-- The public pass may play one short, contained kickoff entrance above the QR.
-  It never loops, never needs a tap, never crosses the QR, and is suppressed by
-  the reduced-motion preference. Staff and redemption surfaces stay still.
+- The public pass may play one calm, contained kickoff moment above the QR: a
+  thin pitch band, a slow SVG ball roll, then a gentle QR and copy fade-in. It
+  never loops, never needs a tap, never crosses the QR during the roll, and is
+  suppressed by the reduced-motion preference. Gift desk and redemption surfaces
+  stay still.
 - Share copy must say “invitation + pass”; collection copy must use the exact
   phrase **Confirm gift collected**.
 - Loading uses layout-matching skeleton blocks for route and list fetches, with
