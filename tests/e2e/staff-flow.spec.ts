@@ -37,10 +37,16 @@ test("staff can review and atomically collect a sample gift", async ({
   const pass = await json<{ token: string; passUrl: string }>(
     await page.request.get(`/api/staff/tickets/${guest!.id}/pass`),
   );
-  const family = await page.context().newPage();
-  await family.goto(`/pass/${pass.token}`);
+  const preview = page.waitForEvent("popup");
+  await page.getByRole("button", { name: /preview guest pass/i }).click();
+  const family = await preview;
+  await expect(family).toHaveURL(/\/pass\/[A-Za-z0-9_-]+$/);
   await expect(family.getByText(/waiting at the gift table/i)).toBeVisible();
   await expect(family.getByText("Adil Lawal")).toHaveCount(0);
+  await family.screenshot({
+    path: "test-results/guest-pass.png",
+    fullPage: true,
+  });
   await family.close();
 
   const review = await page.context().newPage();
@@ -99,6 +105,16 @@ test("admin can create and find numbered passes without names", async ({
   await expect(page.getByText(/page 1 of 5/i)).toBeVisible();
   await page.getByPlaceholder(/search guest/i).fill("Guest 045");
   await expect(page.getByRole("row", { name: /Guest 045/ })).toBeVisible();
+
+  await page.getByRole("button", { name: /create passes/i }).click();
+  await page.getByLabel(/how many passes/i).fill("1");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /^create passes$/i })
+    .click();
+  await expect(page.getByText("1 pass created.")).toBeVisible();
+  await page.getByPlaceholder(/search guest/i).fill("Guest 046");
+  await expect(page.getByRole("row", { name: /Guest 046/ })).toBeVisible();
 });
 
 test("copying a link does not spin share, and delete asks first", async ({

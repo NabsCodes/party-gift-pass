@@ -58,10 +58,6 @@ export function Redemption({
           />
         )}
       </section>
-      <footer className="px-gutter text-muted flex justify-center gap-2.5 py-5 text-center text-[0.63rem] font-extrabold tracking-[0.13em] uppercase">
-        Staff confirms. Kid smiles. <span className="text-red">✳</span> Aadil’s
-        Matchday
-      </footer>
     </main>
   );
 }

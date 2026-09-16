@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import {
   filterGuests,
   guestOverview,
+  duplicateGuestNames,
+  nextNumberedGuest,
   guestStatusClass,
   guestStatusLabel,
   paginateGuests,
@@ -102,5 +104,20 @@ describe("guest list helpers", () => {
     expect(ten.pageSize).toBe(10);
     expect(ten.pageCount).toBe(6);
     expect(ten.items).toHaveLength(10);
+  });
+
+  it("finds duplicate names without treating case or spacing as different", () => {
+    expect(
+      duplicateGuestNames(
+        ["Adil Lawal", "Zara Bello"],
+        [" adil   lawal ", "Musa Bello", "MUSA BELLO"],
+      ),
+    ).toEqual([" adil   lawal ", "MUSA BELLO"]);
+  });
+
+  it("continues numbered guests after the highest existing label", () => {
+    expect(nextNumberedGuest(["Adil Lawal", "Guest 009", "Guest 002"])).toBe(
+      10,
+    );
   });
 });

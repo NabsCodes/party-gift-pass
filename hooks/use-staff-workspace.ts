@@ -23,7 +23,7 @@ import { createPassArtwork, downloadArtwork } from "@/lib/pass-art";
 
 export type CreationMode = "numbered" | "named";
 export type StaffBusy =
-  "create" | "share" | "copy" | "download" | "delete" | null;
+  "create" | "share" | "copy" | "preview" | "download" | "delete" | null;
 
 export function useStaffWorkspace() {
   const router = useRouter();
@@ -209,6 +209,20 @@ export function useStaffWorkspace() {
     });
   }
 
+  async function previewPass(guest: Guest) {
+    const preview = window.open("about:blank", "_blank");
+    if (!preview) {
+      toast.error("Allow pop-ups to preview this guest pass.");
+      return;
+    }
+    preview.opener = null;
+    await withBusy("preview", async () => {
+      const pass = await getPass(guest);
+      if (pass) preview.location.replace(pass.passUrl);
+      else preview.close();
+    });
+  }
+
   async function download(guest: Guest) {
     await withBusy("download", async () => {
       const pass = await getPass(guest);
@@ -259,6 +273,7 @@ export function useStaffWorkspace() {
     createBatch,
     sharePass,
     copyLink,
+    previewPass,
     download,
     markShared,
     remove,

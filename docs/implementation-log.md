@@ -211,6 +211,24 @@ short, factual, and explicit about verification.
   flows, and an isolated production build. The browser flow still passes the
   staff login, atomic collection, mobile Admin list, and numbered batch cases.
 
+## 2026-09-16 — Duplicate-safe pass creation
+
+- Changed: numbered batches now continue after the highest existing `Guest NNN`
+  label instead of restarting at `Guest 001`. Named batches reject names that
+  already exist, case-insensitively with repeated whitespace normalized, and
+  return the exact entered names in the conflict message. Retried batch IDs
+  remain idempotent.
+- Verified: format-check, lint, typecheck, 17 unit tests, 4 Playwright flows
+  including continuation at `Guest 046`, and an isolated production build.
+
+## 2026-09-16 — Sticky desktop pass detail
+
+- Changed: the selected Admin pass detail stays visible on desktop while the
+  guest table scrolls, with independent detail scrolling for smaller screens.
+  Mobile behavior remains a full-screen detail sheet.
+- Verified: format, format-check, lint, typecheck, 17 unit tests, 4 Playwright
+  flows, and an isolated production build.
+
 ## 2026-09-16 — Safer batch creation and honest share status
 
 - Changed: numbered batches now start at 10 and require a second confirmation
@@ -235,3 +253,18 @@ short, factual, and explicit about verification.
   `og:image:height` 1260, `twitter:card` `summary_large_image`, and matching
   Twitter image dimensions. Live WhatsApp/X cache refresh remains a deploy
   check.
+
+## 2026-09-16 — Guest kickoff, cleaner artwork, and Admin preview
+
+- Changed: the public pass plays one short CSS-only football-and-streamer
+  entrance above the static QR. It has no tap action or loop, remains confined
+  to its own strip, and is removed for reduced-motion users.
+- Changed: removed the “Staff confirms. Kid smiles.” redemption footer. The
+  downloaded invitation now keeps only the guest and event essentials; the
+  gift-pass PNG prioritises a larger QR, guest label, table instruction, pass
+  number, and privacy warning.
+- Changed: Admin guest details can open the real public pass in a new tab for
+  review. The dashboard deliberately does not embed a second scannable QR.
+- Verified: format and format-check, ESLint, strict TypeScript, 15 unit tests,
+  four Playwright flows including the Admin preview popup, and a successful
+  production build.

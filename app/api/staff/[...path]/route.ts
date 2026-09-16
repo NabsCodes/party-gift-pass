@@ -8,6 +8,7 @@ import { ticketToken, hashToken } from "@/lib/security";
 import {
   confirmRedemption,
   createGuests,
+  DuplicateGuestError,
   listGuests,
   toGuest,
 } from "@/lib/tickets";
@@ -58,13 +59,12 @@ async function handle(
       return reply({ guests: await listGuests() });
     if (route === "tickets" && request.method === "POST") {
       const input = createBatchSchema.parse(body);
-      const names =
-        input.names ??
-        Array.from(
-          { length: input.quantity ?? 0 },
-          (_, index) => `Guest ${String(index + 1).padStart(3, "0")}`,
-        );
-      return reply({ guests: await createGuests(names, input.batchId) });
+      const names = input.names ?? Array.from({ length: input.quantity ?? 0 });
+      return reply({
+        guests: await createGuests(names, input.batchId, {
+          numbered: input.quantity !== undefined,
+        }),
+      });
     }
     if (route === "redeem" && request.method === "POST") {
       const input = redeemSchema.parse(body);
@@ -149,6 +149,13 @@ async function handle(
     }
     return reply({ error: "Not found." }, 404);
   } catch (error) {
+    if (error instanceof DuplicateGuestError)
+      return Response.json(
+        {
+          error: `Already on the guest list: ${error.names.join(", ")}. Add a detail such as a surname or class to continue.`,
+        },
+        { status: 409 },
+      );
     if (error instanceof z.ZodError || error instanceof SyntaxError)
       return Response.json(
         {

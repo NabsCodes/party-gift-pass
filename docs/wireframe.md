@@ -40,6 +40,7 @@ Showing 1–10 of 200 · Rows 10 · Page 1 of 20   [<] [>]
                                     GUEST 001
                                     [ Share pass ]
                                     [ Copy pass link ]
+                                    Preview guest pass ↗
                                     Download invitation + pass images
                                     Delete guest → confirm dialog
 ```
@@ -64,6 +65,7 @@ AADIL’S MATCHDAY                         GIFT PASS
 A LITTLE THANK-YOU
 BIG SMILES.
 ONE SPECIAL GIFT.
+[ one-shot kickoff line; no tap or loop ]
 [ QR ]  Your gift is waiting at the gift table.
         Show this code to a staff member.
 Saturday, 26 September 2026    KEEP YOUR PASS PRIVATE

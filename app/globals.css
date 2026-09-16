@@ -81,11 +81,59 @@
   }
 }
 
+@keyframes pass-ball-roll {
+  0% {
+    translate: -2.5rem 0;
+    rotate: 0deg;
+  }
+  70%,
+  100% {
+    translate: calc(min(40rem, 100vw) - 4.25rem) 0;
+    rotate: 720deg;
+  }
+}
+
+@keyframes pass-streamer-drop {
+  0% {
+    opacity: 0;
+    translate: 0 -1rem;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 3.4rem;
+  }
+}
+
+.pass-ball {
+  animation: pass-ball-roll 900ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.pass-streamer {
+  animation: pass-streamer-drop 850ms ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     /* biome-ignore lint/complexity/noImportantStyles: honor reduced-motion over utility transitions */
     transition-duration: 0.01ms !important;
+  }
+
+  .pass-ball,
+  .pass-streamer {
+    animation: none;
+  }
+
+  .pass-ball {
+    left: auto;
+    right: 0;
+  }
+
+  .pass-streamer {
+    display: none;
   }
 }

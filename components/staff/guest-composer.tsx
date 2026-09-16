@@ -173,8 +173,8 @@ function ComposerDialog({
                 </p>
               ) : (
                 <small className="text-muted text-xs leading-5">
-                  Guest 001, Guest 002, and so on. Maximum {MAX_BATCH_SIZE} per
-                  batch.
+                  Numbers continue from the existing guest list. Maximum{" "}
+                  {MAX_BATCH_SIZE} per batch.
                 </small>
               )}
             </label>

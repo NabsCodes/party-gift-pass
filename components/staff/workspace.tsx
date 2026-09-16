@@ -85,6 +85,7 @@ export function Workspace({ demo }: { demo: boolean }) {
           busy={workspace.busy}
           sharePass={workspace.sharePass}
           copyLink={workspace.copyLink}
+          previewPass={workspace.previewPass}
           download={workspace.download}
           markShared={workspace.markShared}
           remove={workspace.remove}

@@ -5,14 +5,14 @@ UUID and stable server-only QR key. It returns the token only if hashing it
 matches the persisted hash. A mismatch is a recovery error, never a silent QR
 replacement.
 
-Staff share a public `/pass/[token]` link. That page matches the saved gift-pass
-artwork (red bar, editorial headline, QR beside the table instruction) and
-reveals no child name or pass number. Invitation and gift-pass PNGs remain
-optional downloads. Share text names the child in the message, not on the
-public page. The browser can still create two 1000px-wide PNGs: a named
-football invitation and a named gift pass with a high-contrast QR, short pass
-number, privacy instruction, and sample watermark for demo records. No external
-club marks are copied.
+Staff share a public `/pass/[token]` link. Admin can open **Preview guest pass**
+in a new tab to inspect that exact family-facing page; the dashboard does not
+embed another scannable QR. The public page reveals no child name or pass number.
+Invitation and gift-pass PNGs remain optional downloads. Share text names the
+child in the message, not on the public page. The browser creates a concise
+named football invitation with the event essentials and a named gift pass with
+a large high-contrast QR, short pass number, privacy instruction, and sample
+watermark for demo records. No external club marks are copied.
 
 On a phone, **Share pass** opens the system share sheet so staff can pick
 WhatsApp, Messages, Mail, or copy without a custom dropdown. On a computer it

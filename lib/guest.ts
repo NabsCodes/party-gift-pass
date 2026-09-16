@@ -29,6 +29,33 @@ export const GUEST_PAGE_SIZE = 10;
 export const PAGE_SIZE_OPTIONS = [10, 25, 50] as const;
 export const MAX_BATCH_SIZE = 250;
 
+export function normalizeGuestName(name: string) {
+  return name.trim().replace(/\s+/g, " ").toLocaleLowerCase("en-NG");
+}
+
+export function duplicateGuestNames(
+  existingNames: string[],
+  incomingNames: string[],
+) {
+  const existing = new Set(existingNames.map(normalizeGuestName));
+  const seen = new Set<string>();
+  return incomingNames.filter((name) => {
+    const normalized = normalizeGuestName(name);
+    if (existing.has(normalized) || seen.has(normalized)) return true;
+    seen.add(normalized);
+    return false;
+  });
+}
+
+export function nextNumberedGuest(existingNames: string[]) {
+  return (
+    existingNames.reduce((highest, name) => {
+      const match = /^Guest (\d+)$/.exec(name.trim());
+      return match ? Math.max(highest, Number(match[1])) : highest;
+    }, 0) + 1
+  );
+}
+
 export function guestStatusLabel(guest: Guest) {
   if (guest.status === "redeemed") return "Collected";
   return guest.sharedAt ? "Pass shared" : "Not shared";

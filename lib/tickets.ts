@@ -5,6 +5,7 @@ import { getDb } from "@/db/client";
 import { tickets, type Ticket } from "@/db/schema";
 import { getConfig } from "./config";
 import type { Guest } from "./guest";
+import { duplicateGuestNames, nextNumberedGuest } from "./guest";
 import { hashToken, ticketToken } from "./security";
 
 export type { Guest } from "./guest";
@@ -32,10 +33,44 @@ export async function listGuests() {
       .limit(5000)
   ).map(toGuest);
 }
-export async function createGuests(names: string[], batchId: string) {
+export class DuplicateGuestError extends Error {
+  constructor(public readonly names: string[]) {
+    super("Some guests are already on the list.");
+    this.name = "DuplicateGuestError";
+  }
+}
+
+export async function createGuests(
+  names: string[],
+  batchId: string,
+  options: { numbered?: boolean } = {},
+) {
   const db = await getDb();
+  const existingBatch = await db
+    .select()
+    .from(tickets)
+    .where(eq(tickets.batchId, batchId))
+    .orderBy(asc(tickets.batchIndex));
+  if (existingBatch.length) return existingBatch.map(toGuest);
+
+  const existingNames = (
+    await db.select({ displayLabel: tickets.displayLabel }).from(tickets)
+  )
+    .map((row) => row.displayLabel)
+    .filter((name): name is string => Boolean(name));
+  const labels = options.numbered
+    ? names.map((_, index) => {
+        const number = nextNumberedGuest(existingNames) + index;
+        return `Guest ${String(number).padStart(3, "0")}`;
+      })
+    : names;
+  if (!options.numbered) {
+    const duplicates = duplicateGuestNames(existingNames, labels);
+    if (duplicates.length)
+      throw new DuplicateGuestError([...new Set(duplicates)]);
+  }
   const batchCode = batchId.replaceAll("-", "").slice(0, 12).toUpperCase();
-  const rows = names.map((name, batchIndex) => {
+  const rows = labels.map((name, batchIndex) => {
     const id = randomUUID();
     return {
       id,

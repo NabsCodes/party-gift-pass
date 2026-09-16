@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy, Download, Share2, Trash2, X } from "lucide-react";
+import { Check, Copy, Download, Eye, Share2, Trash2, X } from "lucide-react";
 import { GuestDeleteDialog } from "./guest-delete-dialog";
 import { guestStatusClass, guestStatusLabel } from "@/lib/guest";
 import type { StaffWorkspaceState } from "@/hooks/use-staff-workspace";
@@ -22,6 +22,7 @@ export function GuestDetail({
   busy,
   sharePass,
   copyLink,
+  previewPass,
   download,
   markShared,
   remove,
@@ -33,6 +34,7 @@ export function GuestDetail({
   | "busy"
   | "sharePass"
   | "copyLink"
+  | "previewPass"
   | "download"
   | "markShared"
   | "remove"
@@ -44,7 +46,7 @@ export function GuestDetail({
   return (
     <aside
       className={cn(
-        "border-ink bg-paper px-gutter relative min-w-0 overflow-hidden py-[clamp(2rem,4vw,4rem)] lg:border-l",
+        "border-ink bg-paper px-gutter relative min-w-0 overflow-hidden py-[clamp(2rem,4vw,4rem)] lg:sticky lg:top-4 lg:h-[calc(100dvh-1rem)] lg:max-h-[calc(100dvh-1rem)] lg:self-start lg:overflow-y-auto lg:border-l",
         selected
           ? "max-lg:fixed max-lg:inset-0 max-lg:z-10 max-lg:overflow-y-auto"
           : "max-lg:hidden",
@@ -98,6 +100,20 @@ export function GuestDetail({
             >
               <Copy /> Copy pass link
             </Button>
+            <button
+              type="button"
+              className="border-line flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold disabled:cursor-not-allowed disabled:opacity-55"
+              disabled={locked}
+              aria-busy={busy === "preview"}
+              onClick={() => previewPass(selected)}
+            >
+              {busy === "preview" ? (
+                <Spinner className="size-4" />
+              ) : (
+                <Eye className="size-4" />
+              )}{" "}
+              Preview guest pass
+            </button>
             <button
               type="button"
               className="border-line flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold disabled:cursor-not-allowed disabled:opacity-55"

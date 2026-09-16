@@ -78,15 +78,14 @@ export async function makePassArt(guest: Guest, url: string) {
   await document.fonts.ready;
   const invitation = document.createElement("canvas");
   invitation.width = 1000;
-  invitation.height = 1400;
+  invitation.height = 1250;
   const c = canvas2d(invitation);
   c.fillStyle = paper;
-  c.fillRect(0, 0, 1000, 1400);
+  c.fillRect(0, 0, 1000, 1250);
   c.fillStyle = red;
   c.fillRect(0, 0, 1000, 22);
   text(c, "A PERSONAL INVITATION", 64, 95, 24, red);
   name(c, guest.name, 64, 185, 870);
-  text(c, "YOU’RE ON THE TEAM.", 64, 237, 25);
   c.fillStyle = green;
   c.fillRect(0, 295, 1000, 690);
   pitch(c, 52, 350, 896, 560);
@@ -96,65 +95,50 @@ export async function makePassArt(guest: Guest, url: string) {
   text(c, "MOHAMMED", 64, 450, 63, paper, "Oswald");
   text(c, "AADIL’S", 64, 573, 118, paper, "Oswald");
   text(c, "MATCHDAY", 64, 700, 115, paper, "Oswald");
-  text(c, "FOOTBALL • FRIENDS • TURNING TEN", 64, 795, 27, paper);
-  text(c, "COME READY TO PLAY, CHEER & HAVE FUN", 64, 915, 23, paper);
-  text(c, "SATURDAY, 26 SEPTEMBER 2026", 64, 1060, 29, red);
-  text(c, "1:00 PM — 5:00 PM", 64, 1110, 30);
-  text(c, party.venue, 64, 1178, 34);
-  text(c, party.location, 64, 1222, 25);
-  c.fillStyle = ink;
-  c.fillRect(0, 1280, 1000, 120);
-  text(c, "DRESS CODE", 64, 1325, 19, "#c5d5ad");
-  text(c, party.dress, 64, 1365, 27, paper);
+  text(c, "SATURDAY, 26 SEPTEMBER 2026", 64, 1048, 29, red);
+  text(c, "1:00 PM — 5:00 PM", 64, 1100, 30);
+  text(c, party.venue, 64, 1170, 34);
+  text(c, party.location, 64, 1215, 25);
   if (guest.isDemo) {
     text(c, "SAMPLE", 790, 95, 24, red);
   }
 
   const pass = document.createElement("canvas");
   pass.width = 1000;
-  pass.height = 1200;
+  pass.height = 1120;
   const p = canvas2d(pass);
   p.fillStyle = paper;
-  p.fillRect(0, 0, 1000, 1200);
+  p.fillRect(0, 0, 1000, 1120);
   p.fillStyle = red;
   p.fillRect(0, 0, 1000, 100);
   text(p, "AADIL’S MATCHDAY", 55, 64, 28, "#fff");
   text(p, "GIFT PASS", 735, 64, 26, "#fff");
-  text(p, "A LITTLE THANK-YOU", 55, 177, 24, red);
-  text(p, "BIG SMILES.", 55, 305, 108, ink, "Oswald");
-  text(p, "ONE SPECIAL GIFT.", 55, 405, 80, ink, "Oswald");
-  text(p, "RESERVED FOR", 55, 485, 20);
-  name(p, guest.name, 55, 556, 890);
+  text(p, "FOR", 55, 170, 20, red);
+  name(p, guest.name, 55, 245, 890);
   const qr = document.createElement("canvas");
   await QRCode.toCanvas(qr, url, {
-    width: 360,
+    width: 500,
     margin: 4,
     errorCorrectionLevel: "M",
     color: { dark: "#17241fff", light: "#ffffffff" },
   });
-  p.drawImage(qr, 55, 610, 360, 360);
-  text(p, "YOUR GIFT IS", 455, 700, 30);
-  text(p, "WAITING AT", 455, 742, 30);
-  text(p, "THE GIFT TABLE.", 455, 784, 30);
-  text(p, "Show this code to a staff member.", 455, 851, 21);
-  text(p, "One pass. One gift. All yours.", 455, 889, 21);
+  p.drawImage(qr, 250, 300, 500, 500);
+  text(p, "SHOW AT THE GIFT TABLE", 255, 865, 31, ink, "Oswald");
   p.strokeStyle = "#aaa99c";
   p.setLineDash([8, 8]);
   p.beginPath();
-  p.moveTo(0, 1015);
-  p.lineTo(1000, 1015);
+  p.moveTo(0, 925);
+  p.lineTo(1000, 925);
   p.stroke();
-  text(p, guest.number, 55, 1090, 32);
-  text(p, "26 SEPTEMBER 2026", 55, 1140, 21);
+  text(p, guest.number, 55, 1010, 32);
   text(
     p,
     guest.isDemo ? "SAMPLE PASS" : "KEEP YOUR PASS PRIVATE",
-    580,
-    1090,
+    600,
+    1010,
     23,
     red,
   );
-  text(p, "A saved image does not show live status.", 480, 1140, 21);
   return {
     invitation: await file(invitation, `${guest.number}-invitation.png`),
     pass: await file(pass, `${guest.number}-gift-pass.png`),

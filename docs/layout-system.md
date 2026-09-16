@@ -66,6 +66,9 @@ no child name.
 
 - At narrow widths, convert tables to labelled divided rows rather than
   shrinking text or forcing page-wide horizontal scroll.
+- On desktop, keep the selected guest detail plane sticky while the Admin list
+  scrolls. Its content may scroll independently when actions exceed the
+  viewport; mobile keeps the detail plane as a full-screen sheet.
 - Keep important status and ticket number visible without hover.
 - Prevent QR codes and ticket instructions from splitting across printed pages.
 - Use physical print dimensions and browser print preview; screen pixels alone

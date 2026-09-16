@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PassCelebration } from "@/components/pass/pass-celebration";
 import { party } from "@/lib/event";
 
 export function GuestPass({
@@ -29,6 +30,7 @@ export function GuestPass({
               <br />
               One special gift.
             </h1>
+            <PassCelebration />
             <div className="mt-8 grid items-center gap-8 sm:grid-cols-[minmax(12rem,15rem)_minmax(0,1fr)]">
               <Image
                 src={qr}
