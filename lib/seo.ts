@@ -12,8 +12,8 @@ export const siteSeo = {
     "football party",
   ],
   siteUrl: "http://localhost:3000",
-  ogImage: "/opengraph-image.png",
-  twitterImage: "/twitter-image.png",
+  ogImage: "/opengraph-image.jpg",
+  twitterImage: "/twitter-image.jpg",
 } as const;
 
 export type SeoRoute = {

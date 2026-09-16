@@ -11,12 +11,19 @@ owns the Next.js metadata factory and viewport. `app/layout.tsx` exports the
 root metadata. Route-specific metadata can use the same helpers when public
 pages are introduced.
 
-Social assets use the conventions from the reference projects:
+Social assets use the conventions from the reference projects (Vextra /
+iProduce):
 
-- `app/opengraph-image.png` — 2400×1260
-- `app/twitter-image.png` — 2400×1200, `summary_large_image`
+- `app/opengraph-image.jpg` — 2400×1260 (1.91:1), kept under ~1MB
+- `app/twitter-image.jpg` — 2400×1200, `summary_large_image`
 - `app/icon.svg` — primary favicon
 - `app/icon.png` and `app/apple-icon.png` — 512×512 fallbacks
+
+`lib/metadata.ts` resolves `metadataBase` from `APP_URL`, then Vercel host
+env, then the local SEO fallback, and emits absolute `og:image` /
+`twitter:image` URLs with explicit width, height, and alt. JPEG (not large
+PNG) matches the working Vextra pattern so WhatsApp/Meta crawlers accept the
+file.
 
 The cards use the generated matchday football artwork with a warm paper field,
 red jersey, pitch green, and restrained geometry. They contain no copied club

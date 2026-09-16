@@ -221,3 +221,17 @@ short, factual, and explicit about verification.
 - Verified: format and format-check, ESLint, strict TypeScript, 15 unit tests,
   4 Playwright flows including large-batch confirmation and completed native
   share bookkeeping, and a successful production build.
+
+## 2026-09-16 — Fix social card image recognition
+
+- Changed: replaced ~4MB `opengraph-image.png` / `twitter-image.png` with
+  compressed JPEG counterparts (~670KB / ~635KB) at the same 2400×1260 and
+  2400×1200 sizes used by Vextra/iProduce. Metadata now resolves
+  `metadataBase` from `APP_URL` then Vercel host env, and emits absolute
+  `og:image` / `twitter:image` URLs with width, height, and alt text files.
+- Verified: image dimensions and file sizes; `pnpm format` / format-check /
+  lint / typecheck; production build head shows
+  `og:image` → `…/opengraph-image.jpg`, `og:image:width` 2400,
+  `og:image:height` 1260, `twitter:card` `summary_large_image`, and matching
+  Twitter image dimensions. Live WhatsApp/X cache refresh remains a deploy
+  check.
