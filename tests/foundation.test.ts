@@ -20,8 +20,13 @@ describe("ticket database foundation", () => {
       "status",
       "created_at",
       "redeemed_at",
+      "shared_at",
+      "is_demo",
+      "batch_id",
+      "batch_index",
+      "redemption_attempt",
     ]);
-    expect(config.indexes).toHaveLength(2);
+    expect(config.indexes).toHaveLength(3);
     expect(config.checks.map((check) => check.name)).toContain(
       "tickets_redemption_state_check",
     );

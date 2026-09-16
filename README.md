@@ -1,52 +1,53 @@
 # Party Gift Pass
 
-Foundation for a one-time party gift ticket application. This setup includes
-the application shell, typed database schema, migration tooling, tests, and
-architecture documentation. Ticket generation, staff authentication,
-redemption, scanning, and printing are intentionally not implemented yet.
+A small staff-operated system for personalised party invitations and one-time
+gift passes. Staff add children, share an invitation and QR pass as two images,
+then scan the QR and explicitly confirm collection at the gift table.
 
-## Requirements
+## Local demo
 
-- Node.js 20 or newer
-- pnpm 11
-- A Neon PostgreSQL connection only when applying migrations or using the database
-
-## Setup
+Requirements: Node.js 20+ and pnpm 11.
 
 ```bash
 pnpm install
-cp .env.example .env.local
-pnpm dev
+pnpm dev:demo
 ```
 
-Add a real Neon connection string to `DATABASE_URL` in `.env.local` before
-running database-connected commands. Never commit `.env.local`.
+Open `http://localhost:3000/staff/login`. Demo mode uses the displayed local
+passphrase and creates exactly five removable sample children in `.party-demo`.
+It is blocked outside localhost and never seeds Neon. Delete sample guests from
+their detail panel when they are no longer needed.
+
+## Live environment
+
+Copy `.env.example` to `.env.local` and set every value:
+
+- `DATABASE_URL`: Neon PostgreSQL URL.
+- `APP_URL`: exact HTTPS origin, with no trailing path.
+- `STAFF_PASSPHRASE`: shared event credential, at least 16 characters.
+- `SESSION_SECRET`: stable random secret, at least 32 characters.
+- `QR_SECRET`: stable random secret, at least 32 characters. Losing or changing
+  it prevents existing pass images from being regenerated.
+
+Run `pnpm db:migrate` only against an explicitly approved database. No Neon
+database is provisioned or migrated by this repository setup.
 
 ## Commands
 
 ```bash
-pnpm dev            # Start the local development server
-pnpm build          # Create a production build
-pnpm lint           # Run ESLint
-pnpm typecheck      # Run strict TypeScript checks
-pnpm test           # Run Vitest once
-pnpm test:watch     # Run Vitest in watch mode
-pnpm format         # Format the repository
-pnpm format:check   # Check formatting without changing files
-pnpm db:generate    # Generate SQL migrations from db/schema.ts
-pnpm db:migrate     # Apply migrations to DATABASE_URL
-pnpm db:studio      # Open Drizzle Studio
+pnpm dev             # Next.js development server
+pnpm dev:demo        # Local PGlite demo with five samples
+pnpm build           # Production build
+pnpm format          # Apply Prettier formatting
+pnpm format:check    # Check formatting
+pnpm lint            # ESLint
+pnpm typecheck       # Strict TypeScript
+pnpm test            # Vitest unit tests
+pnpm test:e2e        # Local Chrome staff/redemption/mobile flow
+pnpm db:generate     # Generate Drizzle SQL
+pnpm db:migrate      # Apply SQL to approved DATABASE_URL
+pnpm db:studio       # Drizzle Studio
 ```
 
-`pnpm db:generate` does not need a live database. `pnpm db:migrate` does, and
-must only be run against an explicitly approved database.
-
-## Project Documentation
-
-Start with [docs/README.md](./docs/README.md). It links the current roadmap,
-architecture, working wireframe, design and layout rules, workflow, and
-implementation history.
-
-The current initialization page is only a setup placeholder, not the approved
-product UI. Product routes remain unimplemented until the working wireframe is
-reviewed and converted into focused route specs.
+Start with [docs/README.md](./docs/README.md) for the product, security model,
+route specs, operator runbook, roadmap, and append-only implementation log.

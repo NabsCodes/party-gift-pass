@@ -2,59 +2,49 @@
 
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
-
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+This version has breaking changes. Read the relevant guide in
+`node_modules/next/dist/docs/` before changing Next.js behavior.
 
 <!-- END:nextjs-agent-rules -->
 
 # Party Gift Pass Working Guide
 
-## Current Boundary
+## Start here
 
-This repository currently contains setup, architecture, and a working product
-wireframe only. Do not add authentication, ticket generation, scanning,
-printing, redemption handlers, or deployment configuration unless an approved
-spec explicitly opens that phase.
+1. Read `docs/README.md`, `docs/roadmap.md`, and the relevant route spec.
+2. Read the latest `docs/implementation-log.md` entry.
+3. Inspect `git status --short` and nearby code before editing.
 
-## Reading Order
+## Architecture
 
-1. Read `docs/README.md`.
-2. Read `docs/roadmap.md` and identify the current goal.
-3. Read the matching canonical document or approved route spec.
-4. Read the latest entries in `docs/implementation-log.md`.
-5. Inspect the current worktree and nearby code.
+- Keep this a shallow single-package App Router repository with no `src/`.
+- Server Components are the default; client components are interactive leaves.
+- `app/` owns pages and HTTP boundaries; `components/` owns presentation;
+  `db/` owns Drizzle; `schemas/` owns Zod; `lib/` owns workflows/utilities.
+- Business rules belong outside route JSX and are validated at every HTTP edge.
+- `PARTY_DEMO=1` is localhost-only PGlite. It must never seed a live database.
 
-## Ownership
+## Non-negotiable ticket rules
 
-- `app/` owns App Router pages, layouts, and future route handlers.
-- `components/` owns composed presentation; `components/ui/` owns stable primitives.
-- `db/` owns the Neon/Drizzle client and PostgreSQL schema.
-- `schemas/` owns Zod runtime contracts; `lib/` owns server workflows and utilities.
-- `tests/` owns focused contract tests; `docs/` owns architectural decisions.
-- Keep the repository single-package, shallow, and free of a `src/` directory.
+- A scan is read-only. Only **Confirm gift collected** may redeem a ticket.
+- Redemption is one conditional update from `unused` to `redeemed`, setting
+  `redeemed_at` in the same statement. Keep retry-attempt recovery intact.
+- QR tokens are HMAC-derived from random UUIDs; persist only SHA-256 hashes.
+  Never log tokens, hashes, database URLs, secrets, or provider errors.
+- Ticket numbers and child names are labels, not authentication factors.
+- Unauthenticated QR visits reveal no child details.
+- Redeemed live records are retained. Only explicitly marked demo records may
+  be deleted after redemption.
 
-Pages and layouts are Server Components by default. Add client boundaries only
-to interactive leaves that genuinely need browser state or effects.
+## Design and documentation
 
-## Ticket Security
+Use the matchday editorial system in `docs/design-system.md`: warm paper, red,
+pitch green, charcoal, bold sports type, thin rules, almost no shadow, and no
+generic nested-card dashboard. Keep touch targets usable from 390px upward.
 
-- Generate future QR secrets from at least 32 cryptographically random bytes.
-- Persist only the SHA-256 token hash. Never log or store the raw QR token.
-- Human-readable ticket numbers are labels, never redemption secrets.
-- Redemption requires an authenticated staff session and one conditional,
-  atomic update from `unused` to `redeemed` with `redeemed_at` set together.
-- Never expose database IDs, hashes, connection strings, or provider errors.
+Update the canonical owning document and append factual verification to the
+implementation log after meaningful work. Never rewrite old log entries.
 
-## Working Rules
-
-- Preserve unrelated work and inspect the current diff before editing.
-- Keep documentation aligned with architectural or security decisions.
-- Keep one canonical document per concern. Add route specs only after the
-  wireframe behavior for that slice is approved.
-- Append meaningful completed work and actual verification to
-  `docs/implementation-log.md`; do not rewrite prior entries.
-- Do not commit, push, deploy, provision providers, or migrate a database
-  without explicit authorization.
-- Before handoff, run `pnpm format`, `pnpm format:check`, `pnpm lint`,
-  `pnpm typecheck`, `pnpm test`, and `pnpm build`.
+Do not commit, push, deploy, provision providers, or migrate a shared database
+without explicit authorization. Before handoff run format, format-check, lint,
+typecheck, unit tests, the relevant browser tests, and a production build.

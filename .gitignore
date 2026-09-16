@@ -13,6 +13,10 @@
 
 # testing
 /coverage
+/.party-demo/
+/.party-e2e/
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/

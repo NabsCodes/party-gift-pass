@@ -1,46 +1,36 @@
-# Documentation Index
+# Documentation index
 
-This folder is the lightweight source of truth for Party Gift Pass. The goal is
-to let a developer or agent resume work without relying on chat history while
-keeping the system small enough for a one-day MVP.
+This folder is the source of truth for Party Gift Pass. It is deliberately
+small enough to resume without chat history.
 
-## Reading Order
+## Reading order
 
 1. `../AGENTS.md`
 2. `roadmap.md`
 3. `architecture.md`
 4. `wireframe.md`
-5. `design-system.md`
-6. `layout-system.md`
-7. `workflow.md`
-8. the relevant future route spec, once one exists
-9. the latest entries in `implementation-log.md`
+5. the relevant file in `routes/`
+6. `operator-runbook.md`
+7. latest `implementation-log.md` entry
 
-`CLAUDE.md` is a concise compatibility entry point for Claude-style agents.
-The root `README.md` owns setup and command reference.
+## Ownership
 
-## Documents
+| Document                 | Owns                                               |
+| ------------------------ | -------------------------------------------------- |
+| `implementation-plan.md` | Approved MVP decisions and security rationale      |
+| `architecture.md`        | Implemented system, data, trust boundaries, routes |
+| `wireframe.md`           | End-to-end UI/logic flow and edge states           |
+| `design-system.md`       | Matchday visual language and accessibility         |
+| `layout-system.md`       | Responsive shell and layout details                |
+| `routes/*.md`            | Per-route behavior and acceptance criteria         |
+| `operator-runbook.md`    | Setup, rehearsal, event-day use, incidents         |
+| `seo.md`                 | Private indexing policy, metadata, social assets   |
+| `roadmap.md`             | Completed work, current gates, later scope         |
+| `workflow.md`            | How to change and verify this repository           |
+| `implementation-log.md`  | Append-only factual history                        |
+| `handoff-template.md`    | Concise unfinished-work handoff                    |
 
-| Document                | Owns                                                               |
-| ----------------------- | ------------------------------------------------------------------ |
-| `roadmap.md`            | Current objective, sequence, gates, and deferred work              |
-| `architecture.md`       | System boundaries, data model, security, and future routes         |
-| `wireframe.md`          | Working screen inventory, user flow, states, and open decisions    |
-| `design-system.md`      | Visual language, tokens, components, states, and accessibility     |
-| `layout-system.md`      | Page shells, widths, responsive behavior, and print posture        |
-| `workflow.md`           | How to inspect, specify, implement, verify, document, and hand off |
-| `implementation-log.md` | Append-only history of meaningful completed work                   |
-| `handoff-template.md`   | A short continuation template for unfinished work                  |
-
-## Documentation Rules
-
-- Keep one canonical document per concern; link instead of duplicating.
-- Code is the source of truth for implemented behavior. Docs are the source of
-  truth for approved intent and acceptance criteria.
-- Mark exploratory wireframes and proposals clearly. Do not present them as
-  implemented behavior.
-- Add route specs under `docs/routes/` only after the matching flow is approved.
-- Update durable decisions in their owning document, not in every document.
-- Keep `implementation-log.md` chronological and append-only.
-- Record only verification that was actually performed. Separate local checks
-  from provider and deployed-environment proof.
+Code is the source of truth for implemented behavior. Docs own approved intent
+and acceptance criteria. Update one canonical document per concern, link rather
+than duplicate, and record only validation actually performed. Provider/live
+claims require current provider evidence, not a passing local build.

@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
-import { Fredoka, Nunito } from "next/font/google";
+import { Oswald, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "./globals.css";
+import { createSiteMetadata, viewport } from "@/lib/metadata";
 
-const displayFont = Fredoka({
-  variable: "--font-fredoka",
+const displayFont = Oswald({
+  variable: "--font-display",
   subsets: ["latin"],
 });
 
-const bodyFont = Nunito({
-  variable: "--font-nunito",
+const bodyFont = Manrope({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Party Gift Pass",
-  description: "One-time gift tickets for a joyful party experience.",
-};
+export const metadata: Metadata = createSiteMetadata();
+export { viewport };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

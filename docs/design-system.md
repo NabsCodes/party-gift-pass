@@ -1,100 +1,53 @@
-# Design System
+# Design system
 
-## Direction
+## Matchday editorial direction
 
-Party Gift Pass should feel cheerful, composed, and easy to operate under event
-pressure. It is not a generic SaaS dashboard and not a toy interface. The party
-character comes from a warm paper base, confident color, friendly typography,
-and ticket-specific details.
-
-The current initialization card is temporary. Its floating card, radial
-background, large shadow, and scattered confetti are not the product pattern.
-
-## Anti-Pattern Guardrails
-
-- Do not place every section inside a rounded card.
-- Do not nest cards or use a dashboard grid when a list, rule, or open page
-  plane communicates the hierarchy.
-- Do not use gradients, glass effects, glowing shadows, oversized icon tiles,
-  gradient text, or decorative badges by default.
-- Do not use confetti as page furniture. Reserve a tiny celebratory mark for a
-  completed ticket batch or successful redemption.
-- Do not make every control pill-shaped. Pills are for short statuses only.
-- Do not use shadows for static hierarchy. Reserve a subtle shadow for a modal,
-  menu, or other temporary layer when separation is otherwise unclear.
+The product should feel like a well-designed children’s football event, not a
+generic AI dashboard and not copied club merchandise. Character comes from
+confident condensed type, warm paper, red matchday energy, pitch green, large
+player numbers, direct copy, and disciplined rules.
 
 ## Foundations
 
-### Color roles
+| Role        | Value     | Use                                              |
+| ----------- | --------- | ------------------------------------------------ |
+| Match red   | `#df1f26` | Primary actions, key display line, active energy |
+| Pitch green | `#126044` | Remaining count and confirmed receipt            |
+| Warm cream  | `#f5f0e5` | Main page plane                                  |
+| Paper       | `#fffdf8` | Table/detail planes and forms                    |
+| Charcoal    | `#171716` | Text, dividers, already-used state               |
+| Sun yellow  | `#f4c431` | Tiny highlight or caution rule only              |
 
-- **Paper:** warm cream for public and staff page backgrounds.
-- **Ink:** near-black indigo for primary text and structure.
-- **Coral:** primary action and party accent; never for long text.
-- **Cobalt/sky:** navigation, focus, links, and secondary illustration marks.
-- **Sunshine:** small highlight only, with dark text when used as a surface.
-- **Green, amber, red:** reserved for redeemed, pending/caution, and invalid or
-  failed states. Always pair color with text and an icon.
+Oswald is the condensed display face; Manrope owns body, controls, labels, and
+numbers requiring fast reading. Headlines may be uppercase and tight; body copy
+must remain sentence case and comfortable. State is always text plus color.
 
-Every text/background pair must meet WCAG AA contrast. State colors must not be
-repurposed decoratively.
+## Layout and component rules
 
-### Typography
+- Use open page planes, thin rules, and color blocks for hierarchy.
+- Do not wrap every section in a rounded card or nest cards.
+- Static content uses no shadow. The name composer may use the dark backdrop of
+  a temporary modal; it still uses a square paper plane.
+- Buttons use a restrained 6px radius. Full pills are status labels only.
+- The guest list is divided rows; desktop uses a persistent detail plane and
+  narrow screens use a full-screen detail sheet.
+- Large decorative “10” numerals and simple pitch geometry are allowed. Avoid
+  confetti wallpaper, gradients, glowing icons, fake 3D, and club crests/logos.
+- Share copy must say “invitation + pass”; collection copy must use the exact
+  phrase **Confirm gift collected**.
 
-- Use a friendly rounded display face for the product name and selected
-  celebratory headings only.
-- Use a highly readable rounded sans for body copy, labels, tables, numbers, and
-  controls.
-- Ticket numbers use tabular figures and strong hierarchy.
-- Keep weights restrained. Use size, spacing, and rules before adding heavier
-  weight.
+## State language
 
-### Shape and depth
+- `Not shared`: neutral stone.
+- `Pass sent`: amber; bookkeeping only, never guaranteed WhatsApp delivery.
+- `Ready to collect`: neutral.
+- `Collection confirmed`: pitch green, with child, pass, and time.
+- `Already collected`: charcoal and a hard “do not hand out another gift.”
+- `Invalid`, `unavailable`, and `uncertain`: muted neutral, not celebratory red.
 
-- Page and section structure: square edges or no visible container.
-- Inputs and buttons: approximately 8px radius.
-- Necessary bounded panels: 10–12px maximum radius.
-- Status pills and truly circular controls may use a full radius.
-- Static screens use no box shadow. Temporary overlays may use one quiet shadow.
-- Use 1px rules, background changes, and spacing for grouping.
+## Accessibility
 
-## Core UI Patterns
-
-### Staff header
-
-A slim persistent header owns the product name, current area, and session
-actions. It should not become a large hero.
-
-### Ticket list
-
-Use a quiet table on desktop and divided rows on narrow screens. Show ticket
-number and child/display label first, then state and created/redeemed time.
-Avoid a separate card for every ticket.
-
-### Forms
-
-Use visible labels, concise help only where needed, large touch targets, and
-inline validation next to the affected field. Keep one primary action per form.
-
-### Redemption decision
-
-The ticket identity and current state dominate. The confirm action must use the
-exact intent “Confirm gift collected.” Scanning or loading the page never runs
-the mutation. Destructive-looking red is not appropriate for a successful
-collection action; use the primary action color, then a clear green completed
-state.
-
-### Print ticket
-
-Print surfaces are white and ink-efficient. Prioritize the QR code, short ticket
-number, optional child label, event instruction, and a small party mark. Avoid
-background fills behind the QR code and keep a proper quiet zone.
-
-## Accessibility and Motion
-
-- Design from 390px upward and keep primary touch targets at least 44px.
-- Preserve visible keyboard focus and logical document order.
-- Never rely on color alone for ticket status.
-- Use live announcements for asynchronous final states without repeatedly
-  announcing progress.
-- Motion is optional, brief, and functional. Honor reduced motion and avoid
-  looping decoration.
+Design and test from 390px upward. Primary touch targets are at least 44px,
+focus remains visible, DOM order is logical, asynchronous results use live
+regions, and reduced-motion preferences suppress transitions. QR artwork keeps
+high contrast and a proper quiet zone. Never encode meaning in color alone.
