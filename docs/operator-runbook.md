@@ -16,12 +16,15 @@
 ## Preparing guests
 
 1. Sign in at `/staff/login`.
-2. Choose **Add guests**, paste one child per line, and create passes.
-3. Search for duplicate/similar names and verify the right family before share.
-4. Open a child, choose **Share invitation + pass**, select WhatsApp, and send
-   both images. If native sharing is unavailable, download and attach both.
-5. A cancelled share is not marked sent. Use **Mark as sent** only after the
-   share is actually completed.
+2. Choose **Create passes**. Enter the required quantity for numbered guests, or
+   switch to **Use names** and paste one child per line.
+3. For numbered passes, use the displayed guest/pass number when sending and
+   resolving questions. For named passes, check duplicate/similar names.
+4. Open a child, choose **Share pass** or **Copy pass link**, and send that
+   URL. On a phone, Share pass opens the system share sheet; on a computer it
+   opens WhatsApp. Download the invitation and pass images only if needed.
+5. A copied or cancelled share is not marked sent. Use **Mark as sent** only
+   after the family actually received the link.
 
 ## Gift table
 

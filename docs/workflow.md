@@ -18,7 +18,7 @@ the user explicitly asks to replace it.
 2. Create one focused spec under `docs/routes/` for the next route or flow.
 3. Record acceptance criteria, security boundaries, validation, and test cases.
 4. Implement only that approved slice.
-5. Verify it in proportion to risk.
+5. Run `pnpm format`, then verify in proportion to risk.
 6. Update the owning document, roadmap status, and implementation log.
 
 Do not create every route spec in advance. Small, approved specs are easier to

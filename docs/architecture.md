@@ -12,26 +12,87 @@ Browser UI -> authenticated route handlers -> Zod -> workflow -> Drizzle
                                                          `-> PGlite (demo)
 ```
 
-`app/` owns pages and HTTP entry points, `components/` owns interactive views,
-`lib/` owns ticket/auth/image workflows, `schemas/` owns runtime contracts, and
-`db/` owns connection choice and schema.
+`app/` owns pages and HTTP entry points, `components/` owns presentation by
+route area, `hooks/` owns client lifecycles, `lib/` owns ticket/auth/image
+workflows and shared helpers, `schemas/` owns runtime contracts, and `db/`
+owns connection choice and schema.
+
+```text
+app/
+  staff/page.tsx              # RSC: require staff, compose Workspace
+  staff/login/page.tsx        # RSC: safe return path, compose LoginView
+  redeem/[token]/page.tsx     # RSC: load ticket without mutating, compose Redemption
+  pass/[token]/page.tsx       # RSC: QR only, no child name
+  api/session/route.ts
+  api/staff/[...path]/route.ts
+
+components/
+  layout/brand.tsx
+  login/login-view.tsx        # server presentation
+  login/login-form.tsx        # client leaf
+  staff/workspace.tsx         # client shell
+  staff/guest-list.tsx
+  staff/guest-detail.tsx
+  staff/guest-composer.tsx
+  staff/score-strip.tsx
+  redeem/redemption.tsx
+  pass/guest-pass.tsx
+  ui/button.tsx
+  ui/input.tsx
+  ui/table.tsx
+  ui/pagination.tsx
+  ui/sonner.tsx
+
+hooks/
+  use-staff-workspace.ts
+  use-redemption.ts
+  use-login-form.ts
+
+lib/
+  guest.ts                    # client-safe guest DTO and list helpers
+  tickets.ts                  # server-only ticket workflows
+  pass-page.ts                # public QR view, no child name
+  auth.ts, browser-api.ts, pass-art.ts, event.ts, ...
+
+schemas/
+  tickets.ts
+  login.ts
+  env.ts
+
+db/
+  client.ts
+  schema.ts
+```
+
+Pages stay thin. Interactive TSX files render; hooks and `lib/` own state and
+rules. Do not introduce `src/`, `features/`, global providers, or empty
+placeholder folders at this scale.
+
+UI is Tailwind utilities on those components. `app/globals.css` owns matchday
+tokens plus `font-display` and `px-gutter`. `components/ui` holds small
+primitives (Button, Input, Label, Textarea, Table, Pagination, Sonner). Staff
+feedback is an overlay toast, not an in-layout banner. Login and create-pass
+forms use React Hook Form with Zod resolvers; HTTP edges still validate with
+Zod.
 
 ## Routes and HTTP contract
 
-| Route                          | Responsibility                                                                                 |
-| ------------------------------ | ---------------------------------------------------------------------------------------------- |
-| `/`                            | Redirect to `/staff`.                                                                          |
-| `/staff/login`                 | Shared staff passphrase and safe return-to flow.                                               |
-| `/staff`                       | Search guests, create name batches, share/download images, mark sent, delete eligible records. |
-| `/redeem/[token]`              | Protected read-only review and final states. Loading never mutates.                            |
-| `/api/session`                 | Rate-limited login and sign-out.                                                               |
-| `/api/staff/tickets`           | Protected list and idempotent batch creation.                                                  |
-| `/api/staff/tickets/[id]/pass` | Recreate a token only when its stored hash still matches.                                      |
-| `/api/staff/tickets/[id]`      | Mark shared or delete eligible records.                                                        |
-| `/api/staff/redeem`            | Atomic confirmation with retry-attempt recovery.                                               |
+| Route                          | Responsibility                                                                                                        |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| `/`                            | Redirect to `/staff`.                                                                                                 |
+| `/staff/login`                 | Shared staff passphrase and safe return-to flow.                                                                      |
+| `/staff`                       | Search guests, paginated list, create batches, share pass links, optional images, mark sent, delete eligible records. |
+| `/pass/[token]`                | Public gift-pass layout. QR only. No child name. Loading never mutates.                                               |
+| `/redeem/[token]`              | Protected read-only review and final states. Loading never mutates.                                                   |
+| `/api/session`                 | Rate-limited login and sign-out.                                                                                      |
+| `/api/staff/tickets`           | Protected list and idempotent batch creation.                                                                         |
+| `/api/staff/tickets/[id]/pass` | Recreate a token only when its stored hash still matches.                                                             |
+| `/api/staff/tickets/[id]`      | Mark shared or delete eligible records.                                                                               |
+| `/api/staff/redeem`            | Atomic confirmation with retry-attempt recovery.                                                                      |
 
 There is no in-app camera. Staff use the phone camera. The earlier `/print`
-proposal is superseded by shareable invitation/pass PNGs and download fallback.
+proposal is superseded by a public pass link, with invitation/pass PNGs as
+optional downloads.
 
 ## Data model
 

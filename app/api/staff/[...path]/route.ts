@@ -58,7 +58,13 @@ async function handle(
       return reply({ guests: await listGuests() });
     if (route === "tickets" && request.method === "POST") {
       const input = createBatchSchema.parse(body);
-      return reply({ guests: await createGuests(input.names, input.batchId) });
+      const names =
+        input.names ??
+        Array.from(
+          { length: input.quantity ?? 0 },
+          (_, index) => `Guest ${String(index + 1).padStart(3, "0")}`,
+        );
+      return reply({ guests: await createGuests(names, input.batchId) });
     }
     if (route === "redeem" && request.method === "POST") {
       const input = redeemSchema.parse(body);
@@ -93,6 +99,7 @@ async function handle(
           guest: toGuest(row),
           token,
           url: `${config.APP_URL}/redeem/${token}`,
+          passUrl: `${config.APP_URL}/pass/${token}`,
         });
       }
       if (path.length === 2 && request.method === "PATCH") {
@@ -146,7 +153,7 @@ async function handle(
       return Response.json(
         {
           error:
-            "Check your entries. Use 1–250 names, up to 80 characters each.",
+            "Choose 1–250 numbered passes or enter 1–250 names, one per line.",
         },
         { status: 400 },
       );

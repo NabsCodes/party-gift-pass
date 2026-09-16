@@ -1,6 +1,6 @@
 import { requireStaff } from "@/lib/auth";
 import { isDemo } from "@/lib/config";
-import { Workspace } from "@/components/workspace";
+import { Workspace } from "@/components/staff/workspace";
 
 export const dynamic = "force-dynamic";
 

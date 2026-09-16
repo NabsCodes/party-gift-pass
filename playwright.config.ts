@@ -18,7 +18,7 @@ export default defineConfig({
   ],
   webServer: {
     command:
-      "PARTY_DEMO=1 DEMO_DATA_DIR=memory:// APP_URL=http://127.0.0.1:3100 pnpm exec next dev -p 3100 -H 127.0.0.1",
+      "PARTY_DEMO=1 DEMO_DATA_DIR=memory:// APP_URL=http://127.0.0.1:3100 NEXT_DIST_DIR=.next-e2e pnpm exec next dev -p 3100 -H 127.0.0.1",
     url: "http://127.0.0.1:3100/staff/login",
     reuseExistingServer: false,
     timeout: 120_000,

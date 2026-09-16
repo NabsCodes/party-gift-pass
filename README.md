@@ -1,8 +1,9 @@
 # Party Gift Pass
 
-A small staff-operated system for personalised party invitations and one-time
-gift passes. Staff add children, share an invitation and QR pass as two images,
-then scan the QR and explicitly confirm collection at the gift table.
+A small Admin-operated system for party invitations and one-time gift passes.
+Admins can generate numbered guests without knowing children's names, or use
+names when available. Each invitation and QR pass is shared as two images; gift
+desk staff explicitly confirm collection after scanning.
 
 ## Local demo
 
@@ -22,8 +23,10 @@ their detail panel when they are no longer needed.
 
 Copy `.env.example` to `.env.local` and set every value:
 
-- `DATABASE_URL`: Neon PostgreSQL URL.
-- `APP_URL`: exact HTTPS origin, with no trailing path.
+- `DATABASE_URL`: Neon pooled PostgreSQL URL used by the live application.
+- `DIRECT_URL`: Neon direct PostgreSQL URL used only by Drizzle migrations.
+- `APP_URL`: exact application origin with no trailing path. Production must
+  use HTTPS; `http://localhost:3000` is allowed only for local testing.
 - `STAFF_PASSPHRASE`: shared event credential, at least 16 characters.
 - `SESSION_SECRET`: stable random secret, at least 32 characters.
 - `QR_SECRET`: stable random secret, at least 32 characters. Losing or changing
@@ -31,6 +34,33 @@ Copy `.env.example` to `.env.local` and set every value:
 
 Run `pnpm db:migrate` only against an explicitly approved database. No Neon
 database is provisioned or migrated by this repository setup.
+
+## Production-like local test
+
+Use a separate Neon development database or branch, not the final event
+database. Put these five values in `.env.local`:
+
+```dotenv
+DATABASE_URL=postgresql://...
+DIRECT_URL=postgresql://...
+APP_URL=http://localhost:3000
+STAFF_PASSPHRASE=use-a-long-private-event-passphrase
+SESSION_SECRET=use-a-different-random-secret-at-least-32-characters
+QR_SECRET=use-another-stable-random-secret-at-least-32-characters
+```
+
+Then run:
+
+```bash
+pnpm db:migrate
+pnpm build
+pnpm start
+```
+
+Open `http://localhost:3000/staff/login`, create a small numbered batch, share
+one pass to yourself, scan it, confirm collection, and scan it again to verify
+the already-collected result. Keep the same `QR_SECRET` when moving to hosting
+or existing pass images will stop matching.
 
 ## Commands
 

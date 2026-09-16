@@ -5,6 +5,7 @@ import { loginWindows } from "@/db/schema";
 import { getConfig } from "@/lib/config";
 import { equalSecret, signSession } from "@/lib/security";
 import { SESSION_COOKIE } from "@/lib/auth";
+import { loginSchema } from "@/schemas/login";
 export async function POST(request: Request) {
   try {
     const config = getConfig();
@@ -38,9 +39,10 @@ export async function POST(request: Request) {
         { error: "Too many attempts. Try again in 15 minutes." },
         { status: 429 },
       );
+    const parsed = loginSchema.safeParse(body);
     if (
-      typeof body.passphrase !== "string" ||
-      !equalSecret(body.passphrase, config.STAFF_PASSPHRASE)
+      !parsed.success ||
+      !equalSecret(parsed.data.passphrase, config.STAFF_PASSPHRASE)
     )
       return Response.json(
         { error: "That passphrase isn't correct." },

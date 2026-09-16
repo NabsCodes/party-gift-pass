@@ -61,4 +61,21 @@ describe("guest input", () => {
       createBatchSchema.parse({ ...input, names: Array(251).fill("Guest") }),
     ).toThrow();
   });
+
+  it("rejects a numbered batch over the 250-pass cap", () => {
+    expect(() =>
+      createBatchSchema.parse({
+        batchId: "8c64ecca-b350-4c49-9515-7d3ffbbef1dd",
+        quantity: 1000,
+      }),
+    ).toThrow();
+  });
+
+  it("rejects ambiguous or empty batch creation", () => {
+    const batchId = "8c64ecca-b350-4c49-9515-7d3ffbbef1dd";
+    expect(() => createBatchSchema.parse({ batchId })).toThrow();
+    expect(() =>
+      createBatchSchema.parse({ batchId, quantity: 2, names: ["Adil"] }),
+    ).toThrow();
+  });
 });

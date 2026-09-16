@@ -29,8 +29,9 @@ must remain sentence case and comfortable. State is always text plus color.
 - Static content uses no shadow. The name composer may use the dark backdrop of
   a temporary modal; it still uses a square paper plane.
 - Buttons use a restrained 6px radius. Full pills are status labels only.
-- The guest list is divided rows; desktop uses a persistent detail plane and
-  narrow screens use a full-screen detail sheet.
+- The guest list is a table of divided rows (Guest, Pass, Status). Pagination
+  is compact icon controls, not large Previous/Next actions. Desktop uses a
+  persistent detail plane and narrow screens use a full-screen detail sheet.
 - Large decorative “10” numerals and simple pitch geometry are allowed. Avoid
   confetti wallpaper, gradients, glowing icons, fake 3D, and club crests/logos.
 - Share copy must say “invitation + pass”; collection copy must use the exact

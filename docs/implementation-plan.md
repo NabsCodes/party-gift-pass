@@ -5,10 +5,11 @@ staff-scan wireframes. This plan supersedes the immediate-print-only proposal.
 
 ## Product contract
 
-One event, roughly 200 children. Staff paste names, preview a personalised
-football invitation and QR gift pass, download or share images, and manually
-mark a pass as shared. Staff scan with the native phone camera, review the name,
-confirm, and hand out one gift only after a successful server response.
+One event, roughly 200 children. Admins generate numbered guests when names are
+unknown or paste names when available, preview a football invitation and QR gift
+pass, download or share images, and manually mark a pass as shared. Gift desk
+staff scan with the native phone camera, review the guest/pass label, confirm,
+and hand out one gift only after a successful server response.
 
 The celebrant is Mohammed Aadil; Adil Lawal is a sample invited guest. The design
 uses red, warm white, pitch green and charcoal, strong sports typography, a

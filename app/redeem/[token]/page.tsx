@@ -1,6 +1,6 @@
 import { requireStaff } from "@/lib/auth";
 import { findTicket, toGuest } from "@/lib/tickets";
-import { Redemption } from "@/components/redemption";
+import { Redemption } from "@/components/redeem/redemption";
 
 export const dynamic = "force-dynamic";
 

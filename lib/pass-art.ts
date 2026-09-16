@@ -1,6 +1,6 @@
 import QRCode from "qrcode";
 import { party } from "./event";
-import type { Guest } from "./tickets";
+import type { Guest } from "./guest";
 
 const paper = "#f8f4eb",
   ink = "#202922",
@@ -67,12 +67,19 @@ async function file(canvas: HTMLCanvasElement, filename: string) {
   );
   return new File([blob], filename, { type: "image/png" });
 }
+
+function canvas2d(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas is unavailable.");
+  return ctx;
+}
+
 export async function makePassArt(guest: Guest, url: string) {
   await document.fonts.ready;
   const invitation = document.createElement("canvas");
   invitation.width = 1000;
   invitation.height = 1400;
-  const c = invitation.getContext("2d")!;
+  const c = canvas2d(invitation);
   c.fillStyle = paper;
   c.fillRect(0, 0, 1000, 1400);
   c.fillStyle = red;
@@ -106,7 +113,7 @@ export async function makePassArt(guest: Guest, url: string) {
   const pass = document.createElement("canvas");
   pass.width = 1000;
   pass.height = 1200;
-  const p = pass.getContext("2d")!;
+  const p = canvas2d(pass);
   p.fillStyle = paper;
   p.fillRect(0, 0, 1000, 1200);
   p.fillStyle = red;

@@ -1,4 +1,9 @@
 export class SessionExpired extends Error {}
+
+export function staffLoginPath(next: string) {
+  return `/staff/login?next=${encodeURIComponent(next)}`;
+}
+
 export async function api<T>(
   path: string,
   method = "GET",

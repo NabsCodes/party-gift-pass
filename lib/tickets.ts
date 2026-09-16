@@ -1,20 +1,14 @@
 import "server-only";
-import { randomBytes, randomUUID } from "node:crypto";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { randomUUID } from "node:crypto";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { tickets, type Ticket } from "@/db/schema";
 import { getConfig } from "./config";
+import type { Guest } from "./guest";
 import { hashToken, ticketToken } from "./security";
-export type Guest = {
-  id: string;
-  name: string;
-  number: string;
-  status: "unused" | "redeemed";
-  createdAt: string;
-  redeemedAt: string | null;
-  sharedAt: string | null;
-  isDemo: boolean;
-};
+
+export type { Guest } from "./guest";
+
 export function toGuest(row: Ticket): Guest {
   return {
     id: row.id,
@@ -34,12 +28,13 @@ export async function listGuests() {
     )
       .select()
       .from(tickets)
-      .orderBy(desc(tickets.createdAt))
+      .orderBy(desc(tickets.createdAt), asc(tickets.batchIndex))
       .limit(5000)
   ).map(toGuest);
 }
 export async function createGuests(names: string[], batchId: string) {
   const db = await getDb();
+  const batchCode = batchId.replaceAll("-", "").slice(0, 12).toUpperCase();
   const rows = names.map((name, batchIndex) => {
     const id = randomUUID();
     return {
@@ -47,7 +42,11 @@ export async function createGuests(names: string[], batchId: string) {
       batchId,
       batchIndex,
       displayLabel: name,
-      ticketNumber: `PGP-${randomBytes(4).toString("hex").toUpperCase()}`,
+      ticketNumber: [
+        "GP",
+        batchCode,
+        String(batchIndex + 1).padStart(3, "0"),
+      ].join("-"),
       tokenHash: hashToken(ticketToken(id, getConfig().QR_SECRET)),
     };
   });
@@ -56,7 +55,11 @@ export async function createGuests(names: string[], batchId: string) {
     .values(rows)
     .onConflictDoNothing({ target: [tickets.batchId, tickets.batchIndex] });
   return (
-    await db.select().from(tickets).where(eq(tickets.batchId, batchId))
+    await db
+      .select()
+      .from(tickets)
+      .where(eq(tickets.batchId, batchId))
+      .orderBy(asc(tickets.batchIndex))
   ).map(toGuest);
 }
 export async function findTicket(token: string) {

@@ -11,11 +11,15 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
+    ".next-e2e/**",
+    ".next-ui-verify/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
     "coverage/**",
     "drizzle/meta/**",
+    "test-results/**",
+    "playwright-report/**",
   ]),
 ]);
 

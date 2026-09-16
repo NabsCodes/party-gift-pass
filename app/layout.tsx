@@ -3,6 +3,7 @@ import { Oswald, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 import { createSiteMetadata, viewport } from "@/lib/metadata";
 
 const displayFont = Oswald({
@@ -20,9 +21,10 @@ export { viewport };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${displayFont.variable} ${bodyFont.variable}`}>
+    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
+      <body className="bg-cream text-ink min-w-80 antialiased">
         {children}
+        <Toaster />
       </body>
     </html>
   );

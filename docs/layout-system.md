@@ -12,31 +12,45 @@
 
 - Mobile: compact top bar, single-column content, full-width primary action
   where appropriate.
-- Desktop: slim top header and a centered content column. A small left
-  navigation rail is acceptable only when staff areas grow beyond two primary
+- Desktop: slim top header across the full canvas. A small left navigation
+  rail is acceptable only when staff areas grow beyond two primary
   destinations.
-- Default content measure: approximately 960–1120px for staff tables and
-  560–680px for login, generation, and redemption decisions.
-- Use consistent page gutters that begin near 20px on mobile and grow on wide
-  screens.
+- Staff workspace follows Vextra’s width policy: no site-wide max-width
+  container. Header, intro, list, detail, and footer share one gutter
+  (`1.5rem` / `3rem` / `4rem`, matching `px-6 md:px-12 lg:px-16`). The score
+  strip is full-bleed so its cells touch the page edges; first and last cell
+  copy still insets to that gutter.
+- Login uses a centered 24rem form column. Redemption stays a focused
+  ~38rem decision surface.
 
 ## Page Postures
 
 ### `/staff/login`
 
-A focused single-column form with a short explanation and no marketing hero.
+A focused passphrase form. Phones use a centered, evenly spaced staff entry
+with the logo. Desktop keeps the red matchday story beside that same form.
 
 ### `/staff`
 
 Page heading and one main action, followed by batch/ticket information in a
 plain divided list or table. Summary counts may be inline text; they do not need
-metric cards.
+metric cards. On phones, keep the intro compact so the score strip and guest
+list are visible without scrolling past a large hero. The intro heading and
+Create action stack until extra-wide desktops so the button never overlaps the
+title. The guest list is a table with compact pagination (showing range, rows
+per page, first/prev/next/last). Do not use a nested infinite-scroll pane.
 
 ### `/print`
 
 Screen controls appear in a narrow non-printing toolbar. Tickets use a regular
 print grid below. Print CSS removes navigation, controls, backgrounds, and
 nonessential decoration.
+
+### `/pass/[token]`
+
+A public, no-index QR surface that follows the saved gift-pass layout: red bar,
+editorial headline, QR beside the table instruction, event date, and a privacy
+line. It never shows a child name or pass number. Invalid tokens stay generic.
 
 ### `/redeem/[token]`
 

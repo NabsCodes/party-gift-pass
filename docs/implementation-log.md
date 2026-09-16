@@ -64,3 +64,118 @@ short, factual, and explicit about verification.
   were copied.
 - External gate: social preview rendering and cache refresh on WhatsApp/X,
   plus final event-domain choice, remain deployment checks.
+
+## 2026-09-16 — Numbered guests and mobile Admin scaling
+
+- Changed: renamed the management surface to Admin in visible UI while retaining
+  the stable `/staff` routes; made numbered passes the default so guest names
+  are optional; added deterministic batch-scoped pass numbers, named-mode
+  fallback, All/Unsent/Sent/Collected filters, visible mobile statuses, and
+  progressive 40-row loading.
+- Changed: allowed non-demo production configuration on loopback HTTP for local
+  Neon testing while keeping deployed live mode HTTPS-only. Browser tests now
+  use an isolated Next.js output directory so they do not interrupt an active
+  local server.
+- Verified: formatting, ESLint, strict TypeScript, 11 Vitest tests, and 3 Chrome
+  Playwright tests covering atomic redemption, 390px mobile use, and creation
+  and search of unnamed numbered passes.
+- External gate: real Neon migration, production hosting, actual WhatsApp share,
+  and event-phone/network rehearsal remain required.
+
+## 2026-09-16 — Presentation split after Vextra ownership
+
+- Changed: aligned the staff UI with Vextra’s shallow ownership model. Pages
+  stay Server Component entry points. Presentation moved into `components/`
+  route areas (`staff/`, `redeem/`, `login/`, `layout/`). Client lifecycles
+  moved into `hooks/`. Guest DTO, status, and filter helpers moved into
+  client-safe `lib/guest.ts` so `lib/tickets.ts` remains server-only.
+- Changed: no empty placeholder folders were added. The tree had no `.gitkeep`
+  files to remove.
+- Verified: `pnpm format`; `pnpm format:check`; ESLint; strict TypeScript;
+  14 Vitest tests including guest filter/status helpers; 3 Chrome Playwright
+  tests for login, atomic collection, 390px list/detail, and numbered create;
+  browser inspection of login, workspace, composer, guest detail, and
+  read-only scan review; and a successful production build.
+- External gate: Neon, live hosting, WhatsApp sharing, and event-phone
+  rehearsal remain unperformed.
+
+## 2026-09-16 — Compact mobile admin intro
+
+- Changed: reduced the `/staff` intro and score-strip height below 800px so
+  phones show the counts and guest list without scrolling past a large hero.
+  Desktop intro sizing is unchanged.
+- Verified: CSS media queries at 390px and 544px; intro height dropped from
+  about 274px to 170–190px; browser check showed the Create passes control,
+  score widgets, and guest rows together in the first phone viewport.
+
+## 2026-09-16 — Shared staff page measure
+
+- Changed: introduced `--page-max` (70rem) and `--gutter` so the staff header,
+  intro, list, detail, and footer share one horizontal measure. The score
+  strip stays end-to-end on that column, with first/last cell copy inset to
+  the same gutter.
+- Verified: browser inspection at 390px and desktop; header, intro, list, and
+  widget copy left edges aligned; score widgets still span the column.
+
+## 2026-09-16 — Full-bleed staff canvas
+
+- Changed: removed the 70rem staff `max-width`. The workspace now uses the
+  full canvas with Vextra’s gutter steps (`1.5rem` / `3rem` / `4rem`). The
+  score strip is full-bleed so widgets touch the page edges; header/list copy
+  still shares that gutter.
+
+## 2026-09-16 — Mobile login hides the story panel
+
+- Changed: below 800px `/staff/login` hides the red matchday copy and shows
+  the logo plus passphrase form first. Desktop still uses the split story and
+  staff-entry layout.
+
+## 2026-09-16 — Tailwind UI primitives and overlay toasts
+
+- Changed: staff/login/redeem screens now use Tailwind utilities. `globals.css`
+  keeps tokens plus `font-display` and `px-gutter`. Added matchday Button,
+  Input, Label, Textarea, and Sonner primitives. Login is a centered 24rem
+  form; phones hide the red story panel. The full-width notice banner is
+  gone so create/delete messages no longer cover the guest-detail close
+  control. Zod stays at HTTP edges; React Hook Form was not added.
+- Verified: format, format-check, lint, typecheck, 14 unit tests, 3 Playwright
+  flows (login, atomic collect, 390px list/detail, numbered create toast),
+  production build, and browser QA of centered login plus overlay toast.
+
+## 2026-09-16 — Paginated list, pass links, and form validation
+
+- Changed: guest list is 25-row pagination instead of “show more”. Create
+  batches stay capped at 250 and reject 1,000 in Zod. Sharing is WhatsApp or
+  copy of `/pass/[token]`; that page shows a QR and no child name. Images are
+  optional. Login and create forms use React Hook Form + Zod (`noValidate`).
+  Toasts sit bottom-center without a floating close control. The admin hero no
+  longer overlaps Create passes. Delete confirms in the detail pane.
+- Verified: `pnpm format`, format-check, lint, typecheck, 15 unit tests, 3
+  Playwright flows (public QR page has no child name, 25-row pagination, Zod
+  create form), production build, and browser QA of share actions, composer
+  cap, and in-form name errors.
+
+## 2026-09-16 — Compact table pagination
+
+- Changed: disabled buttons use `not-allowed`; wait cursor only when
+  `aria-busy`. The guest list is a Guest/Pass/Status table with compact first/
+  prev/next/last controls, a 10/25/50 row select, and “Showing X–Y of Z”.
+  Default page size is 10. Phones keep name + number stacked and hide the Pass
+  column instead of scrolling sideways.
+- Verified: `pnpm format`, format-check, lint, typecheck, 15 unit tests, 3
+  Playwright flows (row selection, 390px list/detail, 10-row default so 45
+  extra passes show page 1 of 5), production build, and browser QA of compact
+  first/prev/next/last controls, 10/25/50 rows, and `not-allowed` on disabled
+  pager buttons (wait cursor only when a control is `aria-busy`).
+
+## 2026-09-16 — Pass page matches artwork; native share
+
+- Changed: `/pass/[token]` now follows the saved gift-pass layout (red bar,
+  “Big smiles / one special gift”, QR beside the table instruction, date and
+  privacy line) and still never shows a child name or pass number. Staff
+  **Share pass** uses the phone share sheet when available and WhatsApp on a
+  computer; copy stays separate. No share dropdown or SMS/email grid.
+- Verified: `pnpm format`, format-check, lint, typecheck, 15 unit tests, 3
+  Playwright flows (public pass has no child name, **Share pass** on the
+  detail pane), production build, and browser QA of the red gift-pass header
+  plus Share pass / Copy pass link.

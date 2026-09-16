@@ -25,9 +25,10 @@ export function getConfig() {
   if (!parsed.success)
     throw new Error("Application configuration is incomplete.");
   const url = new URL(parsed.data.APP_URL);
-  if (local && !["localhost", "127.0.0.1", "[::1]"].includes(url.hostname))
+  const loopback = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+  if (local && !loopback)
     throw new Error("Demo mode is restricted to local development.");
-  if (!local && url.protocol !== "https:")
+  if (!local && url.protocol !== "https:" && !(loopback && !process.env.VERCEL))
     throw new Error("Live mode requires HTTPS.");
   return { ...parsed.data, APP_URL: url.origin, demo: local };
 }
