@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Brand } from "@/components/layout/brand";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { PassCelebration } from "@/components/pass/pass-celebration";
 import { partyCopy } from "@/lib/copy";
 import { party } from "@/lib/event";
@@ -26,16 +28,14 @@ export function GuestPass({
   qr: string | null;
 }) {
   return (
-    <main className="bg-cream min-h-dvh">
-      <header className="bg-red px-gutter flex min-h-[4.7rem] items-center justify-between text-white">
-        <p className="font-display text-[1.05rem] font-bold tracking-wide uppercase">
-          {party.title}
-        </p>
-        <p className="text-[0.7rem] font-extrabold tracking-[0.16em] uppercase">
+    <main className="bg-cream flex min-h-dvh flex-col">
+      <header className="border-line px-gutter flex min-h-[4.7rem] items-center justify-between border-b">
+        <Brand href={null} />
+        <span className="text-red text-[0.7rem] font-extrabold tracking-[0.16em] uppercase">
           Gift pass
-        </p>
+        </span>
       </header>
-      <section className="px-gutter mx-auto w-full max-w-160 py-[clamp(1.8rem,6vw,3.5rem)]">
+      <section className="px-gutter mx-auto w-full max-w-160 flex-1 py-[clamp(1.8rem,6vw,3.5rem)]">
         {valid && qr ? (
           <>
             <p className="text-red text-[0.7rem] font-extrabold tracking-[0.16em] uppercase">
@@ -76,6 +76,7 @@ export function GuestPass({
           </>
         )}
       </section>
+      <SiteFooter note="pass" />
     </main>
   );
 }

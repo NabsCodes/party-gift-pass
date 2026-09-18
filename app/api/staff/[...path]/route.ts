@@ -5,6 +5,7 @@ import { tickets } from "@/db/schema";
 import { hasSession } from "@/lib/auth";
 import { partyCopy } from "@/lib/copy";
 import { getConfig } from "@/lib/config";
+import { getBulkPasses, markBulkShared } from "@/lib/bulk-passes";
 import { ticketToken, hashToken } from "@/lib/security";
 import {
   confirmRedemption,
@@ -16,6 +17,7 @@ import {
 import {
   createBatchSchema,
   redeemSchema,
+  ticketIdsSchema,
   ticketUpdateSchema,
 } from "@/schemas/tickets";
 
@@ -67,6 +69,14 @@ async function handle(
           numbered: input.quantity !== undefined,
         }),
       });
+    }
+    if (route === "tickets/bulk-pass" && request.method === "POST") {
+      const input = z.object({ ids: ticketIdsSchema }).parse(body);
+      return reply(await getBulkPasses(input.ids));
+    }
+    if (route === "tickets/bulk-shared" && request.method === "PATCH") {
+      const input = z.object({ ids: ticketIdsSchema }).parse(body);
+      return reply(await markBulkShared(input.ids));
     }
     if (route === "redeem" && request.method === "POST") {
       const input = redeemSchema.parse(body);

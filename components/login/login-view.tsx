@@ -1,4 +1,5 @@
 import { Brand } from "@/components/layout/brand";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { LoginForm } from "@/components/login/login-form";
 import { party } from "@/lib/event";
 
@@ -49,6 +50,7 @@ export function LoginView({ next, demo }: { next: string; demo: boolean }) {
             </p>
           </div>
           <LoginForm next={next} demo={demo} />
+          <SiteFooter note="credit" className="px-0 py-0" />
         </div>
       </section>
     </main>

@@ -2,13 +2,16 @@ import Link from "next/link";
 import { partyCopy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
-export function Brand({ inverted = false }: { inverted?: boolean }) {
-  return (
-    <Link
-      className="inline-flex items-center gap-3"
-      href="/staff"
-      aria-label={partyCopy.desk.brandHome}
-    >
+export function Brand({
+  inverted = false,
+  href = "/staff",
+}: {
+  inverted?: boolean;
+  href?: string | null;
+}) {
+  const label = partyCopy.desk.brandHome;
+  const mark = (
+    <>
       <span
         className={cn(
           "font-display grid size-[2.15rem] rotate-[-8deg] place-items-center rounded-full text-xl font-bold",
@@ -30,6 +33,24 @@ export function Brand({ inverted = false }: { inverted?: boolean }) {
           The Gift Club · 26.09.26
         </small>
       </span>
+    </>
+  );
+
+  if (!href) {
+    return (
+      <div className="inline-flex items-center gap-3" aria-label={label}>
+        {mark}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      className="inline-flex items-center gap-3"
+      href={href}
+      aria-label={label}
+    >
+      {mark}
     </Link>
   );
 }

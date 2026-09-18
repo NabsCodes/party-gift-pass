@@ -292,3 +292,83 @@ short, factual, and explicit about verification.
 - Verified: format and format-check, ESLint, strict TypeScript, 15 unit tests,
   four Playwright flows including the Admin preview popup, and a successful
   production build.
+
+## 2026-09-17 — Bulk pass handling and guided sharing
+
+- Changed: Admin can select individual passes, a page, or the active filtered
+  result (up to 200). A mobile-safe bulk bar provides one ZIP export, a guided
+  one-family-at-a-time share queue, and deliberate bulk shared bookkeeping.
+- Changed: private pass data is re-derived only through authenticated, no-store
+  bulk endpoints. Collected passes are excluded; raw tokens are never persisted
+  or logged. ZIP exports use store-only compression and retain successful files
+  with an `EXPORT-ISSUES.txt` report for any failed pass artwork.
+- Changed: a closed native share sheet no longer marks an individual pass as
+  shared. Staff explicitly confirms each sent pass in the queue or confirms a
+  selected batch after sending.
+- Verified: `pnpm format`, format-check, ESLint, strict TypeScript, 19 unit tests,
+  six Playwright flows covering the queue and ZIP download, and a successful
+  production build.
+
+## 2026-09-17 — Refined bulk workflow boundary
+
+- Changed: normal staff work remains per-pass in the detail panel. The bulk bar
+  now has one primary **Share selected** action and groups ZIP export plus batch
+  shared-status bookkeeping under **More actions**.
+- Changed: guided sharing fetches the private pass for only the family currently
+  on screen. It no longer invokes the bulk private-pass endpoint or retains all
+  selected QR tokens in browser memory. ZIP export remains the sole intentional
+  batch preparation flow and shows its work in a dedicated progress dialog.
+- Changed: the empty detail state now directs staff to select a pass; it no
+  longer displays an unrelated decorative number.
+
+## 2026-09-17 — Coordinated invitation and gift-pass artwork
+
+- Changed: rebuilt the downloaded PNG pair as a shared matchday programme and
+  claim-ticket system. Both now use the canonical site palette, red masthead,
+  pitch geometry, oversized 10, and an editorial grid. The invitation has a
+  compact fixture-style event footer; the pass places a large scan-safe QR on a
+  green gift-table panel with a separated privacy and pass-number footer.
+- Verified: focused Prettier check, ESLint, strict TypeScript, 19 unit tests,
+  and browser-generated inspection of both PNG files.
+
+## 2026-09-18 — Public pass shares Brand and Vextra credit
+
+- Changed: `/pass/[token]` and its loading skeleton now use the shared Brand
+  header (10 badge) and a footer with **Built by Vextra**, matching the gift
+  desk chrome instead of the previous red-only masthead.
+- Verified: format-check, ESLint, strict TypeScript, and unit tests.
+
+## 2026-09-18 — Mobile admin filter overflow
+
+- Changed: the Admin list filter chip row now shrinks with `min-w-0` and scrolls
+  horizontally beside a pinned **Select page** control, so narrow phones no
+  longer push the page wider than the viewport.
+- Verified: format-check, ESLint, strict TypeScript, and unit tests.
+
+## 2026-09-18 — Share queue mobile overflow
+
+- Changed: the guided share queue now breaks the private pass URL, keeps
+  columns `min-w-0`, softens the phone headline size, and stacks the secondary
+  actions on narrow screens so the overlay no longer shifts sideways.
+- Verified: format-check, ESLint, strict TypeScript, and unit tests.
+
+## 2026-09-18 — Per-action share queue spinners
+
+- Changed: Share pass and Mark shared & next now own separate busy states in
+  the share queue, so only the control that is running shows a spinner.
+- Verified: format-check, ESLint, strict TypeScript, and unit tests.
+
+## 2026-09-18 — Staff busy-state polish
+
+- Changed: Share selected only spins for queue start; Skip owns its own busy
+  state; guest-detail Mark as shared shows a spinner; gift-table SiteCredit
+  sits in a proper footer.
+- Verified: format-check, ESLint, strict TypeScript, and unit tests.
+
+## 2026-09-18 — Shared footers and public Brand
+
+- Changed: added a shared `SiteFooter` that stacks the event note above
+  **Built by Vextra** so narrow screens stay readable. Public `/pass` Brand no
+  longer links into the gift desk. Selected Admin lists pad above the sticky
+  bulk bar so the footer is not covered.
+- Verified: format-check, ESLint, strict TypeScript, and unit tests.

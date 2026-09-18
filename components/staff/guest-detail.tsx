@@ -133,9 +133,15 @@ export function GuestDetail({
                 type="button"
                 className="border-line flex min-h-[2.7rem] items-center gap-2.5 border-b py-2 text-left text-xs font-extrabold disabled:cursor-not-allowed disabled:opacity-55"
                 disabled={locked}
+                aria-busy={busy === "bulk-mark"}
                 onClick={() => markShared(selected)}
               >
-                <Check className="size-4" /> Mark as shared
+                {busy === "bulk-mark" ? (
+                  <Spinner className="size-4" />
+                ) : (
+                  <Check className="size-4" />
+                )}{" "}
+                Mark as shared
               </button>
             )}
             {(selected.status === "unused" || selected.isDemo) && (
@@ -152,8 +158,9 @@ export function GuestDetail({
           </div>
           <p className="border-yellow text-muted mt-7 border-l-2 pl-3 text-[0.68rem] leading-6">
             Anyone with this private link can use the pass first. Send it only
-            to the intended family. A completed phone share is marked shared;
-            copied links and desktop WhatsApp stay manual.
+            to the intended family. Use Mark as shared only after you have
+            actually sent the pass. Closing a share sheet, copying a link, and
+            desktop WhatsApp stay manual.
           </p>
           {confirmDelete && (
             <GuestDeleteDialog
@@ -166,16 +173,16 @@ export function GuestDetail({
         </>
       ) : (
         <div className="flex min-h-112 flex-col justify-center">
-          <span className="font-display text-red/15 text-[7rem] leading-[0.8] font-bold">
-            10
-          </span>
-          <h2 className="font-display -mt-4 text-[clamp(2rem,3vw,3rem)] leading-[0.95] uppercase">
-            Pick a pass
+          <p className="text-red text-[0.7rem] font-extrabold tracking-[0.16em] uppercase">
+            Pass details
+          </p>
+          <h2 className="font-display mt-3 text-[clamp(2rem,3vw,3rem)] leading-[0.95] uppercase">
+            Select a pass
             <br />
-            from the admin list.
+            to manage it.
           </h2>
-          <p className="text-muted text-xs tracking-wide">
-            Then send the pass, or download the images if you need them.
+          <p className="text-muted mt-4 max-w-sm text-sm leading-relaxed">
+            Share, preview, download, or update one guest at a time from here.
           </p>
         </div>
       )}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, Check, Gift, History, WifiOff, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { Brand } from "@/components/layout/brand";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useRedemption } from "@/hooks/use-redemption";
 import type { Guest } from "@/lib/guest";
@@ -59,6 +60,7 @@ export function Redemption({
           />
         )}
       </section>
+      <SiteFooter note="credit" />
     </main>
   );
 }

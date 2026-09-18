@@ -81,3 +81,9 @@ export const ticketUpdateSchema = z.object({
   name: guestName.optional(),
   shared: z.boolean().optional(),
 });
+
+export const ticketIdsSchema = z
+  .array(z.uuid())
+  .min(1, "Choose at least one pass.")
+  .max(200, "Choose no more than 200 passes at once.")
+  .refine((ids) => new Set(ids).size === ids.length, "Choose each pass once.");

@@ -19,7 +19,10 @@
   container. Header, intro, list, detail, and footer share one gutter
   (`1.5rem` / `3rem` / `4rem`, matching `px-6 md:px-12 lg:px-16`). The score
   strip is full-bleed so its cells touch the page edges; first and last cell
-  copy still insets to that gutter.
+  copy still insets to that gutter. Shared footers stack the event note above
+  **Built by Vextra** so narrow screens never cram them into one clipped line.
+  When passes are selected, the page gains bottom padding so the sticky bulk
+  bar does not cover the footer.
 - Login uses a centered 24rem form column. Redemption stays a focused
   ~38rem decision surface.
 
@@ -48,11 +51,12 @@ nonessential decoration.
 
 ### `/pass/[token]`
 
-A public, no-index QR surface that follows the saved gift-pass layout: red bar,
-editorial headline, QR beside the table instruction, event date, and a privacy
-line. It never shows a child name or pass number. Invalid tokens stay generic.
-`loading.tsx` keeps that red bar and a QR-shaped layout skeleton; it never names
-the child.
+A public, no-index QR surface that uses the shared staff chrome: Brand header
+with the 10 badge (not linked into the gift desk), editorial headline, QR
+beside the table instruction, event date, privacy line, and a stacked footer
+with **Built by Vextra**. It never shows a child name or pass number. Invalid
+tokens stay generic. `loading.tsx` keeps the same Brand header, footer, and a
+QR-shaped layout skeleton; it never names the child.
 
 ### `/redeem/[token]`
 

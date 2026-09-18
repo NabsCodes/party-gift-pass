@@ -3,6 +3,7 @@
 import { ChevronRight, Search } from "lucide-react";
 import type { KeyboardEvent } from "react";
 import { StaffListSkeleton } from "@/components/staff/staff-skeleton";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Pagination } from "@/components/ui/pagination";
 import {
   Table,
@@ -39,6 +40,10 @@ export function GuestList({
   setPageSize,
   selectedId,
   setSelectedId,
+  selectedIds,
+  toggleSelected,
+  setPageSelected,
+  allVisibleSelected,
   ready,
 }: Pick<
   StaffWorkspaceState,
@@ -57,6 +62,10 @@ export function GuestList({
   | "setPageSize"
   | "selectedId"
   | "setSelectedId"
+  | "selectedIds"
+  | "toggleSelected"
+  | "setPageSelected"
+  | "allVisibleSelected"
   | "ready"
 >) {
   function selectGuest(id: string) {
@@ -71,7 +80,7 @@ export function GuestList({
   }
 
   return (
-    <div className="px-gutter py-[clamp(1.5rem,4vw,3.5rem)]">
+    <div className="px-gutter min-w-0 py-[clamp(1.5rem,4vw,3.5rem)]">
       <div className="mb-5">
         <p className="text-red text-[0.7rem] font-extrabold tracking-[0.16em] uppercase">
           Admin list
@@ -90,26 +99,42 @@ export function GuestList({
           className="placeholder:text-muted w-full border-0 bg-transparent text-[0.9rem] outline-none"
         />
       </label>
-      <fieldset
-        className="flex scrollbar-none gap-1.5 overflow-x-auto border-0 p-0 py-3"
-        aria-label="Filter invitation passes"
-      >
-        {LIST_FILTERS.map(([value, label]) => (
+      <div className="flex min-w-0 items-center gap-2 py-3">
+        <fieldset
+          className="flex min-w-0 flex-1 [scrollbar-width:none] gap-1.5 overflow-x-auto border-0 p-0 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="Filter invitation passes"
+        >
+          {LIST_FILTERS.map(([value, label]) => (
+            <button
+              type="button"
+              className={cn(
+                "min-h-[2.35rem] shrink-0 rounded-full border px-3 py-2 text-[0.65rem] font-extrabold tracking-[0.04em] uppercase",
+                filter === value
+                  ? "border-ink bg-ink text-white"
+                  : "border-line text-muted bg-transparent",
+              )}
+              key={value}
+              onClick={() => changeFilter(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </fieldset>
+        {visible.length ? (
           <button
             type="button"
             className={cn(
-              "min-h-[2.35rem] shrink-0 rounded-full border px-3 py-2 text-[0.65rem] font-extrabold tracking-[0.04em] uppercase",
-              filter === value
+              "min-h-[2.35rem] shrink-0 rounded-full border px-3 py-2 text-[0.6rem] font-extrabold tracking-[0.04em] uppercase",
+              allVisibleSelected
                 ? "border-ink bg-ink text-white"
                 : "border-line text-muted bg-transparent",
             )}
-            key={value}
-            onClick={() => changeFilter(value)}
+            onClick={() => setPageSelected(!allVisibleSelected)}
           >
-            {label}
+            {allVisibleSelected ? "Deselect page" : "Select page"}
           </button>
-        ))}
-      </fieldset>
+        ) : null}
+      </div>
       <div className="mt-3">
         {!ready ? (
           <StaffListSkeleton />
@@ -124,6 +149,15 @@ export function GuestList({
             <TableCaption className="sr-only">Invitation passes</TableCaption>
             <TableHeader>
               <TableRow className="hover:bg-transparent data-[state=selected]:border-l-0 data-[state=selected]:bg-transparent">
+                <TableHead className="w-9">
+                  <Checkbox
+                    checked={allVisibleSelected}
+                    onCheckedChange={(checked) =>
+                      setPageSelected(checked === true)
+                    }
+                    aria-label="Select passes on this page"
+                  />
+                </TableHead>
                 <TableHead>Guest</TableHead>
                 <TableHead>Pass</TableHead>
                 <TableHead>Status</TableHead>
@@ -133,49 +167,62 @@ export function GuestList({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {visible.map((guest) => (
-                <TableRow
-                  key={guest.id}
-                  tabIndex={0}
-                  data-state={selectedId === guest.id ? "selected" : undefined}
-                  aria-selected={selectedId === guest.id}
-                  className="focus-visible:bg-line/40 cursor-pointer outline-none"
-                  onClick={() => selectGuest(guest.id)}
-                  onKeyDown={(event) => onRowKeyDown(event, guest.id)}
-                >
-                  <TableCell>
-                    <span className="flex min-w-0 items-center gap-3">
-                      <span className="font-display bg-ink grid size-[2.1rem] shrink-0 place-items-center rounded-full text-white">
-                        {guest.name.slice(0, 1)}
+              {visible.map((guest) => {
+                const checked = selectedIds.includes(guest.id);
+                return (
+                  <TableRow
+                    key={guest.id}
+                    tabIndex={0}
+                    data-state={
+                      selectedId === guest.id ? "selected" : undefined
+                    }
+                    aria-selected={selectedId === guest.id}
+                    className="focus-visible:bg-line/40 cursor-pointer outline-none"
+                    onClick={() => selectGuest(guest.id)}
+                    onKeyDown={(event) => onRowKeyDown(event, guest.id)}
+                  >
+                    <TableCell className="w-9">
+                      <Checkbox
+                        checked={checked}
+                        onClick={(event) => event.stopPropagation()}
+                        onCheckedChange={() => toggleSelected(guest.id)}
+                        aria-label={`Select ${guest.name}`}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <span className="flex min-w-0 items-center gap-3">
+                        <span className="font-display bg-ink grid size-[2.1rem] shrink-0 place-items-center rounded-full text-white">
+                          {guest.name.slice(0, 1)}
+                        </span>
+                        <span className="flex min-w-0 flex-col">
+                          <strong className="truncate text-[0.86rem] font-bold">
+                            {guest.name}
+                          </strong>
+                          <small className="text-muted mt-0.5 text-[0.66rem] tracking-wide md:hidden">
+                            {guest.number}
+                          </small>
+                        </span>
                       </span>
-                      <span className="flex min-w-0 flex-col">
-                        <strong className="truncate text-[0.86rem] font-bold">
-                          {guest.name}
-                        </strong>
-                        <small className="text-muted mt-0.5 text-[0.66rem] tracking-wide md:hidden">
-                          {guest.number}
-                        </small>
+                    </TableCell>
+                    <TableCell className="text-muted text-[0.66rem] tracking-wide max-md:hidden">
+                      {guest.number}
+                    </TableCell>
+                    <TableCell>
+                      <span
+                        className={cn(
+                          "inline-flex w-fit rounded-full px-2 py-1 text-[0.59rem] font-extrabold tracking-wide uppercase max-[480px]:text-[0.5rem]",
+                          statusTone[guestStatusClass(guest)],
+                        )}
+                      >
+                        {guestStatusLabel(guest)}
                       </span>
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-muted text-[0.66rem] tracking-wide max-md:hidden">
-                    {guest.number}
-                  </TableCell>
-                  <TableCell>
-                    <span
-                      className={cn(
-                        "inline-flex w-fit rounded-full px-2 py-1 text-[0.59rem] font-extrabold tracking-wide uppercase max-[480px]:text-[0.5rem]",
-                        statusTone[guestStatusClass(guest)],
-                      )}
-                    >
-                      {guestStatusLabel(guest)}
-                    </span>
-                  </TableCell>
-                  <TableCell className="w-4">
-                    <ChevronRight className="text-muted size-3.5" />
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                    <TableCell className="w-4">
+                      <ChevronRight className="text-muted size-3.5" />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         )}

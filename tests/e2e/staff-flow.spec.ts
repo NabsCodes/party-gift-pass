@@ -28,6 +28,10 @@ test("staff can review and atomically collect a sample gift", async ({
 
   await page.getByRole("row", { name: /Adil Lawal/ }).click();
   await page.getByRole("button", { name: /share pass/i }).click();
+  await expect(
+    page.getByText("Share sheet closed. Mark shared only after you send it."),
+  ).toBeVisible();
+  await page.getByRole("button", { name: /mark as shared/i }).click();
   await expect(page.getByText("Pass shared").last()).toBeVisible();
   const list = await json<{ guests: Array<{ id: string; name: string }> }>(
     await page.request.get("/api/staff/tickets"),
@@ -69,6 +73,10 @@ test("the guest list works at a 390px mobile width", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: /Every guest/i }),
   ).toBeVisible();
+  await page.getByRole("button", { name: "Select page" }).click();
+  await expect(
+    page.getByRole("button", { name: /share selected/i }),
+  ).toBeVisible();
   await page.screenshot({
     path: "test-results/workspace-mobile.png",
     fullPage: true,
@@ -100,7 +108,7 @@ test("admin can create and find numbered passes without names", async ({
     .click();
   await expect(page.getByText("45 passes created.")).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: /pick a pass/i }),
+    page.getByRole("heading", { name: /select a pass/i }),
   ).toBeVisible();
   await expect(page.getByText(/page 1 of 5/i)).toBeVisible();
   await page.getByPlaceholder(/search guest/i).fill("Guest 045");
@@ -170,4 +178,73 @@ test("copying a link does not spin share, and delete asks first", async ({
     .getByRole("button", { name: /delete guest/i })
     .click();
   await expect(page.getByText(/guest 001 deleted/i)).toBeVisible();
+});
+
+test("bulk selection uses guided sharing", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "canShare", {
+      configurable: true,
+      value: () => true,
+    });
+    Object.defineProperty(navigator, "share", {
+      configurable: true,
+      value: async () => undefined,
+    });
+  });
+  await page.goto("/staff/login");
+  await page.getByRole("button", { name: /enter the gift club/i }).click();
+  await page.getByRole("button", { name: /create passes/i }).click();
+  await page.getByRole("button", { name: /use names/i }).click();
+  await page
+    .getByLabel(/one name per line/i)
+    .fill("Bulk Queue Alpha\nBulk Queue Beta");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /^create passes$/i })
+    .click();
+  await expect(page.getByText("2 passes created.")).toBeVisible();
+  await page.getByPlaceholder(/search guest/i).fill("Bulk Queue");
+  await page.getByLabel("Select Bulk Queue Alpha").first().check();
+  await page.getByRole("button", { name: "Select all 2 matching" }).click();
+  await expect(page.getByText("2 selected")).toBeVisible();
+  const bulkPassRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/api/staff/tickets/bulk-pass"))
+      bulkPassRequests.push(request.url());
+  });
+  await page.getByRole("button", { name: /share selected/i }).click();
+  await expect(page.getByRole("heading", { name: /send one/i })).toBeVisible();
+  expect(bulkPassRequests).toHaveLength(0);
+  await page.getByRole("button", { name: /^share pass$/i }).click();
+  await expect(
+    page.getByText("Share sheet closed. Mark shared only after you send it."),
+  ).toBeVisible();
+  await page.getByRole("button", { name: /mark shared & next/i }).click();
+  await expect(page.getByText(/marked as shared/i)).toBeVisible();
+  await page.getByRole("button", { name: /^skip$/i }).click();
+  await expect(
+    page.getByText(/finished sharing selected passes/i).last(),
+  ).toBeVisible();
+});
+
+test("selected passes can start a ZIP download", async ({ page }) => {
+  await page.goto("/staff/login");
+  await page.getByRole("button", { name: /enter the gift club/i }).click();
+  await page.getByRole("button", { name: /create passes/i }).click();
+  await page.getByRole("button", { name: /use names/i }).click();
+  await page.getByLabel(/one name per line/i).fill("Bulk Export Guest");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /^create passes$/i })
+    .click();
+  await expect(page.getByText("1 pass created.")).toBeVisible();
+  await page.getByPlaceholder(/search guest/i).fill("Bulk Export Guest");
+  await page.getByLabel("Select Bulk Export Guest").first().check();
+  await page.getByRole("button", { name: /more actions/i }).click();
+  const download = page.waitForEvent("download");
+  await page.getByRole("button", { name: /download images as zip/i }).click();
+  const zip = await download;
+  expect(zip.suggestedFilename()).toMatch(
+    /^party-gift-passes-\d{4}-\d{2}-\d{2}\.zip$/,
+  );
 });

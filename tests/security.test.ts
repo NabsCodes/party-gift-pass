@@ -8,7 +8,7 @@ import {
   ticketToken,
   validSession,
 } from "@/lib/security";
-import { createBatchSchema } from "@/schemas/tickets";
+import { createBatchSchema, ticketIdsSchema } from "@/schemas/tickets";
 
 describe("ticket secrets", () => {
   it("derives stable URL-safe tokens without exposing the ticket id", () => {
@@ -51,6 +51,21 @@ describe("staff sessions", () => {
 });
 
 describe("guest input", () => {
+  describe("bulk ticket input", () => {
+    it("accepts up to 200 unique ticket ids", () => {
+      const ids = Array.from(
+        { length: 200 },
+        (_, index) =>
+          `00000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,
+      );
+      expect(ticketIdsSchema.parse(ids)).toHaveLength(200);
+      expect(() => ticketIdsSchema.parse([...ids, ids[0]])).toThrow();
+      expect(() =>
+        ticketIdsSchema.parse([...ids, "00000000-0000-4000-8000-000000000201"]),
+      ).toThrow();
+    });
+  });
+
   it("allows duplicate display names but rejects an oversized batch", () => {
     const input = {
       batchId: "8c64ecca-b350-4c49-9515-7d3ffbbef1dd",

@@ -8,6 +8,9 @@ replacement.
 Staff share a public `/pass/[token]` link. Admin can open **Preview guest pass**
 in a new tab to inspect that exact family-facing page; the dashboard does not
 embed another scannable QR. The public page reveals no child name or pass number.
+It uses the same Brand header and **Built by Vextra** footer as the gift desk
+so the company credit stays visible on the family-facing surface. The Brand mark
+on that page is not a link into Admin.
 Invitation and gift-pass PNGs remain optional downloads. Share text names the
 child in the message, not on the public page. The browser creates a concise
 named football invitation with the event essentials and a named gift pass with
@@ -22,3 +25,9 @@ or a share menu.
 Share text calls the QR private and instructs the family to show it at the gift
 table. The generated image is not live status; the server review is authoritative.
 Final artwork/copy and real WhatsApp behavior remain production approval gates.
+
+Bulk sharing is a guided queue, not automated WhatsApp delivery. It prepares the
+private pass only for the family currently on screen, then opens one native share
+sheet or one prefilled WhatsApp message at a time. Staff must explicitly record
+a pass as shared after sending. A closing or cancelled share sheet is not
+delivery proof.
