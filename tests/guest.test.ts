@@ -2,14 +2,20 @@ import { describe, expect, it } from "vitest";
 
 import {
   filterGuests,
+  guestAvatarMark,
+  guestListLabel,
   guestOverview,
   duplicateGuestNames,
+  isNumberedGuest,
   nextNumberedGuest,
+  numberedGuestSerial,
   guestStatusClass,
   guestStatusLabel,
   paginateGuests,
   type Guest,
 } from "@/lib/guest";
+import { artworkCopy } from "@/lib/artwork-copy";
+import { passShareMessage } from "@/lib/event";
 
 const guests: Guest[] = [
   {
@@ -119,5 +125,34 @@ describe("guest list helpers", () => {
     expect(nextNumberedGuest(["Adil Lawal", "Guest 009", "Guest 002"])).toBe(
       10,
     );
+  });
+
+  it("treats Guest NNN labels as unnamed numbered passes", () => {
+    expect(isNumberedGuest("Guest 003")).toBe(true);
+    expect(isNumberedGuest("Kabir Lawal")).toBe(false);
+    expect(numberedGuestSerial("Guest 3")).toBe("003");
+    expect(guestListLabel({ ...guests[0], name: "Guest 003" })).toBe(
+      "Pass 003",
+    );
+    expect(guestAvatarMark({ ...guests[0], name: "Guest 003" })).toBe("03");
+    expect(guestAvatarMark(guests[0])).toBe("A");
+  });
+});
+
+describe("artwork and share copy", () => {
+  it("uses admits-one copy for numbered guests and names for classmates", () => {
+    const numbered = { ...guests[0], name: "Guest 003", number: "GP-AAA-003" };
+    expect(artworkCopy(numbered)).toMatchObject({
+      invitationHero: "THIS CARD ADMITS ONE",
+      invitationSub: "GP-AAA-003",
+      passHero: "ADMITS ONE",
+    });
+    expect(artworkCopy(guests[0])).toMatchObject({
+      invitationHero: "Adil Lawal",
+      passEyebrow: "A SPECIAL GIFT FOR",
+      passHero: "Adil Lawal",
+    });
+    expect(passShareMessage(numbered)).toContain("This card admits one");
+    expect(passShareMessage(guests[0])).toContain("Adil Lawal");
   });
 });

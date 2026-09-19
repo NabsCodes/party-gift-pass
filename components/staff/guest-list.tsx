@@ -15,7 +15,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { StaffWorkspaceState } from "@/hooks/use-staff-workspace";
-import { LIST_FILTERS, guestStatusClass, guestStatusLabel } from "@/lib/guest";
+import {
+  LIST_FILTERS,
+  guestAvatarMark,
+  guestListLabel,
+  guestStatusClass,
+  guestStatusLabel,
+} from "@/lib/guest";
 import { cn } from "@/lib/utils";
 
 const statusTone = {
@@ -186,31 +192,32 @@ export function GuestList({
                         checked={checked}
                         onClick={(event) => event.stopPropagation()}
                         onCheckedChange={() => toggleSelected(guest.id)}
-                        aria-label={`Select ${guest.name}`}
+                        aria-label={`Select ${guestListLabel(guest)}`}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="py-4">
                       <span className="flex min-w-0 items-center gap-3">
-                        <span className="font-display bg-ink grid size-[2.1rem] shrink-0 place-items-center rounded-full text-white">
-                          {guest.name.slice(0, 1)}
+                        <span className="font-display bg-ink grid size-[2.25rem] shrink-0 place-items-center rounded-full text-[0.78rem] text-white">
+                          {guestAvatarMark(guest)}
                         </span>
                         <span className="flex min-w-0 flex-col">
-                          <strong className="truncate text-[0.86rem] font-bold">
-                            {guest.name}
+                          <span className="sr-only">{guest.name}</span>
+                          <strong className="truncate text-[0.9rem] font-bold">
+                            {guestListLabel(guest)}
                           </strong>
-                          <small className="text-muted mt-0.5 text-[0.66rem] tracking-wide md:hidden">
+                          <small className="text-muted mt-0.5 font-mono text-[0.66rem] tracking-wide md:hidden">
                             {guest.number}
                           </small>
                         </span>
                       </span>
                     </TableCell>
-                    <TableCell className="text-muted text-[0.66rem] tracking-wide max-md:hidden">
+                    <TableCell className="text-muted py-4 font-mono text-[0.68rem] tracking-wide max-md:hidden">
                       {guest.number}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="py-4">
                       <span
                         className={cn(
-                          "inline-flex w-fit rounded-full px-2 py-1 text-[0.59rem] font-extrabold tracking-wide uppercase max-[480px]:text-[0.5rem]",
+                          "inline-flex w-fit rounded-full px-2.5 py-1 text-[0.62rem] font-extrabold tracking-[0.04em] uppercase",
                           statusTone[guestStatusClass(guest)],
                         )}
                       >

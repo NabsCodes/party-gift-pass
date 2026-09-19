@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "@/db/client";
 import { tickets } from "@/db/schema";
@@ -146,14 +146,14 @@ async function handle(
               eq(tickets.id, row.id),
               row.isDemo
                 ? eq(tickets.isDemo, true)
-                : eq(tickets.status, "unused"),
+                : and(eq(tickets.status, "unused"), isNull(tickets.sharedAt)),
             ),
           )
           .returning();
         return reply(
           removed.length
             ? { ok: true }
-            : { error: "Collected guest records are retained." },
+            : { error: "Only unshared, uncollected passes can be removed." },
           removed.length ? 200 : 409,
         );
       }

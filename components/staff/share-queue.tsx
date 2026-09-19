@@ -74,7 +74,7 @@ export function ShareQueue({
             </p>
             {pass ? (
               <div className="mt-3 grid min-w-0 gap-2 text-sm leading-relaxed">
-                <p className="text-pretty">{passShareMessage(guest.name)}</p>
+                <p className="text-pretty">{passShareMessage(guest)}</p>
                 <p className="text-muted break-all">{pass.passUrl}</p>
               </div>
             ) : (

@@ -56,6 +56,29 @@ export function nextNumberedGuest(existingNames: string[]) {
   );
 }
 
+const NUMBERED_GUEST = /^Guest (\d+)$/;
+
+export function isNumberedGuest(name: string) {
+  return NUMBERED_GUEST.test(name.trim());
+}
+
+export function numberedGuestSerial(name: string) {
+  const match = NUMBERED_GUEST.exec(name.trim());
+  return match ? match[1].padStart(3, "0") : null;
+}
+
+export function guestListLabel(guest: Guest) {
+  const serial = numberedGuestSerial(guest.name);
+  return serial ? `Pass ${serial}` : guest.name;
+}
+
+export function guestAvatarMark(guest: Guest) {
+  const serial = numberedGuestSerial(guest.name);
+  return serial
+    ? serial.slice(-2)
+    : guest.name.slice(0, 1).toLocaleUpperCase("en-NG");
+}
+
 export function guestStatusLabel(guest: Guest) {
   if (guest.status === "redeemed") return "Collected";
   return guest.sharedAt ? "Pass shared" : "Not shared";

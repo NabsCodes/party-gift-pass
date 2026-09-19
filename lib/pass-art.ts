@@ -1,4 +1,5 @@
 import QRCode from "qrcode";
+import { artworkCopy } from "./artwork-copy";
 import { party } from "./event";
 import type { Guest } from "./guest";
 
@@ -100,12 +101,13 @@ export async function makePassArt(guest: Guest, url: string) {
 
   c.fillStyle = red;
   c.fillRect(0, 0, 1000, 96);
+  const copy = artworkCopy(guest);
   text(c, "AADIL’S MATCHDAY", 56, 62, 27, white);
   text(c, "INVITATION", 787, 62, 23, white);
 
-  text(c, "A PERSONAL INVITATION FOR", 56, 153, 19, red);
-  fittedText(c, guest.name, 56, 230, 888, { maxSize: 68 });
-  text(c, "YOU’RE ON THE TEAM.", 57, 278, 18, muted);
+  text(c, copy.invitationEyebrow, 56, 153, 19, red);
+  fittedText(c, copy.invitationHero, 56, 230, 888, { maxSize: 68 });
+  text(c, copy.invitationSub, 57, 278, 18, muted);
 
   c.fillStyle = green;
   c.fillRect(0, 322, 1000, 598);
@@ -149,9 +151,9 @@ export async function makePassArt(guest: Guest, url: string) {
   text(p, "AADIL’S MATCHDAY", 55, 64, 28, white);
   text(p, "GIFT PASS", 760, 64, 24, white);
 
-  text(p, "ONE SPECIAL GIFT · RESERVED FOR", 55, 158, 18, red);
-  fittedText(p, guest.name, 55, 230, 890, { maxSize: 62 });
-  text(p, "KEEP THIS QR PRIVATE UNTIL COLLECTION.", 57, 270, 16, muted);
+  text(p, copy.passEyebrow, 55, 158, 18, red);
+  fittedText(p, copy.passHero, 55, 230, 890, { maxSize: 62 });
+  text(p, copy.passSub, 57, 270, 16, muted);
 
   p.fillStyle = green;
   p.fillRect(0, 310, 1000, 570);

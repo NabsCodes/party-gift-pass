@@ -16,7 +16,7 @@ export function GuestDeleteDialog({
   onCancel: () => void;
   onConfirm: () => void;
 }) {
-  const kind = guest.isDemo ? "this sample" : "this unused guest";
+  const kind = guest.isDemo ? "this sample pass" : "this unshared pass";
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -61,13 +61,14 @@ export function GuestDeleteDialog({
           id="delete-guest-title"
           className="font-display mt-2 text-[clamp(1.8rem,3vw,2.4rem)] leading-[0.95] uppercase"
         >
-          Delete this pass?
+          Remove this pass?
         </h2>
         <p
           id="delete-guest-copy"
           className="text-muted mt-4 text-sm leading-relaxed"
         >
-          Delete {kind} {guest.name}? The invitation link will stop working.
+          Remove {kind} for {guest.name} ({guest.number})? Its private link will
+          stop working. Use this only before it has been sent.
         </p>
         <div className="mt-8 flex flex-wrap justify-end gap-2">
           <Button
@@ -85,7 +86,7 @@ export function GuestDeleteDialog({
             aria-busy={busy}
             onClick={onConfirm}
           >
-            <Trash2 /> Delete guest
+            <Trash2 /> Remove pass
           </Button>
         </div>
       </section>

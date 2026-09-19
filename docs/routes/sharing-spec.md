@@ -11,11 +11,13 @@ embed another scannable QR. The public page reveals no child name or pass number
 It uses the same Brand header and **Built by Vextra** footer as the gift desk
 so the company credit stays visible on the family-facing surface. The Brand mark
 on that page is not a link into Admin.
-Invitation and gift-pass PNGs remain optional downloads. Share text names the
-child in the message, not on the public page. The browser creates a concise
-named football invitation with the event essentials and a named gift pass with
-a large high-contrast QR, short pass number, privacy instruction, and sample
-watermark for demo records. No external club marks are copied.
+Invitation and gift-pass PNGs remain optional downloads. Named guests print
+the child’s name on the invitation and gift-pass images. Numbered `Guest NNN`
+records do not: those images say the card admits one and use the pass number
+as the identity. Share text follows the same rule. The public page still never
+shows a child name or pass number. Both images keep the event essentials, a
+large high-contrast QR on the gift pass only, a privacy instruction, and a
+sample watermark for demo records. No external club marks are copied.
 
 On a phone, **Share pass** opens the system share sheet so staff can pick
 WhatsApp, Messages, Mail, or copy without a custom dropdown. On a computer it

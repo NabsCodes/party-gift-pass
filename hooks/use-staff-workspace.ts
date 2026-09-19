@@ -250,10 +250,10 @@ export function useStaffWorkspace() {
   }
 
   async function sharePayload(pass: PassPayload) {
-    const text = passShareText(pass.guest.name, pass.passUrl);
+    const text = passShareText(pass.guest, pass.passUrl);
     const payload = {
-      title: invitationShareTitle(pass.guest.name),
-      text: passShareMessage(pass.guest.name),
+      title: invitationShareTitle(pass.guest),
+      text: passShareMessage(pass.guest),
       url: pass.passUrl,
     };
     try {
@@ -442,7 +442,7 @@ export function useStaffWorkspace() {
         await api(`/api/staff/tickets/${guest.id}`, "DELETE");
         setGuests((current) => current.filter((item) => item.id !== guest.id));
         setSelectedId(null);
-        toast.success(`${guest.name} deleted.`);
+        toast.success(`${guest.name}'s pass was removed.`);
       }),
     );
   }

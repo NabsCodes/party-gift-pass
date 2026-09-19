@@ -372,3 +372,33 @@ short, factual, and explicit about verification.
   longer links into the gift desk. Selected Admin lists pad above the sticky
   bulk bar so the footer is not covered.
 - Verified: format-check, ESLint, strict TypeScript, and unit tests.
+
+## 2026-09-19 — Safe pass removal
+
+- Changed: the staff detail exposes **Remove unshared pass** only before a
+  private pass has been shared. Shared and collected records are retained.
+- Changed: the deletion endpoint now requires an unused record with no
+  `sharedAt` value, except explicit demo records. The confirmation names the
+  guest and ticket number so staff can catch a mistake before removal.
+- Verified: browser coverage confirms the UI hides removal after sharing and a
+  direct authenticated `DELETE` request returns `409` for that shared pass.
+
+## 2026-09-19 — Refined guest detail pane
+
+- Changed: redesigned the guest detail sidebar to remove colliding background
+  watermark numerals and generic tutorial callouts.
+- Changed: added a structured matchday header with sequence index badge, aligned
+  status and pass-code tag, unified pass action list with hover states, and a
+  concise dispatch note.
+- Verified: format-check, ESLint, strict TypeScript, and unit tests.
+
+## 2026-09-19 — Numbered vs named artwork and list
+
+- Changed: downloaded invitation and gift-pass images now switch copy by label.
+  `Guest NNN` records say the card admits one and show the pass number; named
+  guests keep a personal invitation and special-gift line. Share text follows
+  the same rule.
+- Changed: the Admin list shows numbered records as Pass 003 with a numeric
+  mark, roomier rows, and unshrunk status pills. Detail uses “This card admits
+  one” for unnamed passes.
+- Verified: format-check, ESLint, strict TypeScript, and unit tests.

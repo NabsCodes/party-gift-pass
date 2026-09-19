@@ -33,11 +33,53 @@ test("staff can review and atomically collect a sample gift", async ({
   ).toBeVisible();
   await page.getByRole("button", { name: /mark as shared/i }).click();
   await expect(page.getByText("Pass shared").last()).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: /remove unshared pass/i }),
+  ).toHaveCount(0);
   const list = await json<{ guests: Array<{ id: string; name: string }> }>(
     await page.request.get("/api/staff/tickets"),
   );
   const guest = list.guests.find((item) => item.name === "Adil Lawal");
   expect(guest).toBeTruthy();
+  const removalGuard = await page.evaluate(async () => {
+    const created = await fetch("/api/staff/tickets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ batchId: crypto.randomUUID(), quantity: 1 }),
+    });
+    const { guests } = (await created.json()) as {
+      guests: Array<{ id: string }>;
+    };
+    const guest = guests[0];
+    await fetch(`/api/staff/tickets/${guest.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ shared: true }),
+    });
+    const blocked = await fetch(`/api/staff/tickets/${guest.id}`, {
+      method: "DELETE",
+    });
+    const blockedResult = {
+      status: blocked.status,
+      body: await blocked.json(),
+    };
+    await fetch(`/api/staff/tickets/${guest.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ shared: false }),
+    });
+    const cleanup = await fetch(`/api/staff/tickets/${guest.id}`, {
+      method: "DELETE",
+    });
+    return { blocked: blockedResult, cleanup: cleanup.status };
+  });
+  expect(removalGuard).toEqual({
+    blocked: {
+      status: 409,
+      body: { error: "Only unshared, uncollected passes can be removed." },
+    },
+    cleanup: 200,
+  });
   const pass = await json<{ token: string; passUrl: string }>(
     await page.request.get(`/api/staff/tickets/${guest!.id}/pass`),
   );
@@ -164,20 +206,20 @@ test("copying a link does not spin share, and delete asks first", async ({
   await expect(page.getByText(/pass link copied/i)).toBeVisible();
   await page.unroute("**/api/staff/tickets/*/pass");
 
-  await page.getByRole("button", { name: /delete guest/i }).click();
+  await page.getByRole("button", { name: /remove unshared pass/i }).click();
   const dialog = page.getByRole("alertdialog");
   await expect(
-    dialog.getByRole("heading", { name: /delete this pass/i }),
+    dialog.getByRole("heading", { name: /remove this pass/i }),
   ).toBeVisible();
   await dialog.getByRole("button", { name: "Keep guest" }).click();
   await expect(dialog).toHaveCount(0);
 
-  await page.getByRole("button", { name: /delete guest/i }).click();
+  await page.getByRole("button", { name: /remove unshared pass/i }).click();
   await page
     .getByRole("alertdialog")
-    .getByRole("button", { name: /delete guest/i })
+    .getByRole("button", { name: /remove pass/i })
     .click();
-  await expect(page.getByText(/guest 001 deleted/i)).toBeVisible();
+  await expect(page.getByText(/guest 001's pass was removed/i)).toBeVisible();
 });
 
 test("bulk selection uses guided sharing", async ({ page }) => {
