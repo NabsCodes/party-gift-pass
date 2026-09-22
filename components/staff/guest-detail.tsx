@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy, Download, Eye, Share2, Trash2, X } from "lucide-react";
+import {
+  Check,
+  Copy,
+  Download,
+  Eye,
+  PencilLine,
+  Share2,
+  Trash2,
+  X,
+} from "lucide-react";
 import { GuestDeleteDialog } from "./guest-delete-dialog";
 import {
   guestStatusClass,
@@ -12,6 +21,8 @@ import {
 import type { StaffWorkspaceState } from "@/hooks/use-staff-workspace";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 
 const statusTone = {
@@ -30,6 +41,7 @@ export function GuestDetail({
   previewPass,
   download,
   markShared,
+  renameGuest,
   remove,
 }: Pick<
   StaffWorkspaceState,
@@ -42,16 +54,29 @@ export function GuestDetail({
   | "previewPass"
   | "download"
   | "markShared"
+  | "renameGuest"
   | "remove"
 >) {
   const [confirmId, setConfirmId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [draftName, setDraftName] = useState("");
   const locked = Boolean(busy);
   const confirmDelete = Boolean(selected && confirmId === selected.id);
+  const editingName = Boolean(selected && editingId === selected.id);
+  const canEditName = Boolean(
+    selected && selected.status === "unused" && selected.sharedAt === null,
+  );
   const canRemove = Boolean(
     selected &&
     (selected.isDemo ||
       (selected.status === "unused" && selected.sharedAt === null)),
   );
+
+  async function saveName() {
+    if (!selected) return;
+    const saved = await renameGuest(selected, draftName);
+    if (saved) setEditingId(null);
+  }
 
   return (
     <aside
@@ -109,6 +134,7 @@ export function GuestDetail({
               className="-mt-2 -mr-2 shrink-0"
               onClick={() => {
                 setConfirmId(null);
+                setEditingId(null);
                 setSelectedId(null);
               }}
               aria-label="Close guest details"
@@ -116,6 +142,68 @@ export function GuestDetail({
               <X />
             </Button>
           </div>
+
+          {editingName ? (
+            <form
+              className="border-line bg-cream/60 mt-6 border p-4"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void saveName();
+              }}
+            >
+              <Label
+                htmlFor="guest-display-name"
+                className="text-[0.65rem] font-extrabold tracking-[0.12em] uppercase"
+              >
+                Child or display name
+              </Label>
+              <Input
+                id="guest-display-name"
+                value={draftName}
+                onChange={(event) => setDraftName(event.target.value)}
+                maxLength={80}
+                autoFocus
+                required
+                disabled={locked}
+                className="mt-2"
+              />
+              <p className="text-muted mt-2 text-xs leading-relaxed">
+                The QR and ticket ID will not change.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={locked}
+                  aria-busy={busy === "rename"}
+                >
+                  {busy === "rename" ? "Saving name" : "Save name"}
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  disabled={locked}
+                  onClick={() => setEditingId(null)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          ) : canEditName ? (
+            <button
+              type="button"
+              className="text-muted hover:text-ink mt-5 inline-flex min-h-10 items-center gap-2 text-xs font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={locked}
+              onClick={() => {
+                setDraftName(selected.name);
+                setEditingId(selected.id);
+              }}
+            >
+              <PencilLine className="size-3.5" />
+              {isNumberedGuest(selected.name) ? "Add child name" : "Edit name"}
+            </button>
+          ) : null}
 
           <div className="mt-6 grid gap-2.5">
             <Button

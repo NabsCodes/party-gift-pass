@@ -132,6 +132,7 @@ export function Workspace({ demo }: { demo: boolean }) {
           previewPass={workspace.previewPass}
           download={workspace.download}
           markShared={workspace.markShared}
+          renameGuest={workspace.renameGuest}
           remove={workspace.remove}
         />
       </section>

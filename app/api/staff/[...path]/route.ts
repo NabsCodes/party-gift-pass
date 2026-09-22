@@ -115,27 +115,31 @@ async function handle(
       }
       if (path.length === 2 && request.method === "PATCH") {
         const input = ticketUpdateSchema.parse(body);
-        if (row.status === "redeemed" && input.name !== undefined)
-          return reply(
-            { error: "Collected guest records cannot be renamed." },
-            409,
-          );
+        if (input.name !== undefined) {
+          const [renamed] = await db
+            .update(tickets)
+            .set({ displayLabel: input.name })
+            .where(
+              and(
+                eq(tickets.id, row.id),
+                eq(tickets.status, "unused"),
+                isNull(tickets.sharedAt),
+              ),
+            )
+            .returning();
+          if (!renamed)
+            return reply(
+              {
+                error: "Names cannot be changed after a pass has been shared.",
+              },
+              409,
+            );
+          return reply({ guest: toGuest(renamed) });
+        }
         await db
           .update(tickets)
-          .set({
-            ...(input.name !== undefined ? { displayLabel: input.name } : {}),
-            ...(input.shared !== undefined
-              ? { sharedAt: input.shared ? new Date() : null }
-              : {}),
-          })
-          .where(
-            and(
-              eq(tickets.id, row.id),
-              input.name !== undefined
-                ? eq(tickets.status, "unused")
-                : eq(tickets.id, row.id),
-            ),
-          );
+          .set({ sharedAt: input.shared ? new Date() : null })
+          .where(eq(tickets.id, row.id));
         return reply({ ok: true });
       }
       if (path.length === 2 && request.method === "DELETE") {

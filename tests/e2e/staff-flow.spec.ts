@@ -20,7 +20,7 @@ test("staff can review and atomically collect a sample gift", async ({
   await page.goto("/staff/login");
   await page.getByRole("button", { name: /enter the gift club/i }).click();
   await expect(page).toHaveURL(/\/staff$/);
-  await expect(page.getByText("Adil Lawal")).toBeVisible();
+  await expect(page.getByRole("row", { name: /Adil Lawal/ })).toBeVisible();
   await page.screenshot({
     path: "test-results/workspace-desktop.png",
     fullPage: true,
@@ -289,4 +289,69 @@ test("selected passes can start a ZIP download", async ({ page }) => {
   expect(zip.suggestedFilename()).toMatch(
     /^party-gift-passes-\d{4}-\d{2}-\d{2}\.zip$/,
   );
+});
+
+test("an unshared pass name can be corrected before sending", async ({
+  page,
+}) => {
+  await page.goto("/staff/login");
+  await page.getByRole("button", { name: /enter the gift club/i }).click();
+  await page.getByRole("button", { name: /create passes/i }).click();
+  await page.getByRole("button", { name: /use names/i }).click();
+  await page.getByLabel(/one name per line/i).fill("Name Edit Original");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /^create passes$/i })
+    .click();
+  await expect(page.getByText("1 pass created.")).toBeVisible();
+  await page.getByPlaceholder(/search guest/i).fill("Name Edit Original");
+  await page.getByRole("row", { name: /name edit original/i }).click();
+  await page.getByRole("button", { name: /edit name/i }).click();
+  await page.getByLabel(/child or display name/i).fill("Amina Bello");
+
+  let releaseRename: () => void = () => {};
+  const heldRename = new Promise<void>((resolve) => {
+    releaseRename = resolve;
+  });
+  await page.route("**/api/staff/tickets/*", async (route) => {
+    const request = route.request();
+    if (request.method() === "PATCH" && request.postData()?.includes('"name"'))
+      await heldRename;
+    await route.continue();
+  });
+  const saveName = page.getByRole("button", { name: /^save name$/i });
+  await saveName.click();
+  const savingName = page.getByRole("button", { name: /saving name/i });
+  await expect(savingName).toHaveAttribute("aria-busy", "true");
+  await expect(savingName.locator('[data-slot="spinner"]')).toHaveCount(1);
+  await expect(savingName).toContainText("Saving name");
+  releaseRename();
+
+  await expect(
+    page.getByRole("heading", { name: "Amina Bello" }),
+  ).toBeVisible();
+  await page.unroute("**/api/staff/tickets/*");
+  await expect(
+    page.getByText("Name updated. The QR and ticket ID are unchanged."),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: /mark as shared/i }).click();
+  await expect(page.getByRole("button", { name: /edit name/i })).toHaveCount(0);
+  const renameAfterSharing = await page.evaluate(async () => {
+    const tickets = await fetch("/api/staff/tickets");
+    const { guests } = (await tickets.json()) as {
+      guests: Array<{ id: string; name: string }>;
+    };
+    const guest = guests.find((item) => item.name === "Amina Bello");
+    const response = await fetch(`/api/staff/tickets/${guest?.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "Changed Again" }),
+    });
+    return { status: response.status, body: await response.json() };
+  });
+  expect(renameAfterSharing.status).toBe(409);
+  expect(renameAfterSharing.body).toEqual({
+    error: "Names cannot be changed after a pass has been shared.",
+  });
 });

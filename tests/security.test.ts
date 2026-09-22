@@ -8,7 +8,11 @@ import {
   ticketToken,
   validSession,
 } from "@/lib/security";
-import { createBatchSchema, ticketIdsSchema } from "@/schemas/tickets";
+import {
+  createBatchSchema,
+  ticketIdsSchema,
+  ticketUpdateSchema,
+} from "@/schemas/tickets";
 
 describe("ticket secrets", () => {
   it("derives stable URL-safe tokens without exposing the ticket id", () => {
@@ -64,6 +68,14 @@ describe("guest input", () => {
         ticketIdsSchema.parse([...ids, "00000000-0000-4000-8000-000000000201"]),
       ).toThrow();
     });
+  });
+
+  it("requires a name or shared-state update", () => {
+    expect(ticketUpdateSchema.parse({ shared: true }).shared).toBe(true);
+    expect(ticketUpdateSchema.parse({ name: "Adil Lawal" }).name).toBe(
+      "Adil Lawal",
+    );
+    expect(() => ticketUpdateSchema.parse({})).toThrow();
   });
 
   it("allows duplicate display names but rejects an oversized batch", () => {

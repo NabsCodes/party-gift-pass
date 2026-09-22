@@ -77,10 +77,15 @@ export const redeemSchema = z.object({
   token: z.string().regex(/^[A-Za-z0-9_-]{43}$/),
   attemptId: z.uuid(),
 });
-export const ticketUpdateSchema = z.object({
-  name: guestName.optional(),
-  shared: z.boolean().optional(),
-});
+export const ticketUpdateSchema = z
+  .object({
+    name: guestName.optional(),
+    shared: z.boolean().optional(),
+  })
+  .refine(
+    (value) => value.name !== undefined || value.shared !== undefined,
+    "Choose a pass update.",
+  );
 
 export const ticketIdsSchema = z
   .array(z.uuid())

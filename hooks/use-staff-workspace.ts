@@ -30,6 +30,7 @@ export type StaffBusy =
   | "preview"
   | "download"
   | "delete"
+  | "rename"
   | "bulk-download"
   | "bulk-queue"
   | "bulk-mark"
@@ -436,6 +437,33 @@ export function useStaffWorkspace() {
     });
   }
 
+  async function renameGuest(guest: Guest, value: string) {
+    const name = value.trim();
+    if (!name) {
+      toast.error("Enter a child or display name.");
+      return false;
+    }
+    if (name.length > 80) {
+      toast.error("Keep names under 80 characters.");
+      return false;
+    }
+    const result = await withBusy("rename", () =>
+      run(async () => {
+        const updated = await api<{ guest: Guest }>(
+          `/api/staff/tickets/${guest.id}`,
+          "PATCH",
+          { name },
+        );
+        setGuests((current) =>
+          current.map((item) => (item.id === guest.id ? updated.guest : item)),
+        );
+        toast.success("Name updated. The QR and ticket ID are unchanged.");
+        return true;
+      }),
+    );
+    return result === true;
+  }
+
   async function remove(guest: Guest) {
     await withBusy("delete", () =>
       run(async () => {
@@ -502,6 +530,7 @@ export function useStaffWorkspace() {
     markQueuedPassShared,
     markSelectedShared,
     markShared,
+    renameGuest,
     remove,
     signOut,
   };

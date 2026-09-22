@@ -402,3 +402,20 @@ short, factual, and explicit about verification.
   mark, roomier rows, and unshrunk status pills. Detail uses “This card admits
   one” for unnamed passes.
 - Verified: format-check, ESLint, strict TypeScript, and unit tests.
+
+## 2026-09-19 — Safe name corrections
+
+- Changed: an unshared pass can now be given a child or display name from its
+  Admin detail pane. Its QR credential and ticket number remain unchanged.
+- Changed: shared and collected names are locked by both the interface and the
+  conditional database update, so a parent’s sent pass cannot become stale.
+- Verified: validation commands listed in this entry’s completion report.
+
+## 2026-09-19 — Single name-save loader
+
+- Fixed: the name form no longer adds a second spinner inside the shared Button
+  primitive’s built-in busy indicator.
+- Changed: the pending button now reads **Saving name**, while the rest of the
+  form remains locked until the update finishes.
+- Verified: focused Playwright coverage holds the request open and confirms the
+  pending control renders exactly one spinner.

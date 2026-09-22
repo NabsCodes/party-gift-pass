@@ -21,6 +21,13 @@ records may also be removed. Deleting samples does not reseed them. Removal asks
 for a confirm dialog with the guest and ticket number, not a browser `confirm()`
 or an in-panel swap.
 
+## Name corrections
+
+Before a pass is shared, staff can replace a numbered label such as `Guest 001`
+with a child or display name. The QR token and ticket number do not change.
+After sharing or collection, the name is locked in both the interface and API so
+an already-sent image and its pass record cannot drift apart.
+
 Create, delete, and copy outcomes appear as overlay toasts at the bottom of the
 viewport so they never cover the guest-detail close control. Validation errors
 stay in the form.
