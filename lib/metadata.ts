@@ -40,7 +40,7 @@ export function createSiteMetadata(): Metadata {
     url: absoluteAsset(siteSeo.ogImage),
     width: 2400,
     height: 1260,
-    alt: "Aadil’s Matchday football party gift pass",
+    alt: `${siteSeo.shortName} gift pass`,
   } as const;
 
   const twitterImageUrl = absoluteAsset(siteSeo.twitterImage);
@@ -85,6 +85,6 @@ export function createSiteMetadata(): Metadata {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#df1f26",
+  themeColor: "#1f6b32",
   colorScheme: "light",
 };

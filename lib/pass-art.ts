@@ -3,12 +3,12 @@ import { artworkCopy } from "./artwork-copy";
 import { party } from "./event";
 import type { Guest } from "./guest";
 
-const paper = "#f5f0e5",
+const paper = "#f7f4ec",
   white = "#fffdf8",
-  ink = "#171716",
-  red = "#df1f26",
-  green = "#126044",
-  pitchLine = "#6d9a88",
+  ink = "#1c1a17",
+  grass = "#1f6b32",
+  dirt = "#8b5a2b",
+  stone = "#6e6e66",
   muted = "#6f6a61";
 
 function text(
@@ -52,27 +52,17 @@ function fittedText(
   ctx.fillStyle = color;
   ctx.fillText(value, x, y);
 }
-function pitch(
+function blocks(
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
-  w: number,
-  h: number,
+  size: number,
 ) {
-  ctx.save();
-  ctx.strokeStyle = pitchLine;
-  ctx.lineWidth = 3;
-  ctx.strokeRect(x, y, w, h);
-  ctx.beginPath();
-  ctx.moveTo(x + w / 2, y);
-  ctx.lineTo(x + w / 2, y + h);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(x + w / 2, y + h / 2, h / 4, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.strokeRect(x, y + h / 4, w / 7, h / 2);
-  ctx.strokeRect(x + w - w / 7, y + h / 4, w / 7, h / 2);
-  ctx.restore();
+  const gap = Math.round(size * 0.22);
+  [white, dirt, stone].forEach((color, index) => {
+    ctx.fillStyle = color;
+    ctx.fillRect(x + index * (size + gap), y, size, size);
+  });
 }
 async function file(canvas: HTMLCanvasElement, filename: string) {
   const blob = await new Promise<Blob>((resolve, reject) =>
@@ -99,45 +89,40 @@ export async function makePassArt(guest: Guest, url: string) {
   c.fillStyle = paper;
   c.fillRect(0, 0, 1000, 1250);
 
-  c.fillStyle = red;
+  c.fillStyle = grass;
   c.fillRect(0, 0, 1000, 96);
   const copy = artworkCopy(guest);
-  text(c, "AADIL’S MATCHDAY", 56, 62, 27, white);
+  const [titleLead, ...titleRest] = party.title.toUpperCase().split(" ");
+  text(c, party.title.toUpperCase(), 56, 62, 27, white);
   text(c, "INVITATION", 787, 62, 23, white);
 
-  text(c, copy.invitationEyebrow, 56, 153, 19, red);
+  text(c, copy.invitationEyebrow, 56, 153, 19, grass);
   fittedText(c, copy.invitationHero, 56, 230, 888, { maxSize: 68 });
   text(c, copy.invitationSub, 57, 278, 18, muted);
 
-  c.fillStyle = green;
+  c.fillStyle = grass;
   c.fillRect(0, 322, 1000, 598);
-  pitch(c, 48, 366, 904, 510);
+  blocks(c, 700, 390, 72);
   c.globalAlpha = 0.13;
   text(c, "10", 432, 840, 500, white, "Oswald");
   c.globalAlpha = 1;
-  text(c, "MOHAMMED", 58, 468, 55, white, "Oswald");
-  text(c, "AADIL’S", 58, 588, 112, white, "Oswald");
-  text(c, "MATCHDAY", 58, 706, 108, white, "Oswald");
-  text(c, "FOOTBALL · FRIENDS · A BIG DAY", 62, 834, 18, white);
+  text(c, titleLead, 58, 520, 92, white, "Oswald");
+  text(c, titleRest.join(" "), 58, 640, 92, white, "Oswald");
+  text(c, "BLOCKS · FRIENDS · A BIG DAY", 62, 834, 18, white);
 
-  text(c, "MATCHDAY", 56, 977, 16, red);
-  text(c, "SATURDAY, 26 SEPTEMBER 2026", 56, 1020, 29);
-  text(c, "KICK-OFF", 56, 1082, 15, red);
-  text(c, "1:00 PM – 5:00 PM", 56, 1121, 25);
-  text(c, "VENUE", 505, 1082, 15, red);
-  fittedText(c, party.venue, 505, 1121, 430, { maxSize: 25, minSize: 18 });
-  text(c, party.location, 505, 1158, 18, muted);
+  text(c, "DATE", 56, 977, 16, grass);
+  text(c, party.date.toUpperCase(), 56, 1020, 29);
   c.strokeStyle = "#d8d0c2";
   c.lineWidth = 2;
   c.beginPath();
-  c.moveTo(56, 1188);
-  c.lineTo(944, 1188);
+  c.moveTo(56, 1088);
+  c.lineTo(944, 1088);
   c.stroke();
-  text(c, "DRESS CODE", 56, 1224, 14, red);
-  text(c, "YOUR FAVOURITE FOOTBALL JERSEY", 180, 1224, 16);
+  text(c, "DRESS CODE", 56, 1136, 14, grass);
+  text(c, party.dress.toUpperCase(), 180, 1136, 16);
 
   if (guest.isDemo) {
-    text(c, "SAMPLE", 805, 153, 19, red);
+    text(c, "SAMPLE", 805, 153, 19, grass);
   }
 
   const pass = document.createElement("canvas");
@@ -146,21 +131,18 @@ export async function makePassArt(guest: Guest, url: string) {
   const p = canvas2d(pass);
   p.fillStyle = paper;
   p.fillRect(0, 0, 1000, 1120);
-  p.fillStyle = red;
+  p.fillStyle = grass;
   p.fillRect(0, 0, 1000, 100);
-  text(p, "AADIL’S MATCHDAY", 55, 64, 28, white);
+  text(p, party.title.toUpperCase(), 55, 64, 28, white);
   text(p, "GIFT PASS", 760, 64, 24, white);
 
-  text(p, copy.passEyebrow, 55, 158, 18, red);
+  text(p, copy.passEyebrow, 55, 158, 18, grass);
   fittedText(p, copy.passHero, 55, 230, 890, { maxSize: 62 });
   text(p, copy.passSub, 57, 270, 16, muted);
 
-  p.fillStyle = green;
+  p.fillStyle = grass;
   p.fillRect(0, 310, 1000, 570);
-  p.save();
-  p.globalAlpha = 0.55;
-  pitch(p, 35, 344, 930, 500);
-  p.restore();
+  blocks(p, 600, 700, 56);
   p.globalAlpha = 0.1;
   text(p, "10", 674, 835, 390, white, "Oswald");
   p.globalAlpha = 1;
@@ -170,7 +152,7 @@ export async function makePassArt(guest: Guest, url: string) {
     width: 470,
     margin: 4,
     errorCorrectionLevel: "M",
-    color: { dark: "#17241fff", light: "#ffffffff" },
+    color: { dark: "#1c1a17ff", light: "#ffffffff" },
   });
   p.fillStyle = white;
   p.fillRect(55, 360, 490, 490);
@@ -191,7 +173,7 @@ export async function makePassArt(guest: Guest, url: string) {
   p.stroke();
   p.setLineDash([]);
 
-  text(p, "PASS NUMBER", 55, 940, 14, red);
+  text(p, "PASS NUMBER", 55, 940, 14, grass);
   fittedText(p, guest.number, 55, 988, 500, { maxSize: 31, minSize: 24 });
   text(p, party.shortDate, 55, 1033, 19, muted);
 
@@ -201,7 +183,7 @@ export async function makePassArt(guest: Guest, url: string) {
     627,
     955,
     18,
-    red,
+    grass,
   );
   text(p, "A saved image does not show live status.", 540, 1002, 16, muted);
   text(p, "Staff confirm collection from the live pass.", 526, 1034, 16, muted);

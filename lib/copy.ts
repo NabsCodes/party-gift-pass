@@ -1,3 +1,5 @@
+import { party } from "./event";
+
 /**
  * User-facing party wording. Routes, cookies, and env keys stay on `staff`
  * internally; guests and helpers never need that jargon.
@@ -12,8 +14,8 @@ export const partyCopy = {
     accessUnavailable:
       "Gift desk access is temporarily unavailable. Please try again.",
     signInLoading: "Preparing gift desk sign-in",
-    brandHome: "Aadil’s Matchday gift desk home",
-    dashboardEyebrow: "Aadil’s Matchday · Gift desk",
+    brandHome: `${party.title} gift desk home`,
+    dashboardEyebrow: `${party.title} · Gift desk`,
   },
   /** Person in charge when something needs a decision (host parent, organiser). */
   host: {

@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --red: #df1f26;
-  --red-dark: #aa1118;
-  --green: #126044;
-  --cream: #f5f0e5;
+  --red: #1f6b32;
+  --red-dark: #174f25;
+  --green: #0e4d32;
+  --dirt: #8b5a2b;
+  --stone: #6e6e66;
+  --cream: #f7f4ec;
   --paper: #fffdf8;
-  --ink: #171716;
+  --ink: #1c1a17;
   --muted: #6f6b64;
   --line: #d9d1c2;
-  --yellow: #f4c431;
+  --yellow: #e3b23c;
   --gutter: 1.5rem;
   --radius: 0.35rem;
   --background: var(--cream);
@@ -37,6 +39,8 @@
   --color-red: var(--red);
   --color-red-dark: var(--red-dark);
   --color-green: var(--green);
+  --color-dirt: var(--dirt);
+  --color-stone: var(--stone);
   --color-cream: var(--cream);
   --color-paper: var(--paper);
   --color-ink: var(--ink);
@@ -77,38 +81,50 @@
     -webkit-tap-highlight-color: transparent;
   }
   ::selection {
-    background: #f5d5d1;
+    background: #d7e8d4;
   }
 }
 
-.pass-kickoff {
-  container-type: inline-size;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--green) 6%, var(--cream)) 0%,
-    var(--cream) 100%
-  );
+.pass-blocks {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 3.5rem;
+  overflow: hidden;
 }
 
-.pass-pitch-lines {
-  background-image: repeating-linear-gradient(
-    180deg,
-    transparent 0,
-    transparent 7px,
-    color-mix(in srgb, var(--green) 12%, transparent) 7px,
-    color-mix(in srgb, var(--green) 12%, transparent) 8px
-  );
-  opacity: 0.55;
+.pass-block {
+  width: 1.75rem;
+  height: 1.75rem;
+  animation: pass-block-drop 450ms ease-out both;
 }
 
-@keyframes pass-ball-roll {
+.pass-block-grass {
+  background: var(--red);
+}
+
+.pass-block-dirt {
+  background: var(--dirt);
+  animation-delay: 120ms;
+}
+
+.pass-block-stone {
+  background: var(--stone);
+  animation-delay: 240ms;
+}
+
+@keyframes pass-block-drop {
   0% {
-    translate: 0 0;
-    rotate: 0deg;
+    translate: 0 -1.4rem;
+    opacity: 0;
+  }
+  70% {
+    translate: 0 0.2rem;
+    opacity: 1;
   }
   100% {
-    translate: calc(100cqw - 1.5rem) 0;
-    rotate: 180deg;
+    translate: 0 0;
+    opacity: 1;
   }
 }
 
@@ -130,10 +146,6 @@
   }
 }
 
-.pass-ball {
-  animation: pass-ball-roll 1.6s ease-out both;
-}
-
 .pass-qr-frame {
   animation: pass-qr-enter 900ms ease-out 700ms both;
 }
@@ -150,14 +162,9 @@
     transition-duration: 0.01ms !important;
   }
 
-  .pass-ball,
+  .pass-block,
   .pass-qr-frame,
   .pass-copy-enter {
     animation: none;
-  }
-
-  .pass-ball {
-    translate: calc(100cqw - 1.5rem) 0;
-    rotate: 0deg;
   }
 }

@@ -39,7 +39,7 @@ export function LoginForm({ next, demo }: { next: string; demo: boolean }) {
           </button>
         </div>
         {passphraseError && (
-          <p role="alert" className="text-xs text-[#741117]">
+          <p role="alert" className="text-ink text-xs">
             {passphraseError}
           </p>
         )}
@@ -47,7 +47,7 @@ export function LoginForm({ next, demo }: { next: string; demo: boolean }) {
       {error && (
         <p
           role="alert"
-          className="border-red border-l-[3px] bg-[#f8e1df] px-3 py-2.5 text-xs text-[#741117]"
+          className="border-ink bg-cream text-ink border-l-[3px] px-3 py-2.5 text-xs"
         >
           {error}
         </p>

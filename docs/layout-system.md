@@ -31,7 +31,7 @@
 ### `/staff/login`
 
 A focused passphrase form. Phones use a centered, evenly spaced staff entry
-with the logo. Desktop keeps the red matchday story beside that same form.
+with the logo. Desktop keeps the dirt story panel beside that same form.
 
 ### `/staff`
 

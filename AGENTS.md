@@ -58,9 +58,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Design and documentation
 
-Use the matchday editorial system in `docs/design-system.md`: warm paper, red,
-pitch green, charcoal, bold sports type, thin rules, almost no shadow, and no
-generic nested-card dashboard. Keep touch targets usable from 390px upward.
+Use the block-party editorial system in `docs/design-system.md`: birch paper,
+grass, dirt, stone, gold, charcoal, bold type, thin rules, almost no shadow,
+and no generic nested-card dashboard. Keep touch targets usable from 390px
+upward.
 
 Update the canonical owning document and append factual verification to the
 implementation log after meaningful work. Never rewrite old log entries.

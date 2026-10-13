@@ -55,7 +55,7 @@ export function GuestPass({
               A little thank-you
             </p>
             <h1 className="font-display mt-3 text-[clamp(2.4rem,8vw,4.4rem)] leading-[0.88] font-bold tracking-[-0.04em] uppercase">
-              Big smiles.
+              Big builds.
               <br />
               One special gift.
             </h1>
@@ -72,7 +72,10 @@ export function GuestPass({
               </div>
             </div>
             <div className="border-line mt-10 flex flex-wrap items-end justify-between gap-3 border-t border-dashed pt-6">
-              <p className="text-sm">{party.date}</p>
+              <div>
+                <p className="text-sm">{party.date}</p>
+                <p className="text-muted mt-1 text-sm">Boots optional.</p>
+              </div>
               <p className="text-red text-[0.7rem] font-extrabold tracking-[0.08em] uppercase">
                 Keep your pass private
               </p>
@@ -95,7 +98,7 @@ export function GuestPass({
             <h1 className="font-display mt-3 max-w-xl text-[clamp(2.4rem,8vw,4.4rem)] leading-[0.88] font-bold tracking-[-0.04em] uppercase">
               This pass isn’t
               <br />
-              in the line-up.
+              in the build.
             </h1>
             <p className="text-muted mt-6 max-w-md text-sm leading-relaxed">
               The link may be incomplete, old, or incorrect. Nothing was

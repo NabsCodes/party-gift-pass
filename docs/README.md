@@ -20,7 +20,7 @@ small enough to resume without chat history.
 | `implementation-plan.md` | Approved MVP decisions and security rationale      |
 | `architecture.md`        | Implemented system, data, trust boundaries, routes |
 | `wireframe.md`           | End-to-end UI/logic flow and edge states           |
-| `design-system.md`       | Matchday visual language and accessibility         |
+| `design-system.md`       | Block-party visual language and accessibility      |
 | `layout-system.md`       | Responsive shell and layout details                |
 | `routes/*.md`            | Per-route behavior and acceptance criteria         |
 | `operator-runbook.md`    | Setup, rehearsal, event-day use, incidents         |

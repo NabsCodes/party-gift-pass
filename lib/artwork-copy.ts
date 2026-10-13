@@ -14,7 +14,7 @@ export function artworkCopy(guest: Guest) {
   return {
     invitationEyebrow: "A PERSONAL INVITATION FOR",
     invitationHero: guest.name,
-    invitationSub: "YOU’RE ON THE TEAM.",
+    invitationSub: "YOU’RE INVITED.",
     passEyebrow: "A SPECIAL GIFT FOR",
     passHero: guest.name,
     passSub: "KEEP THIS QR PRIVATE UNTIL COLLECTION.",

@@ -9,7 +9,7 @@ Vitest, Drizzle/Neon, Zod, QRCode, Lucide, schema, migrations, Git main branch.
 
 ## Goal 1 — Product map and docs — Complete
 
-Canonical architecture, approved flow/wireframe, matchday design system,
+Canonical architecture, approved flow/wireframe, block-party design system,
 implementation plan, route specs, operator runbook, agent guides, and log.
 
 ## Goal 2 — Local product MVP — Complete

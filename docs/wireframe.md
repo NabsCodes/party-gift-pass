@@ -11,14 +11,14 @@ editable redemption history.
 ## 1. Staff login
 
 ```text
-MATCHDAY STORY                     STAFF ENTRY
-Big day. Little gifts.             Welcome to the gift club.
+BLOCK PARTY STORY                  STAFF ENTRY
+Build day. Little gifts.           Welcome to the gift club.
 Happy kids.                        [ Staff passphrase            ]
                                     [ Enter the gift club       ->]
 ```
 
 On phones the story panel is hidden. Staff see a centered logo, heading, and
-passphrase form. Desktop keeps the red matchday story beside that same form.
+passphrase form. Desktop keeps the dirt story panel beside that same form.
 
 Wrong credentials stay on the page with a plain error. A scanned pass preserves
 its exact safe return path. Sign-out clears the cookie.
@@ -26,7 +26,7 @@ its exact safe return path. Sign-out clears the cookie.
 ## 2. Guest workspace
 
 ```text
-AADIL'S MATCHDAY / ADMIN DASHBOARD         [ + CREATE PASSES ]
+BAMANGA'S BLOCK PARTY / GIFT DESK          [ + CREATE PASSES ]
 EVERY GUEST. ONE GOOD SURPRISE.
 ----------------------------------------------------------------
   200 guests | 180 sent | 74 collected | 126 still to collect
@@ -61,14 +61,15 @@ not delivery proof.
 ## 3. Public gift pass
 
 ```text
-AADIL’S MATCHDAY                         GIFT PASS
+BAMANGA’S BLOCK PARTY                    GIFT PASS
 A LITTLE THANK-YOU
-BIG SMILES.
+BIG BUILDS.
 ONE SPECIAL GIFT.
-[ one-shot kickoff line; no tap or loop ]
+[ grass, dirt, stone drop once; no tap or loop ]
 [ QR ]  Your gift is waiting at the gift table.
-        Show this code to a staff member.
+        Show this code at the gift table.
 Saturday, 26 September 2026    KEEP YOUR PASS PRIVATE
+Boots optional.
 ```
 
 This page never shows a child name or pass number. The saved PNG may name the

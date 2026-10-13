@@ -75,13 +75,13 @@ Pages stay thin. Interactive TSX files render; hooks and `lib/` own state and
 rules. Do not introduce `src/`, `features/`, global providers, or empty
 placeholder folders at this scale.
 
-UI is Tailwind utilities on those components. `app/globals.css` owns matchday
+UI is Tailwind utilities on those components. `app/globals.css` owns block-party
 tokens plus `font-display` and `px-gutter`. `components/ui` holds small
 primitives (Button, Input, Label, Textarea, Table, Pagination, Spinner,
 Skeleton, Sonner). Staff feedback is an overlay toast, not an in-layout
 banner. Login and create-pass forms use React Hook Form with Zod resolvers;
 HTTP edges still validate with Zod. Pass, redeem, staff, and staff-login routes
-use `loading.tsx` with layout-matching matchday skeletons while server work
+use `loading.tsx` with layout-matching block-party skeletons while server work
 streams in. Button-level work continues to use the Spinner through `aria-busy`.
 
 ## Routes and HTTP contract

@@ -25,7 +25,7 @@ env, then the local SEO fallback, and emits absolute `og:image` /
 PNG) matches the working Vextra pattern so WhatsApp/Meta crawlers accept the
 file.
 
-The cards use the generated matchday football artwork with a warm paper field,
-red jersey, pitch green, and restrained geometry. They contain no copied club
-crest or third-party branding. Final WhatsApp/X preview rendering and cache
-refresh remain live-device/deployment checks.
+The cards use the block-party artwork with a birch field, grass, dirt, stone,
+and a square 10. They contain no game characters, logos, or copied textures.
+Final WhatsApp/X preview rendering and cache refresh remain live-device/deployment
+checks.

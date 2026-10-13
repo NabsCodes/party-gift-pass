@@ -24,7 +24,7 @@ export function PartyFallback({
       <header className="border-line px-gutter flex min-h-[4.7rem] items-center justify-between border-b">
         <Brand href={null} />
         <span className="text-red text-[0.7rem] font-extrabold tracking-[0.16em] uppercase">
-          Matchday help
+          Party help
         </span>
       </header>
       <section className="px-gutter mx-auto grid w-full max-w-240 flex-1 place-items-center py-[clamp(2rem,8vw,6rem)]">

@@ -168,7 +168,7 @@ function ComposerDialog({
                 {...numbered.register("quantity")}
               />
               {numbered.formState.errors.quantity ? (
-                <p role="alert" className="text-xs text-[#741117]">
+                <p role="alert" className="text-ink text-xs">
                   {numbered.formState.errors.quantity.message}
                 </p>
               ) : (
@@ -211,7 +211,7 @@ function ComposerDialog({
                 {...named.register("names")}
               />
               {named.formState.errors.names ? (
-                <p role="alert" className="text-xs text-[#741117]">
+                <p role="alert" className="text-ink text-xs">
                   {named.formState.errors.names.message}
                 </p>
               ) : (

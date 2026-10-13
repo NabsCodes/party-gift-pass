@@ -73,7 +73,7 @@ export function Workspace({ demo }: { demo: boolean }) {
         </div>
       </header>
 
-      <section className="px-gutter flex flex-col items-start gap-4 bg-[linear-gradient(105deg,transparent_65%,rgb(223_31_38/8%)_65%),linear-gradient(75deg,transparent_83%,rgb(18_96_68/10%)_83%)] py-4 md:py-8 xl:flex-row xl:items-end xl:justify-between xl:gap-10">
+      <section className="px-gutter flex flex-col items-start gap-4 py-4 md:py-8 xl:flex-row xl:items-end xl:justify-between xl:gap-10">
         <div className="max-w-4xl min-w-0">
           <p className="text-red text-[0.7rem] font-extrabold tracking-[0.16em] uppercase">
             {partyCopy.desk.dashboardEyebrow}

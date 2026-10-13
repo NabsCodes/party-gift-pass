@@ -1,22 +1,28 @@
 # Design system
 
-## Matchday editorial direction
+## Block-party editorial direction
 
-The product should feel like a well-designed children’s football event, not a
-generic AI dashboard and not copied club merchandise. Character comes from
-confident condensed type, warm paper, red matchday energy, pitch green, large
-player numbers, direct copy, and disciplined rules.
+The product should feel like a well-designed children’s block party, not a
+generic AI dashboard and not copied game merchandise. Character comes from
+confident condensed type, birch paper, grass, dirt, stone, gold, a square
+“10”, direct copy, and disciplined rules. Football is one quiet line, “Boots
+optional.”
 
 ## Foundations
 
-| Role        | Value     | Use                                              |
-| ----------- | --------- | ------------------------------------------------ |
-| Match red   | `#df1f26` | Primary actions, key display line, active energy |
-| Pitch green | `#126044` | Remaining count and confirmed receipt            |
-| Warm cream  | `#f5f0e5` | Main page plane                                  |
-| Paper       | `#fffdf8` | Table/detail planes and forms                    |
-| Charcoal    | `#171716` | Text, dividers, already-used state               |
-| Sun yellow  | `#f4c431` | Tiny highlight or caution rule only              |
+| Role       | Value     | Use                                            |
+| ---------- | --------- | ---------------------------------------------- |
+| Grass      | `#1f6b32` | Primary actions, key display line, pass banner |
+| Deep green | `#0e4d32` | Remaining count and confirmed receipt          |
+| Dirt       | `#8b5a2b` | Login story panel                              |
+| Stone      | `#6e6e66` | Neutral status and the third pass block        |
+| Birch      | `#f7f4ec` | Main page plane                                |
+| Paper      | `#fffdf8` | Table/detail planes and forms                  |
+| Charcoal   | `#1c1a17` | Text, dividers, already-used state             |
+| Gold       | `#e3b23c` | Tiny highlight, caution rule, and pass shared  |
+
+The primary CSS utility is still named `red`. On this branch its value is
+grass, so existing actions follow the block party without a second palette.
 
 Oswald is the condensed display face; Manrope owns body, controls, labels, and
 numbers requiring fast reading. Headlines may be uppercase and tight; body copy
@@ -32,13 +38,13 @@ must remain sentence case and comfortable. State is always text plus color.
 - The guest list is a table of divided rows (Guest, Pass, Status). Pagination
   is compact icon controls, not large Previous/Next actions. Desktop uses a
   persistent detail plane and narrow screens use a full-screen detail sheet.
-- Large decorative “10” numerals and simple pitch geometry are allowed. Avoid
-  confetti wallpaper, gradients, glowing icons, fake 3D, and club crests/logos.
-- The public pass may play one calm, contained kickoff moment above the QR: a
-  thin pitch band, a slow SVG ball roll, then a gentle QR and copy fade-in. It
-  never loops, never needs a tap, never crosses the QR during the roll, and is
-  suppressed by the reduced-motion preference. Gift desk and redemption surfaces
-  stay still.
+- A square “10” and three plain squares (grass, dirt, stone) are allowed. Avoid
+  confetti wallpaper, gradients, glowing icons, fake 3D, and game characters,
+  logos, or copied block textures.
+- The public pass may play one calm block drop above the QR: grass, then dirt,
+  then stone, then a gentle QR and copy fade-in. It never loops, never needs a
+  tap, never crosses the QR, and is suppressed by the reduced-motion preference.
+  Gift desk, downloaded images, and redemption surfaces stay still.
 - Share copy must say “invitation + pass”; collection copy must use the exact
   phrase **Confirm gift collected**.
 - Loading uses layout-matching skeleton blocks for route and list fetches, with
@@ -48,11 +54,11 @@ must remain sentence case and comfortable. State is always text plus color.
 ## State language
 
 - `Not shared`: neutral stone.
-- `Pass shared`: amber; bookkeeping only, never guaranteed WhatsApp delivery.
+- `Pass shared`: gold; bookkeeping only, never guaranteed WhatsApp delivery.
 - `Ready to collect`: neutral.
-- `Collection confirmed`: pitch green, with child, pass, and time.
+- `Collection confirmed`: deep green, with child, pass, and time.
 - `Already collected`: charcoal and a hard “do not hand out another gift.”
-- `Invalid`, `unavailable`, and `uncertain`: muted neutral, not celebratory red.
+- `Invalid`, `unavailable`, and `uncertain`: muted neutral, not celebratory grass.
 
 ## Accessibility
 

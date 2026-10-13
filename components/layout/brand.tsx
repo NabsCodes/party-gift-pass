@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { partyCopy } from "@/lib/copy";
+import { party } from "@/lib/event";
 import { cn } from "@/lib/utils";
 
 export function Brand({
@@ -14,23 +15,23 @@ export function Brand({
     <>
       <span
         className={cn(
-          "font-display grid size-[2.15rem] rotate-[-8deg] place-items-center rounded-full text-xl font-bold",
+          "font-display grid size-[2.15rem] place-items-center text-xl font-bold",
           inverted ? "text-red bg-white" : "bg-red text-white",
         )}
       >
         10
       </span>
       <span className="flex flex-col leading-none">
-        <strong className="font-display text-base font-bold uppercase">
-          Aadil’s Matchday
+        <strong className="font-display text-sm font-bold uppercase sm:text-base">
+          {party.title}
         </strong>
         <small
           className={cn(
             "mt-1 text-[0.58rem] font-extrabold tracking-[0.12em] uppercase max-[480px]:hidden",
-            inverted ? "text-[#ffd5d5]" : "text-muted",
+            inverted ? "text-white/75" : "text-muted",
           )}
         >
-          The Gift Club · 26.09.26
+          The Gift Club · {party.shortDate}
         </small>
       </span>
     </>

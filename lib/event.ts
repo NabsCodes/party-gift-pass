@@ -1,14 +1,11 @@
 import { isNumberedGuest, type Guest } from "./guest";
 
 export const party = {
-  celebrant: "Mohammed Aadil",
-  title: "Aadil’s Matchday",
+  celebrant: "Bamanga",
+  title: "Bamanga’s Block Party",
   date: "Saturday, 26 September 2026",
   shortDate: "26.09.2026",
-  time: "1:00 PM – 5:00 PM",
-  venue: "Little Mate Event Center",
-  location: "Garki Area 11, Abuja",
-  dress: "Your favourite football jersey",
+  dress: "Come ready to play",
 };
 
 export function invitationShareTitle(guest: Guest) {
@@ -18,9 +15,9 @@ export function invitationShareTitle(guest: Guest) {
 
 export function passShareMessage(guest: Guest) {
   if (isNumberedGuest(guest.name)) {
-    return `Here is a one-time gift pass for ${party.celebrant}’s football party. This card admits one. Keep the QR private and show it at the gift table.`;
+    return `Here is a one-time gift pass for ${party.celebrant}’s block party. This card admits one. Keep the QR private and show it at the gift table.`;
   }
-  return `${guest.name}, here is the one-time gift pass for ${party.celebrant}’s football party. Keep the QR private and show it at the gift table.`;
+  return `${guest.name}, here is the one-time gift pass for ${party.celebrant}’s block party. Keep the QR private and show it at the gift table.`;
 }
 
 export function passShareText(guest: Guest, passUrl: string) {

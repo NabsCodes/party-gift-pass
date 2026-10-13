@@ -419,3 +419,33 @@ short, factual, and explicit about verification.
   form remains locked until the update finishes.
 - Verified: focused Playwright coverage holds the request open and confirms the
   pending control renders exactly one spinner.
+
+## 2026-10-12 — Bapatel’s Block Party branch
+
+- Changed: `bapatels-birthday` reskins the same gift desk and one-time QR passes
+  for celebrant Bapatel. The title is Bapatel’s Block Party. Dress is “Come
+  ready to play.” Share text says block party. Date, time, and venue are
+  unchanged because new ones were not provided.
+- Changed: grass, dirt, stone, and gold replace the matchday palette. The mark
+  is a square 10. The live pass drops three squares once, then fades in the QR.
+  Downloaded invitation and pass images stay still. Login, the guest list, and
+  scan review stay still.
+- Verified: Prettier, ESLint, strict TypeScript, 22 unit tests, 7 Playwright
+  staff-flow tests, and a production build. Playwright screenshots of the gift
+  desk and the live pass show the block-party header, grass actions, and “Big
+  builds.” The live pass does not show the child name.
+
+## 2026-10-12 — Date only on Bapatel’s passes
+
+- Changed: invitations no longer print hours, venue, or area. The live pass,
+  brand, and invitation keep the date only.
+- Verified: the date string is still Saturday, 26 September 2026. A different
+  day was not provided.
+
+## 2026-10-12 — Celebrant name Bamanga
+
+- Changed: the celebrant and title strings now read Bamanga and Bamanga’s
+  Block Party. Share text, the brand, login, passes, and link-preview images
+  follow that title. QR tokens, redemption, and the database schema are
+  unchanged.
+- Verified: typecheck and unit tests after the string change.

@@ -9,7 +9,7 @@
    existing pass images from being regenerated.
 4. Confirm hosting logs, analytics, and error reporting do not retain raw QR
    paths. Do not add client analytics to redemption URLs.
-5. Replace/approve the event copy, date, venue, dress code, and artwork.
+5. Replace/approve the event copy, date, dress code, and artwork.
 6. Rehearse share, scan, confirm, repeat scan, invalid QR, logged-out scan, and
    weak-network behavior on the actual event phones.
 

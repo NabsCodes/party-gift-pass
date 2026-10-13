@@ -1,18 +1,12 @@
 import { partyCopy } from "./copy";
+import { party } from "./event";
 
 export const siteSeo = {
-  name: "Aadil’s Matchday · The Gift Club",
-  shortName: "Aadil’s Matchday",
-  description:
-    "Personal invitations and one-time gift passes for Mohammed Aadil’s football party.",
-  socialDescription:
-    "Every name. One good surprise. A personalised invitation and one-time gift pass for Aadil’s Matchday.",
-  keywords: [
-    "Aadil’s Matchday",
-    "party gift pass",
-    "QR gift pass",
-    "football party",
-  ],
+  name: `${party.title} · The Gift Club`,
+  shortName: party.title,
+  description: `Personal invitations and one-time gift passes for ${party.celebrant}’s birthday.`,
+  socialDescription: `Every name. One good surprise. A personalised invitation and one-time gift pass for ${party.title}.`,
+  keywords: [party.title, "party gift pass", "QR gift pass", "birthday party"],
   siteUrl: "http://localhost:3000",
   ogImage: "/opengraph-image.jpg",
   twitterImage: "/twitter-image.jpg",

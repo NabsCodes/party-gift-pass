@@ -6,14 +6,14 @@ staff-scan wireframes. This plan supersedes the immediate-print-only proposal.
 ## Product contract
 
 One event, roughly 200 children. Admins generate numbered guests when names are
-unknown or paste names when available, preview a football invitation and QR gift
+unknown or paste names when available, preview a block-party invitation and QR gift
 pass, download or share images, and manually mark a pass as shared. Gift desk
 staff scan with the native phone camera, review the guest/pass label, confirm,
 and hand out one gift only after a successful server response.
 
-The celebrant is Mohammed Aadil; Adil Lawal is a sample invited guest. The design
-uses red, warm white, pitch green and charcoal, strong sports typography, a
-quiet guest list, and generous spacing. It does not copy club logos.
+The celebrant is Bamanga; Adil Lawal is a sample invited guest. The design
+uses grass, birch, dirt, stone and charcoal, strong condensed type, a
+quiet guest list, and generous spacing. It does not copy game or club logos.
 
 ## Ordered implementation
 

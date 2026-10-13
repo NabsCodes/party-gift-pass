@@ -153,6 +153,8 @@ describe("artwork and share copy", () => {
       passHero: "Adil Lawal",
     });
     expect(passShareMessage(numbered)).toContain("This card admits one");
+    expect(passShareMessage(numbered)).toContain("block party");
     expect(passShareMessage(guests[0])).toContain("Adil Lawal");
+    expect(artworkCopy(guests[0]).invitationSub).toBe("YOU’RE INVITED.");
   });
 });
