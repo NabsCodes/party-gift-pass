@@ -68,7 +68,7 @@ ONE SPECIAL GIFT.
 [ grass, dirt, stone drop once; no tap or loop ]
 [ QR ]  Your gift is waiting at the gift table.
         Show this code at the gift table.
-Saturday, 26 September 2026    KEEP YOUR PASS PRIVATE
+Saturday, 31 October 2026      KEEP YOUR PASS PRIVATE
 Boots optional.
 ```
 

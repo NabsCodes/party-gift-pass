@@ -3,8 +3,8 @@ import { isNumberedGuest, type Guest } from "./guest";
 export const party = {
   celebrant: "Bamanga",
   title: "Bamanga’s Block Party",
-  date: "Saturday, 26 September 2026",
-  shortDate: "26.09.2026",
+  date: "Saturday, 31 October 2026",
+  shortDate: "31.10.2026",
   dress: "Come ready to play",
 };
 

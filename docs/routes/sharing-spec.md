@@ -28,6 +28,12 @@ Share text calls the QR private and instructs the family to show it at the gift
 table. The generated image is not live status; the server review is authoritative.
 Final artwork/copy and real WhatsApp behavior remain production approval gates.
 
+The event is Saturday, 31 October 2026 (`31.10.2026` in compact labels).
+`lib/event.ts` owns both date formats for the shared brand, sign-in page,
+public pass, invitation PNG, and gift-pass PNG, including bulk ZIP exports.
+Previously downloaded or sent images must be downloaded again and resent to
+show a changed event date; existing public pass links show the current date.
+
 Bulk sharing is a guided queue, not automated WhatsApp delivery. It prepares the
 private pass only for the family currently on screen, then opens one native share
 sheet or one prefilled WhatsApp message at a time. Staff must explicitly record

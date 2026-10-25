@@ -449,3 +449,21 @@ short, factual, and explicit about verification.
   follow that title. QR tokens, redemption, and the database schema are
   unchanged.
 - Verified: typecheck and unit tests after the string change.
+
+## 2026-10-25 — Event date moved to 31 October
+
+- Changed: the shared event date is Saturday, 31 October 2026, with
+  `31.10.2026` for compact labels. The brand, sign-in page, public pass,
+  invitation PNG, gift-pass PNG, and bulk ZIP artwork all use these shared
+  values. Updated the sharing spec and current wireframe; historical log
+  entries remain intact.
+- Verified: `pnpm format`, format-check, ESLint, strict TypeScript, 22 unit
+  tests, all 7 Playwright staff flows, and a successful production build.
+  Additional local development-demo browser inspection checked the login and
+  desk dates, the public pass at 390px, both downloaded PNG dates, and a bulk
+  ZIP containing the two PNGs. Visually inspected the invitation and gift-pass
+  PNGs, including the bulk gift pass. Both static social-preview JPEGs were
+  inspected and contain no date; no raster edits were needed.
+- Existing public links use the updated date when this change is deployed.
+  Images already downloaded or sent require a fresh download and resend.
+  No commit, push, deployment, or shared database migration was performed.
